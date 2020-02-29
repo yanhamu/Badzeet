@@ -5,27 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>List</h1>
+<h1>Records</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Amount</th>
-        </tr>
-    </thead>
-    @foreach (var t in Model.Transactions)
-    {
-        <tr>
-            <td>@t.Date.ToString("yyyy-MM-dd")</td>
-            <td>@t.Description</td>
-            <td>@t.Amount</td>
-        </tr>
-    }
-</table>
-
-<table class="table">
+<table class="table table-sm">
     @{ var date = DateTime.MinValue;}
     @foreach (var t in Model.Transactions)
     {
@@ -33,19 +15,13 @@
         {
             date = t.Date;
             <tr>
-                <th>@t.Date.ToString("yyyy-MM-dd")</th>
-                <td>@t.Description</td>
-                <td>@t.Amount</td>
+                <th colspan="3">@t.Date.ToString("yyyy-MM-dd")</th>
             </tr>
         }
-        else
-        {
             <tr>
                 <td></td>
                 <td>@t.Description</td>
                 <td>@t.Amount</td>
             </tr>
-        }
-
     }
 </table>

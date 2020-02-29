@@ -28,7 +28,7 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" asp-controller="Account" asp-action="Logout">
                         <button class="btn btn-outline-primary" type="submit">Logout</button>
                     </form>
                 }

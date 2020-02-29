@@ -32,8 +32,9 @@ namespace Badzeet.Web.Features.Account
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
 
@@ -45,7 +46,7 @@ namespace Badzeet.Web.Features.Account
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
-            return View();
+            return Redirect("/");
         }
         [HttpPost]
         public async Task<IActionResult> Logout(string returnUrl)
@@ -54,7 +55,7 @@ namespace Badzeet.Web.Features.Account
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
-            return View();
+            return Redirect("/");
         }
 
         private Task<bool> Register(UserCredentialsModel credentials)

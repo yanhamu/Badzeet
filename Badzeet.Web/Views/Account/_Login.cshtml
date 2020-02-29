@@ -1,7 +1,7 @@
 ﻿<form method="post"
       asp-controller="Account"
       asp-action="Login"
-      asp-route-returnurl="/">
+      asp-route-returnurl="@ViewData["returnUrl"]">
 
     <div class="form-group row">
         <label for="username" class="col-sm-2 col-form-label">Username</label>
