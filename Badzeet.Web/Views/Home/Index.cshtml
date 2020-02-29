@@ -5,4 +5,30 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <p>
+        is authenticated:@Context.User.Identity.IsAuthenticated
+    </p>
+
+    @if (Context.User.Identity.IsAuthenticated == false)
+    {
+        <form method="post"
+              asp-controller="Account"
+              asp-action="Login"
+              asp-route-returnurl="/">
+            <input id="username" name="username" value="bob" type="hidden" />
+            <input id="password" name="password" value="bob" type="hidden" />
+            <input type="submit" value="Login" />
+        </form>
+    }
+    else
+    {
+        <form method="post"
+              asp-controller="Account"
+              asp-action="Logout"
+              asp-route-returnurl="/">
+            <input type="submit" value="Logout" />
+        </form>
+    }
+
 </div>
