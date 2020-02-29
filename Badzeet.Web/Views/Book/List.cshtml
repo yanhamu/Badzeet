@@ -1,0 +1,51 @@
+﻿@model Badzeet.Web.Features.Book.TransactionsModel
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    @foreach (var t in Model.Transactions)
+    {
+        <tr>
+            <td>@t.Date.ToString("yyyy-MM-dd")</td>
+            <td>@t.Description</td>
+            <td>@t.Amount</td>
+        </tr>
+    }
+</table>
+
+<table class="table">
+    @{ var date = DateTime.MinValue;}
+    @foreach (var t in Model.Transactions)
+    {
+        @if (date != t.Date)
+        {
+            date = t.Date;
+            <tr>
+                <th>@t.Date.ToString("yyyy-MM-dd")</th>
+                <td>@t.Description</td>
+                <td>@t.Amount</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td></td>
+                <td>@t.Description</td>
+                <td>@t.Amount</td>
+            </tr>
+        }
+
+    }
+</table>

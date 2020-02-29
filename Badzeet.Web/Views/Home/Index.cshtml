@@ -3,32 +3,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-    <p>
-        is authenticated:@Context.User.Identity.IsAuthenticated
-    </p>
-
+    <h1 class="display-4">Badzeet</h1>
+    
     @if (Context.User.Identity.IsAuthenticated == false)
     {
-        <form method="post"
-              asp-controller="Account"
-              asp-action="Login"
-              asp-route-returnurl="/">
-            <input id="username" name="username" value="bob" type="hidden" />
-            <input id="password" name="password" value="bob" type="hidden" />
-            <input type="submit" value="Login" />
-        </form>
-    }
-    else
-    {
-        <form method="post"
-              asp-controller="Account"
-              asp-action="Logout"
-              asp-route-returnurl="/">
-            <input type="submit" value="Logout" />
-        </form>
-    }
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Login</h2>
+            <partial name="/Views/Account/_Login.cshtml" />
+        </div>
+        <div class="col-sm-6">
+            <text>
+                Wanna use it? Register <a asp-controller="Account" asp-action="Register">here</a>. Its <b>free</b>!
+            </text>
+        </div>
 
+    </div>
+    }
 </div>
