@@ -4,20 +4,14 @@
 
 <div class="text-center">
     <h1 class="display-4">Badzeet</h1>
-    
+
     @if (Context.User.Identity.IsAuthenticated == false)
     {
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>Login</h2>
-            <partial name="/Views/Account/_Login.cshtml" />
-        </div>
-        <div class="col-sm-6">
-            <text>
-                Wanna use it? Register <a asp-controller="Account" asp-action="Register">here</a>. Its <b>free</b>!
-            </text>
-        </div>
 
-    </div>
+        <h2>Login</h2>
+        <partial name="/Views/Account/_Login.cshtml" />
+        <text>
+            Wanna use it? Register <a asp-controller="Account" asp-action="Register">here</a>. Its <b>free</b>!
+        </text>
     }
 </div>
