@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Web", "Badzeet.Web\Badzeet.Web.csproj", "{1A66C170-E074-4F3F-99F9-AEA2B5B28397}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Web", "Badzeet.Web\Badzeet.Web.csproj", "{1A66C170-E074-4F3F-99F9-AEA2B5B28397}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Service.User", "Badzeet.Service.User\Badzeet.Service.User.csproj", "{6262C755-3BC6-47CE-8130-23A5E362F842}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6262C755-3BC6-47CE-8130-23A5E362F842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6262C755-3BC6-47CE-8130-23A5E362F842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6262C755-3BC6-47CE-8130-23A5E362F842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6262C755-3BC6-47CE-8130-23A5E362F842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

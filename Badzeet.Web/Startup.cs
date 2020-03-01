@@ -1,3 +1,5 @@
+using Badzeet.Service.User;
+using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +22,12 @@ namespace Badzeet.Web
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            services.AddHttpContextAccessor();
+
+            services.AddTransient<Features.Account.Service>();
+            services.AddTransient<IUserAccountService, UserAccountService>();
+            services.AddTransient<IUserService, TestUserService>(); // Test only
+
             services.AddControllersWithViews();
         }
 
@@ -41,6 +49,8 @@ namespace Badzeet.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<DefaultAccountMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

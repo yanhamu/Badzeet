@@ -13,7 +13,7 @@ nupkg/
 
 # User-specific files
 *.suo
-*.user
+*csproj.user
 *.userosscache
 *.sln.docstates
 

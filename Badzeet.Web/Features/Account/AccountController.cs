@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Account
 {
     public class AccountController : Controller
     {
+        private readonly Service service;
+
+        public AccountController(Service service)
+        {
+            this.service = service;
+        }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -27,7 +30,7 @@ namespace Badzeet.Web.Features.Account
         [HttpPost]
         public async Task<IActionResult> Register(UserCredentialsModel credentials, Guid? invitationId)
         {
-            var registrationResult = await Register(credentials);
+            var registrationResult = await service.Register(credentials);
             return LocalRedirect("/");
         }
 
@@ -41,7 +44,7 @@ namespace Badzeet.Web.Features.Account
         [HttpPost]
         public async Task<IActionResult> Login(UserCredentialsModel credentials, string returnUrl)
         {
-            var loginResult = await Login(credentials);
+            var loginResult = await service.Login(credentials);
 
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
@@ -51,36 +54,11 @@ namespace Badzeet.Web.Features.Account
         [HttpPost]
         public async Task<IActionResult> Logout(string returnUrl)
         {
-            await HttpContext.SignOutAsync();
+            await service.Logout();
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
 
             return Redirect("/");
         }
-
-        private Task<bool> Register(UserCredentialsModel credentials)
-        {
-            return Task.FromResult(true);
-        }
-
-        private async Task<bool> Login(UserCredentialsModel credentials)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, credentials.Username),
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties();
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-
-            return true;
-        }
-
     }
 }
