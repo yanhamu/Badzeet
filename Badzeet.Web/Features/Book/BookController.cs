@@ -31,5 +31,27 @@ namespace Badzeet.Web.Features.Book
 
             return Task.FromResult<IActionResult>(View(model));
         }
+
+        [HttpGet]
+        public Task<IActionResult> EditRecord(long id)
+        {
+            var model = new EditModel()
+            {
+                Transaction = new TransactionModel(5, new DateTime(2020, 1, 4), "Pills", 416m)
+            };
+
+            return Task.FromResult<IActionResult>(View(model));
+        }
+
+        [HttpPost]
+        public Task<IActionResult> EditRecord(EditModel model)
+        {
+            return Task.FromResult<IActionResult>(LocalRedirect("/Book/List"));
+        }
+    }
+
+    public class EditModel
+    {
+        public TransactionModel Transaction { get; set; }
     }
 }
