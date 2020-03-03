@@ -25,12 +25,17 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Book" asp-action="List">Book list</a>
                             </li>
+                            <li class="nav-item">
+                                <form class="form-inline" method="get" asp-controller="Book" asp-action="NewRecord">
+                                    <button class="btn btn-outline-danger" type="submit">Record</button>
+                                </form>
+                            </li>
                         }
                     </ul>
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form class="form-inline" method="post" asp-controller="Account" asp-action="Logout">
+                    <form class="form-inline my-2" method="post" asp-controller="Account" asp-action="Logout">
                         <button class="btn btn-outline-primary" type="submit">Logout</button>
                     </form>
                 }

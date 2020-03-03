@@ -48,10 +48,24 @@ namespace Badzeet.Web.Features.Book
         {
             return Task.FromResult<IActionResult>(LocalRedirect("/Book/List"));
         }
+
+        [HttpGet]
+        public IActionResult NewRecord()
+        {
+            var model = new EditModel();
+            model.Transaction.Date = DateTime.Now;
+            return View(model);
+        }
+
+        [HttpPost]
+        public Task<IActionResult> NewRecord(EditModel model)
+        {
+            return Task.FromResult<IActionResult>(LocalRedirect("/Book/List"));
+        }
     }
 
     public class EditModel
     {
-        public TransactionModel Transaction { get; set; }
+        public TransactionModel Transaction { get; set; } = new TransactionModel();
     }
 }
