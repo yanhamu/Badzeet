@@ -27,7 +27,7 @@ namespace Badzeet.Web.Features.Book
 
         public async Task<IActionResult> List()
         {
-            var from = DateTime.Now;
+            var from = DateTime.Now.AddMonths(-1);
             var to = DateTime.Now;
 
             var transactions = await transactionsService.GetTransactions(this.HttpContext.GetAccountId(), from, to);
