@@ -1,4 +1,7 @@
+using Badzeet.Domain.Book.Interfaces;
+using Badzeet.Domain.Book.Model;
 using Badzeet.Service.User;
+using Badzeet.Test.DataAccess.Book;
 using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +30,8 @@ namespace Badzeet.Web
             services.AddTransient<Features.Account.Service>();
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, TestUserService>(); // Test only
+            services.AddTransient<TransactionsService>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             services.AddControllersWithViews();
         }

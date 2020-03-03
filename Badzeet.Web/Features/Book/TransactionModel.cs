@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Badzeet.Domain.Book;
+using System;
 
 namespace Badzeet.Web.Features.Book
 {
@@ -12,6 +13,14 @@ namespace Badzeet.Web.Features.Book
             Date = date;
             Description = description;
             Amount = amount;
+        }
+
+        public TransactionModel(Transaction transaction)
+        {
+            this.Id = transaction.Id;
+            this.Date = transaction.Date;
+            this.Description = transaction.Description;
+            this.Amount = transaction.Amount;
         }
 
         public long Id { get; set; }

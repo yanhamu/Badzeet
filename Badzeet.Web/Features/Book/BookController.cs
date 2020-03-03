@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Badzeet.Domain.Book.Interfaces;
+using Badzeet.Domain.Book.Model;
+using Badzeet.Web.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Book
@@ -9,38 +12,42 @@ namespace Badzeet.Web.Features.Book
     [Authorize]
     public class BookController : Controller
     {
+        private readonly TransactionsService transactionsService;
+        private readonly ITransactionRepository transactionRepository;
+
+        public BookController(TransactionsService transactionsService, ITransactionRepository transactionRepository)
+        {
+            this.transactionsService = transactionsService;
+            this.transactionRepository = transactionRepository;
+        }
         public IActionResult Index()
         {
             return View();
         }
 
-        public Task<IActionResult> List()
+        public async Task<IActionResult> List()
         {
-            var transactions = new List<TransactionModel>() {
-            new TransactionModel(9,new DateTime(2020,1,8), "Lunch", 165m),
-            new TransactionModel(8,new DateTime(2020,1,7), "Billa", 687),
-            new TransactionModel(7,new DateTime(2020,1,6), "Meat", 98m),
-            new TransactionModel(6,new DateTime(2020,1,5), "Lunch", 160m),
-            new TransactionModel(5,new DateTime(2020,1,4), "Pills", 416m),
-            new TransactionModel(4,new DateTime(2020,1,3), "Lunch", 220m),
-            new TransactionModel(3,new DateTime(2020,1,2), "Dinner", 180),
-            new TransactionModel(2,new DateTime(2020,1,2), "Chewing gum", 16),
-            new TransactionModel(1,new DateTime(2020,1,1), "Billa", 200m),
-            };
-            var model = new TransactionsModel() { Transactions = transactions };
+            var from = DateTime.Now;
+            var to = DateTime.Now;
 
-            return Task.FromResult<IActionResult>(View(model));
+            var transactions = await transactionsService.GetTransactions(this.HttpContext.GetAccountId(), from, to);
+
+            var model = new TransactionsModel() { Transactions = transactions.Select(x => new TransactionModel(x.Id, x.Date, x.Description, x.Amount)) };
+
+            return View(model);
         }
 
         [HttpGet]
-        public Task<IActionResult> EditRecord(long id)
+        public async Task<IActionResult> EditRecord(long id)
         {
+            var transaction = await transactionRepository.GetTransaction(id);
+
             var model = new EditModel()
             {
-                Transaction = new TransactionModel(5, new DateTime(2020, 1, 4), "Pills", 416m)
+                Transaction = new TransactionModel(transaction)
             };
 
-            return Task.FromResult<IActionResult>(View(model));
+            return View(model);
         }
 
         [HttpPost]

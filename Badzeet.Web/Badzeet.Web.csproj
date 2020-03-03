@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Badzeet.Domain.Book\Badzeet.Domain.Book.csproj" />
     <ProjectReference Include="..\Badzeet.Service.User\Badzeet.Service.User.csproj" />
+    <ProjectReference Include="..\Badzeet.Test.DataAccess.Book\Badzeet.Test.DataAccess.Book.csproj" />
   </ItemGroup>
 
 
