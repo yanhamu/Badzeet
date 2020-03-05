@@ -8,5 +8,6 @@ namespace Badzeet.Domain.Book.Interfaces
     {
         Task<IEnumerable<Transaction>> GetTransactions(long accountId, DateTime from, DateTime to);
         Task<Transaction> GetTransaction(long id);
+        Task Save();
     }
 }

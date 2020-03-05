@@ -1,4 +1,5 @@
-﻿using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Book;
+using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -51,9 +52,10 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public Task<IActionResult> EditRecord(EditModel model)
+        public async Task<IActionResult> EditRecord(EditModel model)
         {
-            return Task.FromResult<IActionResult>(LocalRedirect("/Book/List"));
+            await transactionsService.Save(new Transaction(model.Transaction.Id, model.Transaction.Date, model.Transaction.Description, model.Transaction.Amount));
+            return LocalRedirect("/Book/List");
         }
 
         [HttpGet]

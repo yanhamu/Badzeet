@@ -18,5 +18,15 @@ namespace Badzeet.Domain.Book.Model
         {
             return await repository.GetTransactions(accountId, from, to);
         }
+
+        public async Task Save(Transaction transaction)
+        {
+            var tracked = await repository.GetTransaction(transaction.Id);
+            tracked.Date = transaction.Date;
+            tracked.Description = transaction.Description;
+            tracked.Amount = transaction.Amount;
+            await repository.Save();
+
+        }
     }
 }

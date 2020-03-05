@@ -30,5 +30,10 @@ namespace Badzeet.Test.DataAccess.Book
 
             return Task.FromResult<IEnumerable<Transaction>>(transactions);
         }
+
+        public Task Save()
+        {
+            return Task.CompletedTask;
+        }
     }
 }

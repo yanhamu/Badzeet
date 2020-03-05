@@ -30,5 +30,10 @@ namespace Badzeet.DataAccess.Book
                 .Where(x => x.Date <= to)
                 .ToListAsync();
         }
+
+        public Task Save()
+        {
+            return context.SaveChangesAsync();
+        }
     }
 }
