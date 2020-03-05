@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Service.User", "Bad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Domain.Book", "Badzeet.Domain.Book\Badzeet.Domain.Book.csproj", "{CCBDFD12-850E-4CCB-AE6E-4C68652D133E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.DataAccess.Book", "Badzeet.DataAccess.Book\Badzeet.DataAccess.Book.csproj", "{247AD1F5-B581-4E0E-920A-C7AE02663D3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.DataAccess.Book", "Badzeet.DataAccess.Book\Badzeet.DataAccess.Book.csproj", "{247AD1F5-B581-4E0E-920A-C7AE02663D3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Test.DataAccess.Book", "Badzeet.Test.DataAccess.Book\Badzeet.Test.DataAccess.Book.csproj", "{53D89E1F-A128-4E23-A886-FAD87DA4D89E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Test.DataAccess.Book", "Badzeet.Test.DataAccess.Book\Badzeet.Test.DataAccess.Book.csproj", "{53D89E1F-A128-4E23-A886-FAD87DA4D89E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{983D2B30-C43D-45FE-9149-0DADF4AD5C83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Book.Migrator", "Badzeet.Book.Migrator\Badzeet.Book.Migrator.csproj", "{0244D7AA-9338-40E8-B1C0-479E2975A7BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{53D89E1F-A128-4E23-A886-FAD87DA4D89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53D89E1F-A128-4E23-A886-FAD87DA4D89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53D89E1F-A128-4E23-A886-FAD87DA4D89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0244D7AA-9338-40E8-B1C0-479E2975A7BC} = {983D2B30-C43D-45FE-9149-0DADF4AD5C83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0BCBBD27-E549-411B-A18C-3D9EAC513B74}
