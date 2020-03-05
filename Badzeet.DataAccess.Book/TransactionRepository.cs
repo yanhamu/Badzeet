@@ -34,6 +34,7 @@ namespace Badzeet.DataAccess.Book
                 //.Where(x => x.Date >= from)
                 //.Where(x => x.Date <= to)
                 .OrderByDescending(x=>x.Date)
+                .Take(100)
                 .ToListAsync();
         }
 
