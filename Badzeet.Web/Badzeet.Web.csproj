@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Badzeet.DataAccess.Book\Badzeet.DataAccess.Book.csproj" />
     <ProjectReference Include="..\Badzeet.Domain.Book\Badzeet.Domain.Book.csproj" />
     <ProjectReference Include="..\Badzeet.Service.User\Badzeet.Service.User.csproj" />
     <ProjectReference Include="..\Badzeet.Test.DataAccess.Book\Badzeet.Test.DataAccess.Book.csproj" />

@@ -1,3 +1,4 @@
+using Badzeet.DataAccess.Book;
 using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Badzeet.Service.User;
@@ -5,6 +6,7 @@ using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,10 +17,10 @@ namespace Badzeet.Web
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -30,7 +32,10 @@ namespace Badzeet.Web
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, TestUserService>(); // Test only
             services.AddTransient<TransactionsService>();
-            services.AddScoped<ITransactionRepository, Badzeet.Test.DataAccess.Book.TransactionRepository>();
+            //services.AddScoped<ITransactionRepository, Test.DataAccess.Book.TransactionRepository>();
+            services.AddScoped<ITransactionRepository, DataAccess.Book.TransactionRepository>();
+
+            services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
             services.AddControllersWithViews();
         }
