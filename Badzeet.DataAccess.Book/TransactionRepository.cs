@@ -17,6 +17,11 @@ namespace Badzeet.DataAccess.Book
             this.context = context;
         }
 
+        public Transaction Add(Transaction transaction)
+        {
+            return context.Set<Transaction>().Add(transaction).Entity;
+        }
+
         public Task<Transaction> GetTransaction(long id)
         {
             return context.Set<Transaction>().SingleOrDefaultAsync(x => x.Id == id);
@@ -26,8 +31,9 @@ namespace Badzeet.DataAccess.Book
         {
             return await context
                 .Set<Transaction>()
-                .Where(x => x.Date >= from)
-                .Where(x => x.Date <= to)
+                //.Where(x => x.Date >= from)
+                //.Where(x => x.Date <= to)
+                .OrderByDescending(x=>x.Date)
                 .ToListAsync();
         }
 

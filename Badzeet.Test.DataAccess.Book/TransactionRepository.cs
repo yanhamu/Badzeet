@@ -9,6 +9,11 @@ namespace Badzeet.Test.DataAccess.Book
 {
     public class TransactionRepository : ITransactionRepository
     {
+        public Task Add(Transaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Transaction> GetTransaction(long id)
         {
             var transactions = await GetTransactions(default, default, default);
@@ -34,6 +39,11 @@ namespace Badzeet.Test.DataAccess.Book
         public Task Save()
         {
             return Task.CompletedTask;
+        }
+
+        Transaction ITransactionRepository.Add(Transaction transaction)
+        {
+            throw new NotImplementedException();
         }
     }
 }

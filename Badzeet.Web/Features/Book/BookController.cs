@@ -67,9 +67,19 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public Task<IActionResult> NewRecord(EditModel model)
+        public async Task<IActionResult> NewRecord(EditModel model)
         {
-            return Task.FromResult<IActionResult>(LocalRedirect("/Book/List"));
+            transactionRepository.Add(
+                new Transaction()
+                {
+                    AccountId = HttpContext.GetAccountId(),
+                    Amount = model.Transaction.Amount,
+                    Date = model.Transaction.Date,
+                    Description = model.Transaction.Description
+                });
+            await transactionRepository.Save();
+
+            return LocalRedirect("/Book/List");
         }
     }
 
