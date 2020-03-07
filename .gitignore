@@ -37,4 +37,4 @@ msbuild.wrn
 .vs/
 
 PublishProfiles/
-Badzeet.Web/appsettings.Production.json
+appsettings.Production.json
