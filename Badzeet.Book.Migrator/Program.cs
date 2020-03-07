@@ -11,7 +11,7 @@ namespace Badzeet.Book.Migrator
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.Development.json")
+                .AddJsonFile($"appsettings.Production.json")
                 .Build();
 
             var connectionString = configuration.GetConnectionString("badzeetDb");

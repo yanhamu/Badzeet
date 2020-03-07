@@ -1,0 +1,1 @@
+﻿WAITFOR DELAY '00:00:10' -- give som rest to AzureSQL so we won't run out of DTUs in our subscription
