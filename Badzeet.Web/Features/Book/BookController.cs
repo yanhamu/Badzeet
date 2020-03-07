@@ -72,7 +72,7 @@ namespace Badzeet.Web.Features.Book
             transactionRepository.Add(
                 new Transaction()
                 {
-                    AccountId = HttpContext.GetAccountId(),
+                    BookId = HttpContext.GetAccountId(),
                     Amount = model.Transaction.Amount,
                     Date = model.Transaction.Date,
                     Description = model.Transaction.Description

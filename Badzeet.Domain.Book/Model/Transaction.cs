@@ -18,7 +18,8 @@ namespace Badzeet.Domain.Book
         }
 
         public long Id { get; set; }
-        public long AccountId { get; set; }
+        public long BookId { get; set; }
+        public Model.Book Book { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }

@@ -14,6 +14,9 @@
     <None Remove="Scripts\0020_Create_Schema.sql" />
     <None Remove="Scripts\0025_Create_Users.sql" />
     <None Remove="Scripts\0029_Insert_Users.sql" />
+    <None Remove="Scripts\0031_Alter_Column.sql" />
+    <None Remove="Scripts\0035_Create_Books.sql" />
+    <None Remove="Scripts\0037_Alter_ForeignKey.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +45,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0025_Create_Users.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0037_Alter_ForeignKey.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0035_Create_Books.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0031_Alter_Column.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0029_Insert_Users.sql">
