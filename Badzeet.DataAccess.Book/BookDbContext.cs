@@ -1,14 +1,11 @@
-﻿using Badzeet.Domain.Book;
+﻿using Badzeet.Domain.Book.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Badzeet.DataAccess.Book
 {
     public class BookDbContext : DbContext
     {
-        public BookDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
+        public BookDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,11 +16,18 @@ namespace Badzeet.DataAccess.Book
             transaction.HasKey(x => x.Id);
             transaction.Property(x => x.BookId).HasColumnName("book_id");
             transaction.HasOne(x => x.Book).WithMany().HasForeignKey(x => x.BookId);
+            transaction.Property(x => x.CategoryId).HasColumnName("category_id");
+            transaction.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
 
             var book = modelBuilder.Entity<Badzeet.Domain.Book.Model.Book>();
             book.ToTable("books");
             book.HasKey(x => x.Id);
             book.Property(x => x.FirstDayOfTheBudget).HasColumnName("first_day_of_budget");
+
+            var category = modelBuilder.Entity<Category>();
+            category.ToTable("categories");
+            category.HasKey(x => x.Id);
+            category.Property(x => x.BookId).HasColumnName("book_id");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Book;
+﻿using Badzeet.Domain.Book.Model;
 using System;
 
 namespace Badzeet.Web.Features.Book

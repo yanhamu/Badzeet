@@ -1,5 +1,5 @@
-﻿using Badzeet.Domain.Book;
-using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Book.Interfaces;
+using Badzeet.Domain.Book.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace Badzeet.DataAccess.Book
                 .Set<Transaction>()
                 //.Where(x => x.Date >= from)
                 //.Where(x => x.Date <= to)
-                .OrderByDescending(x=>x.Date)
+                .OrderByDescending(x => x.Date)
                 .Take(100)
                 .ToListAsync();
         }

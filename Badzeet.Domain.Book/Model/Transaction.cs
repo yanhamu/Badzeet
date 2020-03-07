@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Badzeet.Domain.Book
+namespace Badzeet.Domain.Book.Model
 {
     public class Transaction
     {
@@ -19,9 +19,11 @@ namespace Badzeet.Domain.Book
 
         public long Id { get; set; }
         public long BookId { get; set; }
-        public Model.Book Book { get; set; }
+        public Book Book { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
+        public long? CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

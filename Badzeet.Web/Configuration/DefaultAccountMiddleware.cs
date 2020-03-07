@@ -37,7 +37,7 @@ namespace Badzeet.Web.Configuration
     {
         public long GetAccountId(string name)
         {
-            return 22;
+            return 1;
         }
     }
 }
