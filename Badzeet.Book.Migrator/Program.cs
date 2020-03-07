@@ -9,9 +9,18 @@ namespace Badzeet.Book.Migrator
     {
         static void Main(string[] args)
         {
+            var jsonFileName = GetJsonFileName();
+
+            if (jsonFileName == null)
+            {
+                Console.WriteLine("No config, no migration. Bye");
+                Console.ReadLine();
+                return;
+            }
+
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.Production.json")
+                .AddJsonFile(jsonFileName)
                 .Build();
 
             var connectionString = configuration.GetConnectionString("badzeetDb");
@@ -38,6 +47,25 @@ namespace Badzeet.Book.Migrator
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Success!");
             Console.ResetColor();
+        }
+
+        private static string GetJsonFileName()
+        {
+            Console.WriteLine("Which config you want to use?");
+            Console.WriteLine("[Enter] for Development");
+            Console.WriteLine("[p]     for Production");
+            var input = Console.ReadLine();
+            if (string.IsNullOrEmpty(input))
+            {
+                Console.WriteLine("Development - there you go");
+                return $"appsettings.Development.json";
+            }
+            if (input.ToLowerInvariant() == "p")
+            {
+                Console.WriteLine("Production - there you go");
+                return $"appsettings.Production.json";
+            }
+            return null;
         }
     }
 }
