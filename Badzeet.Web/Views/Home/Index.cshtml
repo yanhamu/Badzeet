@@ -13,5 +13,30 @@
         <text>
             Wanna use it? Register <a asp-controller="Account" asp-action="Register">here</a>. Its <b>free</b>!
         </text>
+
+        <p class="mt-5">
+            For demo login click <a id="myLink" href="/" onclick="demoLogIn">here</a>
+        </p>
+        <p>or</p>
+        <p>log in using <code>bob/bob</code></p>
     }
 </div>
+@if (Context.User.Identity.IsAuthenticated == false)
+{
+    <script type="text/javascript">
+        function registerEvent() {
+            var link = document.getElementById("myLink");
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                var username = document.getElementById("username");
+                var password = document.getElementById("password");
+                var form = document.getElementById("loginForm");
+
+                username.value = "bob";
+                password.value = "bob";
+                form.submit();
+            });
+        }
+        window.onload = registerEvent();
+    </script>
+}
