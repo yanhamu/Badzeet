@@ -6,10 +6,12 @@ using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Data;
 
 namespace Badzeet.Web
 {
@@ -30,11 +32,10 @@ namespace Badzeet.Web
 
             services.AddTransient<Features.Account.Service>();
             services.AddTransient<IUserAccountService, UserAccountService>();
-            services.AddTransient<IUserService, TestUserService>(); // Test only
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<TransactionsService>();
-            //services.AddScoped<ITransactionRepository, Test.DataAccess.Book.TransactionRepository>();
             services.AddScoped<ITransactionRepository, DataAccess.Book.TransactionRepository>();
-
+            services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
             services.AddControllersWithViews();

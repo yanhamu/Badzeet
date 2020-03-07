@@ -11,17 +11,17 @@ namespace Badzeet.Web.Features.Account
     public class Service
     {
         private readonly IHttpContextAccessor contextAccessor;
-        private readonly IUserService repository;
+        private readonly IUserService userService;
 
-        public Service(IHttpContextAccessor contextAccessor, IUserService userRepository)
+        public Service(IHttpContextAccessor contextAccessor, IUserService userService)
         {
             this.contextAccessor = contextAccessor;
-            this.repository = userRepository;
+            this.userService = userService;
         }
 
         public async Task<bool> Login(UserCredentialsModel credentials)
         {
-            var userResponse = await repository.Check(credentials.Username, credentials.Password);
+            var userResponse = await userService.Check(credentials.Username, credentials.Password);
             if (userResponse.IsSuccessful == false)
                 return false;
 
@@ -44,10 +44,10 @@ namespace Badzeet.Web.Features.Account
 
         public async Task<bool> Register(UserCredentialsModel credentials)
         {
-            if (await repository.CheckAvailability(credentials.Username) == false)
+            if (await userService.CheckAvailability(credentials.Username) == false)
                 return false;
 
-            await repository.RegisterUser(credentials.Username, credentials.Password);
+            await userService.RegisterUser(credentials.Username, credentials.Password);
             return true;
         }
 

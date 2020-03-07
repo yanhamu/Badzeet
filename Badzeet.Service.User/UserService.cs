@@ -36,7 +36,7 @@ namespace Badzeet.Service.User
             var s = new PasswordService();
             var hashedPassword = s.GetHashedPassword(password);
             var id = Guid.NewGuid();
-            var sql = @"insert into users.users";
+            var sql = @"insert into users.users values (@id, @username, @password)";
             await connection.ExecuteAsync(sql, new { id = id, username, password = hashedPassword });
             return id;
         }
