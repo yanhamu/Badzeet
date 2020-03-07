@@ -25,8 +25,8 @@ namespace Badzeet.Domain.Book.Model
             tracked.Date = transaction.Date;
             tracked.Description = transaction.Description;
             tracked.Amount = transaction.Amount;
+            tracked.CategoryId = transaction.CategoryId;
             await repository.Save();
-
         }
     }
 }

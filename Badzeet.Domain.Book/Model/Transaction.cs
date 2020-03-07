@@ -9,12 +9,13 @@ namespace Badzeet.Domain.Book.Model
 
         }
 
-        public Transaction(long id, DateTime date, string description, decimal amount)
+        public Transaction(long id, DateTime date, string description, decimal amount, long? categoryId)
         {
             Id = id;
             Date = date;
             Description = description;
             Amount = amount;
+            CategoryId = categoryId;
         }
 
         public long Id { get; set; }

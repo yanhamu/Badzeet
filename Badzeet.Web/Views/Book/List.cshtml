@@ -3,27 +3,29 @@
 @{
     ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
+    var date = DateTime.MinValue;
 }
 
 <h1>Records</h1>
 
 <table class="table table-sm">
-    @{ var date = DateTime.MinValue;}
     @foreach (var t in Model.Transactions)
     {
         @if (date != t.Date)
         {
             date = t.Date;
             <tr>
-                <th colspan="4">@t.Date.ToString("yyyy-MM-dd")</th>
+                <th colspan="5">@t.Date.ToString("yyyy-MM-dd")</th>
             </tr>
         }
         <tr>
             <td></td>
             <td>@t.Description</td>
             <td>@t.Amount</td>
+            <td>@(t.CategoryId.HasValue ? categories[t.CategoryId.Value] : "")</td>
             <td>
-                <a asp-controller="Book" asp-action="EditRecord" asp-route-id="@t.Id" >
+                <a asp-controller="Book" asp-action="EditRecord" asp-route-id="@t.Id">
                     <i class="fa fa-edit fa-xs"></i>
                 </a>
             </td>
