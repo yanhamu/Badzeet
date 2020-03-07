@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scripts\0001_Create_Transactions.sql" />
+    <None Remove="Scripts\0001_Create_Schema.sql" />
+    <None Remove="Scripts\0002_Create_Transactions.sql" />
+    <None Remove="Scripts\0010_Insert_Transactions.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,16 +18,25 @@
     <Content Include="..\Badzeet.Web\appsettings.json" Link="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Badzeet.Web\appsettings.Production.json" Link="appsettings.Production.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dbup-sqlserver" Version="4.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Scripts\0001_Create_Transactions.sql">
+    <EmbeddedResource Include="Scripts\0001_Create_Schema.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0010_Insert_Transactions.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0002_Create_Transactions.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
