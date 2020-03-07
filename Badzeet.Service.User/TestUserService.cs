@@ -8,7 +8,7 @@ namespace Badzeet.Service.User
         public Task<UserLoginResponse> Check(string username, string password)
         {
             if (username == "bob" && password == "bob")
-                return Task.FromResult<UserLoginResponse>(UserLoginResponse.CreateSuccessful(1));
+                return Task.FromResult<UserLoginResponse>(UserLoginResponse.CreateSuccessful(new Guid("5ECCAEE6-735A-4A2B-9176-526577D648AC")));
 
             return Task.FromResult<UserLoginResponse>(UserLoginResponse.CreateFailed());
         }
@@ -18,12 +18,12 @@ namespace Badzeet.Service.User
             return Task.FromResult(username != "bob");
         }
 
-        public Task RegisterUser(string username, string password)
+        public Task<Guid> RegisterUser(string username, string password)
         {
             if (username == "bob")
                 throw new Exception();
 
-            return Task.CompletedTask;
+            return Task.FromResult(Guid.NewGuid());
         }
     }
 }

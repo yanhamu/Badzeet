@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Badzeet.Service.User
 {
@@ -6,6 +7,6 @@ namespace Badzeet.Service.User
     {
         Task<UserLoginResponse> Check(string username, string password);
         Task<bool> CheckAvailability(string username);
-        Task RegisterUser(string username, string password);
+        Task<Guid> RegisterUser(string username, string password);
     }
 }

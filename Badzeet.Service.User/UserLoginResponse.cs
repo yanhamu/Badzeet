@@ -9,14 +9,14 @@ namespace Badzeet.Service.User
             this.IsSuccessful = isSuccessful;
         }
         public bool IsSuccessful { get; }
-        public abstract long GetUserId();
+        public abstract Guid GetUserId();
 
         public static FailedUserLoginResponse CreateFailed()
         {
             return new FailedUserLoginResponse();
         }
 
-        public static SuccessfulUserLoginResponse CreateSuccessful(long userId)
+        public static SuccessfulUserLoginResponse CreateSuccessful(Guid userId)
         {
             return new SuccessfulUserLoginResponse(userId);
         }
@@ -26,7 +26,7 @@ namespace Badzeet.Service.User
     {
         public FailedUserLoginResponse() : base(false) { }
 
-        public override long GetUserId()
+        public override Guid GetUserId()
         {
             throw new InvalidOperationException("Can't access unauthorized user id");
         }
@@ -34,14 +34,14 @@ namespace Badzeet.Service.User
 
     public class SuccessfulUserLoginResponse : UserLoginResponse
     {
-        private readonly long userId;
+        private readonly Guid userId;
 
-        public SuccessfulUserLoginResponse(long userId) : base(true)
+        public SuccessfulUserLoginResponse(Guid userId) : base(true)
         {
             this.userId = userId;
         }
 
-        public override long GetUserId()
+        public override Guid GetUserId()
         {
             return userId;
         }
