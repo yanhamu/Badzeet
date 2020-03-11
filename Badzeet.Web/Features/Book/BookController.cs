@@ -1,4 +1,5 @@
-﻿using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Book;
+using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -16,15 +17,18 @@ namespace Badzeet.Web.Features.Book
         private readonly TransactionsService transactionsService;
         private readonly ITransactionRepository transactionRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly BudgetService budgetService;
 
         public BookController(
             TransactionsService transactionsService,
             ITransactionRepository transactionRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            BudgetService budgetService)
         {
             this.transactionsService = transactionsService;
             this.transactionRepository = transactionRepository;
             this.categoryRepository = categoryRepository;
+            this.budgetService = budgetService;
         }
 
         [HttpGet]
@@ -36,11 +40,10 @@ namespace Badzeet.Web.Features.Book
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var from = DateTime.Now.AddYears(-2).AddMonths(-1);
-            var to = DateTime.Now.AddYears(-2);
             var bookId = this.HttpContext.GetBookId();
+            var interval = await budgetService.GetLatestBudget(HttpContext.GetBookId());
 
-            var transactions = await transactionsService.GetTransactions(bookId, from, to);
+            var transactions = await transactionsService.GetTransactions(bookId, interval);
             var categories = await categoryRepository.GetCategories(bookId);
             var model = new TransactionsModel()
             {

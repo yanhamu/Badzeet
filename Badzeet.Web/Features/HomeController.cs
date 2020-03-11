@@ -1,14 +1,33 @@
-﻿using Badzeet.Web.Models;
+﻿using Badzeet.Domain.Book;
+using Badzeet.Web.Configuration;
+using Badzeet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly BudgetService budgetService;
+
+        public HomeController(BudgetService budgetService)
         {
-            return View();
+            this.budgetService = budgetService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var interval = await budgetService.GetLatestBudget(HttpContext.GetBookId());
+                var budget = await budgetService.GetBudget(HttpContext.GetBookId(), interval);
+                return View(new DashboardViewModel(interval, budget));
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()

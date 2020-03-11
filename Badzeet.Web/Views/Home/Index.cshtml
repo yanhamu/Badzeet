@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Badzeet.Web.Features.DashboardViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -39,4 +40,22 @@
         }
         window.onload = registerEvent();
     </script>
+}
+else
+{
+    <p>@Model.Interval.From.ToString("yyyy-MM-dd") - @Model.Interval.To.ToString("yyyy-MM-dd")</p>
+    
+    <table class="table table-sm">
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Amount</td>
+            </tr>
+        }
+        <tr>
+            <td>Sum</td>
+            <td><b>@Model.Categories.Sum(x => x.Amount)</b></td>
+        </tr>
+    </table>
 }

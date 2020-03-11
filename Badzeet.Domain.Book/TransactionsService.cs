@@ -1,5 +1,4 @@
 ﻿using Badzeet.Domain.Book.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,9 +13,9 @@ namespace Badzeet.Domain.Book.Model
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactions(long accountId, DateTime from, DateTime to)
+        public async Task<IEnumerable<Transaction>> GetTransactions(long accountId, DateInterval interval)
         {
-            return await repository.GetTransactions(accountId, from, to);
+            return await repository.GetTransactions(accountId, interval);
         }
 
         public async Task Save(Transaction transaction)

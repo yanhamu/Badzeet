@@ -18,7 +18,9 @@ namespace Badzeet.DataAccess.Book
 
         public Task<List<Category>> GetCategories(long bookId)
         {
-            return dbContext.Set<Category>().Where(x => x.BookId == bookId).ToListAsync();
+            return dbContext.Set<Category>()
+                .Where(x => x.BookId == bookId)
+                .ToListAsync();
         }
     }
 }

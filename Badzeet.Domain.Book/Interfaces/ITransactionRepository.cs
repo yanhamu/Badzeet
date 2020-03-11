@@ -7,9 +7,10 @@ namespace Badzeet.Domain.Book.Interfaces
 {
     public interface ITransactionRepository
     {
-        Task<IEnumerable<Transaction>> GetTransactions(long accountId, DateTime from, DateTime to);
+        Task<IEnumerable<Transaction>> GetTransactions(long bookId, DateInterval interval);
         Task<Transaction> GetTransaction(long id);
         Task Save();
         Transaction Add(Transaction transaction);
+        Task<Transaction> GetLastTransaction(long bookId);
     }
 }

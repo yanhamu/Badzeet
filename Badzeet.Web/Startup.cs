@@ -1,4 +1,5 @@
 using Badzeet.DataAccess.Book;
+using Badzeet.Domain.Book;
 using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Badzeet.Service.User;
@@ -34,8 +35,10 @@ namespace Badzeet.Web
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<TransactionsService>();
+            services.AddTransient<BudgetService>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
