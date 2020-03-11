@@ -19,6 +19,11 @@
     <None Remove="Scripts\0037_Alter_ForeignKey.sql" />
     <None Remove="Scripts\0040_Create_Category.sql" />
     <None Remove="Scripts\0043_Insert_Categories.sql" />
+    <None Remove="Scripts\0044_Create_Users.sql" />
+    <None Remove="Scripts\0045_Create_UserBooks.sql" />
+    <None Remove="Scripts\0047_Insert_Users.sql" />
+    <None Remove="Scripts\0050_Alter_Transactions.sql" />
+    <None Remove="Scripts\0053_Update_Transactions.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +54,22 @@
     <EmbeddedResource Include="Scripts\0025_Create_Users.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0044_Create_Users.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0053_Update_Transactions.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0050_Alter_Transactions.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0047_Insert_Users.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0045_Create_UserBooks.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0040_Create_Category.sql">

@@ -18,6 +18,8 @@ namespace Badzeet.DataAccess.Book
             transaction.HasOne(x => x.Book).WithMany().HasForeignKey(x => x.BookId);
             transaction.Property(x => x.CategoryId).HasColumnName("category_id");
             transaction.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
+            transaction.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
+            transaction.Property(x => x.UserId).HasColumnName("owner_id");
 
             var book = modelBuilder.Entity<Badzeet.Domain.Book.Model.Book>();
             book.ToTable("books");
@@ -28,6 +30,13 @@ namespace Badzeet.DataAccess.Book
             category.ToTable("categories");
             category.HasKey(x => x.Id);
             category.Property(x => x.BookId).HasColumnName("book_id");
+
+            var userBook = modelBuilder.Entity<UserBook>();
+            userBook.ToTable("user_books");
+            userBook.HasKey(x => new { x.UserId, x.BookId });
+            userBook.Property(x => x.UserId).HasColumnName("user_id");
+            userBook.Property(x => x.BookId).HasColumnName("book_id");
+            userBook.Property(x => x.Nickname).HasColumnName("nickname");
         }
     }
 }

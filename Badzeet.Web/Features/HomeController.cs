@@ -22,6 +22,7 @@ namespace Badzeet.Web.Features
             {
                 var interval = await budgetService.GetLatestBudget(HttpContext.GetBookId());
                 var budget = await budgetService.GetBudget(HttpContext.GetBookId(), interval);
+                
                 return View(new DashboardViewModel(interval, budget));
             }
             else

@@ -7,13 +7,14 @@ namespace Badzeet.Web.Features.Book
     {
         public TransactionModel() { }
 
-        public TransactionModel(long id, DateTime date, string description, decimal amount, long? categoryId)
+        public TransactionModel(long id, DateTime date, string description, decimal amount, long? categoryId, Guid userId)
         {
             Id = id;
             Date = date;
             Description = description;
             Amount = amount;
             this.CategoryId = categoryId;
+            this.UserId = userId;
         }
 
         public TransactionModel(Transaction transaction)
@@ -23,6 +24,7 @@ namespace Badzeet.Web.Features.Book
             this.Description = transaction.Description;
             this.Amount = transaction.Amount;
             this.CategoryId = transaction.CategoryId;
+            this.UserId = transaction.UserId;
         }
 
         public long Id { get; set; }
@@ -30,5 +32,6 @@ namespace Badzeet.Web.Features.Book
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public long? CategoryId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

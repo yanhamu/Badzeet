@@ -17,17 +17,20 @@ namespace Badzeet.Web.Features.Book
         private readonly TransactionsService transactionsService;
         private readonly ITransactionRepository transactionRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUserBookRepository userBookRepository;
         private readonly BudgetService budgetService;
 
         public BookController(
             TransactionsService transactionsService,
             ITransactionRepository transactionRepository,
             ICategoryRepository categoryRepository,
+            IUserBookRepository userBookRepository,
             BudgetService budgetService)
         {
             this.transactionsService = transactionsService;
             this.transactionRepository = transactionRepository;
             this.categoryRepository = categoryRepository;
+            this.userBookRepository = userBookRepository;
             this.budgetService = budgetService;
         }
 
@@ -45,10 +48,13 @@ namespace Badzeet.Web.Features.Book
 
             var transactions = await transactionsService.GetTransactions(bookId, interval);
             var categories = await categoryRepository.GetCategories(bookId);
+            var users = await userBookRepository.GetUsers(bookId);
+
             var model = new TransactionsModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Transactions = transactions.Select(x => new TransactionModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId))
+                Transactions = transactions.Select(x => new TransactionModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId)),
+                Users = users
             };
 
             return View(model);
@@ -59,11 +65,12 @@ namespace Badzeet.Web.Features.Book
         {
             var transaction = await transactionRepository.GetTransaction(id);
             var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
-
+            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
             var model = new EditModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Transaction = new TransactionModel(transaction)
+                Transaction = new TransactionModel(transaction),
+                Users = users
             };
 
             return View(model);
@@ -77,7 +84,8 @@ namespace Badzeet.Web.Features.Book
                 model.Transaction.Date,
                 model.Transaction.Description,
                 model.Transaction.Amount,
-                model.Transaction.CategoryId));
+                model.Transaction.CategoryId,
+                model.Transaction.UserId));
             return LocalRedirect("/Book/List");
         }
 
@@ -85,9 +93,11 @@ namespace Badzeet.Web.Features.Book
         public async Task<IActionResult> NewRecord()
         {
             var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
+            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
             var model = new EditModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
+                Users = users
             };
 
             model.Transaction.Date = DateTime.Now;
@@ -116,5 +126,6 @@ namespace Badzeet.Web.Features.Book
     {
         public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public TransactionModel Transaction { get; set; } = new TransactionModel();
+        public IEnumerable<UserBook> Users { get; set; } = new List<UserBook>();
     }
 }

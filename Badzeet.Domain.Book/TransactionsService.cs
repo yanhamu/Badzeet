@@ -25,6 +25,7 @@ namespace Badzeet.Domain.Book.Model
             tracked.Description = transaction.Description;
             tracked.Amount = transaction.Amount;
             tracked.CategoryId = transaction.CategoryId;
+            tracked.UserId = transaction.UserId;
             await repository.Save();
         }
     }

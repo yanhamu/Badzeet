@@ -1,0 +1,1 @@
+﻿alter table book.transactions add [owner_id] uniqueidentifier null foreign key references book.users(id)
