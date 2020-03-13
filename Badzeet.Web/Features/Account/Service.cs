@@ -1,4 +1,5 @@
 ﻿using Badzeet.Domain.Book;
+using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Service.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,15 +15,18 @@ namespace Badzeet.Web.Features.Account
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IUserService userService;
         private readonly BookService bookService;
+        private readonly IUserRepository userRepository;
 
         public Service(
             IHttpContextAccessor contextAccessor,
             IUserService userService,
-            BookService bookService)
+            BookService bookService,
+            IUserRepository userRepository)
         {
             this.contextAccessor = contextAccessor;
             this.userService = userService;
             this.bookService = bookService;
+            this.userRepository = userRepository;
         }
 
         public async Task<bool> Login(UserCredentialsModel credentials)
@@ -54,8 +58,9 @@ namespace Badzeet.Web.Features.Account
                 return false;
 
             var userId = await userService.RegisterUser(credentials.Username, credentials.Password);
-            await bookService.CreateBook(userId, credentials.Username);
 
+            await userRepository.Create(userId);
+            await bookService.CreateBook(userId, credentials.Username);
             return true;
         }
 
