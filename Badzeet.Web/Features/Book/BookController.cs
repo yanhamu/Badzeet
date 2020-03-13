@@ -101,6 +101,7 @@ namespace Badzeet.Web.Features.Book
             };
 
             model.Transaction.Date = DateTime.Now;
+            model.Transaction.UserId = Guid.Parse(this.User.Claims.Single(x => x.Type == "Id").Value);
             return View(model);
         }
 

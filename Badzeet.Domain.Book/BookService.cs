@@ -11,24 +11,15 @@ namespace Badzeet.Domain.Book
         private readonly ITransactionRepository transactionRepository;
         private readonly IBookRepository bookRepository;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserBookRepository userBookRepository;
 
         public BookService(
             ITransactionRepository transactionRepository,
             IBookRepository bookRepository,
-            ICategoryRepository categoryRepository,
-            IUserBookRepository userBookRepository)
+            ICategoryRepository categoryRepository)
         {
             this.transactionRepository = transactionRepository;
             this.bookRepository = bookRepository;
             this.categoryRepository = categoryRepository;
-            this.userBookRepository = userBookRepository;
-        }
-
-        public async Task CreateBook(Guid userId, string username)
-        {
-            var book = await this.bookRepository.CreateBook(1);
-            var userBook = await userBookRepository.Create(userId, username, book.Id);
         }
 
         public async Task<DateInterval> GetLatestBudget(long bookId)

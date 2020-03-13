@@ -44,6 +44,18 @@ namespace Badzeet.DataAccess.Book
             user.ToTable("users");
             user.HasKey(x => x.Id);
             user.Property(x => x.Id).HasColumnName("id");
+
+            var invitation = modelBuilder.Entity<Invitation>();
+            invitation.ToTable("invitations");
+            invitation.HasKey(x => x.Id);
+            invitation.Property(x => x.Id).HasColumnName("id");
+            invitation.Property(x => x.BookId).HasColumnName("book_id");
+            invitation.Property(x => x.OwnerId).HasColumnName("owner_id");
+            invitation.Property(x => x.UsedAt).HasColumnName("used_at");
+            invitation.Property(x => x.CreatedAt).HasColumnName("created_at");
+
+            invitation.HasOne(x => x.Book).WithMany().HasForeignKey(x => x.BookId);
+            invitation.HasOne(x => x.User).WithMany().HasForeignKey(x => x.OwnerId);
         }
     }
 }
