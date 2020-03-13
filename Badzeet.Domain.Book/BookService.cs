@@ -6,20 +6,29 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Domain.Book
 {
-    public class BudgetService
+    public class BookService
     {
         private readonly ITransactionRepository transactionRepository;
         private readonly IBookRepository bookRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUserBookRepository userBookRepository;
 
-        public BudgetService(
+        public BookService(
             ITransactionRepository transactionRepository,
             IBookRepository bookRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            IUserBookRepository userBookRepository)
         {
             this.transactionRepository = transactionRepository;
             this.bookRepository = bookRepository;
             this.categoryRepository = categoryRepository;
+            this.userBookRepository = userBookRepository;
+        }
+
+        public async Task CreateBook(Guid userId, string username)
+        {
+            var book = await this.bookRepository.CreateBook(1);
+            var userBook = await userBookRepository.Create(userId, username, book.Id);
         }
 
         public async Task<DateInterval> GetLatestBudget(long bookId)
@@ -32,7 +41,18 @@ namespace Badzeet.Domain.Book
             return GetBudgetInterval(book, transaction.Date);
         }
 
-        private static DateInterval GetBudgetInterval(Model.Book book, DateTime date)
+        public async Task<IEnumerable<CategoryTuple>> GetBudget(long bookId, DateInterval interval)
+        {
+            var categories = await categoryRepository.GetCategories(bookId);
+            var transactions = await transactionRepository.GetTransactions(bookId, interval);
+
+            var categoryDict = categories.ToDictionary(k => k.Id, v => v.Name);
+            return transactions
+                .GroupBy(k => k.CategoryId, v => v.Amount)
+                .Select(x => new CategoryTuple(x.Key ?? default, GetCategoryName(categoryDict, x.Key), x.Sum()));
+        }
+
+        private DateInterval GetBudgetInterval(Model.Book book, DateTime date)
         {
             DateTime startDate;
             if (date.Day >= book.FirstDayOfTheBudget)
@@ -47,17 +67,6 @@ namespace Badzeet.Domain.Book
             var endDate = startDate.AddMonths(1).AddDays(-1);
 
             return new DateInterval(startDate, endDate);
-        }
-
-        public async Task<IEnumerable<CategoryTuple>> GetBudget(long bookId, DateInterval interval)
-        {
-            var categories = await categoryRepository.GetCategories(bookId);
-            var transactions = await transactionRepository.GetTransactions(bookId, interval);
-
-            var categoryDict = categories.ToDictionary(k => k.Id, v => v.Name);
-            return transactions
-                .GroupBy(k => k.CategoryId, v => v.Amount)
-                .Select(x => new CategoryTuple(x.Key ?? default, GetCategoryName(categoryDict, x.Key), x.Sum()));
         }
 
         private string GetCategoryName(IDictionary<long, string> categories, long? id)

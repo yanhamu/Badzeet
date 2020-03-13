@@ -37,6 +37,13 @@ namespace Badzeet.DataAccess.Book
             userBook.Property(x => x.UserId).HasColumnName("user_id");
             userBook.Property(x => x.BookId).HasColumnName("book_id");
             userBook.Property(x => x.Nickname).HasColumnName("nickname");
+
+            userBook.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
+
+            var user = modelBuilder.Entity<User>();
+            user.ToTable("users");
+            user.HasKey(x => x.Id);
+            user.Property(x => x.Id).HasColumnName("id");
         }
     }
 }

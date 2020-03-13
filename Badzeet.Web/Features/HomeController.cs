@@ -9,9 +9,9 @@ namespace Badzeet.Web.Features
 {
     public class HomeController : Controller
     {
-        private readonly BudgetService budgetService;
+        private readonly BookService budgetService;
 
-        public HomeController(BudgetService budgetService)
+        public HomeController(BookService budgetService)
         {
             this.budgetService = budgetService;
         }

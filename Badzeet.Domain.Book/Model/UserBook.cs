@@ -6,6 +6,7 @@ namespace Badzeet.Domain.Book.Model
     {
         public Guid UserId { get; set; }
         public long BookId { get; set; }
+        public User User { get; set; }
         public Book Book { get; set; }
         public string Nickname { get; set; }
     }

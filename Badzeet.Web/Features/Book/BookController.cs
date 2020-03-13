@@ -18,14 +18,14 @@ namespace Badzeet.Web.Features.Book
         private readonly ITransactionRepository transactionRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
-        private readonly BudgetService budgetService;
+        private readonly BookService budgetService;
 
         public BookController(
             TransactionsService transactionsService,
             ITransactionRepository transactionRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
-            BudgetService budgetService)
+            BookService budgetService)
         {
             this.transactionsService = transactionsService;
             this.transactionRepository = transactionRepository;
@@ -114,7 +114,8 @@ namespace Badzeet.Web.Features.Book
                     Amount = model.Transaction.Amount,
                     Date = model.Transaction.Date,
                     Description = model.Transaction.Description,
-                    CategoryId = model.Transaction.CategoryId
+                    CategoryId = model.Transaction.CategoryId,
+                    UserId = model.Transaction.UserId
                 });
             await transactionRepository.Save();
 

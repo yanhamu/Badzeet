@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Badzeet.Domain.Book.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Configuration
@@ -6,22 +9,24 @@ namespace Badzeet.Web.Configuration
     public class DefaultAccountMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IUserAccountService service;
 
-        public DefaultAccountMiddleware(RequestDelegate next, IUserAccountService service)
+        public DefaultAccountMiddleware(RequestDelegate next)
         {
             this.next = next;
-            this.service = service;
         }
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IUserAccountService service)
         {
             if (context.User.Identity.IsAuthenticated == true)
             {
-                var accountId = service.GetAccountId(context.User.Identity.Name);
-                context.Items["da"] = accountId;
+                var claim = context.User.Claims.FirstOrDefault(c => c.Type == "Id");
+
+                var userId = Guid.Parse(claim.Value);
+
+                var bookId = await service.GetBookId(userId);
+                context.Items["da"] = bookId;
 
                 if (context.Request.Cookies.ContainsKey("da") == false)
-                    context.Response.Cookies.Append("da", accountId.ToString());
+                    context.Response.Cookies.Append("da", bookId.ToString());
             }
 
             await next(context);
@@ -30,14 +35,21 @@ namespace Badzeet.Web.Configuration
 
     public interface IUserAccountService
     {
-        long GetAccountId(string name);
+        public Task<long> GetBookId(Guid userId);
     }
 
     public class UserAccountService : IUserAccountService
     {
-        public long GetAccountId(string name)
+        private readonly IUserBookRepository userBookRepository;
+
+        public UserAccountService(IUserBookRepository userBookRepository)
         {
-            return 1;
+            this.userBookRepository = userBookRepository;
+        }
+
+        public async Task<long> GetBookId(Guid userId)
+        {
+            return (await userBookRepository.GetBooks(userId)).First().BookId;
         }
     }
 }
