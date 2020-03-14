@@ -12,14 +12,14 @@
         <h2>Login</h2>
         <partial name="/Views/Account/_Login.cshtml" />
         <text>
-            Wanna use it? Register <a asp-controller="Account" asp-action="Register">here</a>. Its <b>free</b>!
+            Want to use it? Register <a asp-controller="Account" asp-action="Register">here</a>. It's <b>free</b>!
         </text>
 
         <p class="mt-5">
             For demo login click <a id="myLink" href="/" onclick="demoLogIn">here</a>
         </p>
         <p>or</p>
-        <p>log in using <code>bob/bob</code></p>
+        <p>login using <code>bob/bob</code></p>
     }
 </div>
 @if (Context.User.Identity.IsAuthenticated == false)

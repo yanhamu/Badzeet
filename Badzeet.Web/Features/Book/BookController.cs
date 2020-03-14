@@ -122,6 +122,13 @@ namespace Badzeet.Web.Features.Book
 
             return LocalRedirect("/Book/List");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveRecord([FromForm(Name = "Transaction.Id")]long id)
+        {
+            await transactionRepository.Remove(id);
+            return LocalRedirect("/Book/List");
+        }
     }
 
     public class EditModel

@@ -11,5 +11,6 @@ namespace Badzeet.Domain.Book.Interfaces
         Task Save();
         Transaction Add(Transaction transaction);
         Task<Transaction> GetLastTransaction(long bookId);
+        Task<Transaction> Remove(long id);
     }
 }

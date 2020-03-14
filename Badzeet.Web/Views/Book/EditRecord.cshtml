@@ -60,8 +60,26 @@
     </div>
 </form>
 
-<div class="form-group row">
-    <div class="offset-sm-2 col-sm-10">
-        <button type="submit" class="btn btn-danger form-control">Remove</button>
+<form method="post" asp-controller="Book" asp-action="RemoveRecord">
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <input asp-for="Transaction.Id" type="hidden" />
+            <button type="submit" class="btn btn-danger form-control" id="removeBtn">Remove</button>
+        </div>
     </div>
-</div>
+</form>
+
+<script type="text/javascript">
+    function registerEvent() {
+        var link = document.getElementById("removeBtn");
+        link.addEventListener("click", function (event) {
+            var result = confirm("Are you sure?");
+            if (result == false) {
+                event.preventDefault();
+
+            }
+            //form.submit();
+        });
+    }
+    window.onload = registerEvent();
+</script>

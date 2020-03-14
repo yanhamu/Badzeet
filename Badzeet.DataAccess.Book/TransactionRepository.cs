@@ -48,6 +48,14 @@ namespace Badzeet.DataAccess.Book
                 .ToListAsync();
         }
 
+        public async Task<Transaction> Remove(long id)
+        {
+            var transaction = await context.Set<Transaction>().FindAsync(id);
+            context.Set<Transaction>().Remove(transaction);
+            await context.SaveChangesAsync();
+            return transaction;
+        }
+
         public Task Save()
         {
             return context.SaveChangesAsync();
