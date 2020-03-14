@@ -44,6 +44,19 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="d-block d-sm-none row">
+                    <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Book" asp-action="List">List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Book" asp-action="NewRecord">New</a>
+                        </li>
+                    </ul>
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
