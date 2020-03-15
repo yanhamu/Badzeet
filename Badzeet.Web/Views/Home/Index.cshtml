@@ -44,18 +44,42 @@
 else
 {
     <p>@Model.Interval.From.ToString("yyyy-MM-dd") - @Model.Interval.To.ToString("yyyy-MM-dd")</p>
-    
+
     <table class="table table-sm">
+        <tr>
+            <th></th>
+            @foreach (var u in Model.Users)
+            {
+                <th>@u.Nickname</th>
+            }
+            <th></th>
+        </tr>
         @foreach (var category in Model.Categories)
         {
             <tr>
                 <td>@category.Name</td>
-                <td>@category.Amount</td>
+                @foreach (var user in Model.Users)
+                {
+                    <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Where(x => x.CategoryId == category.Id).Sum(x => x.Amount)</td>
+                }
+                <td>@Model.Transactions.Where(x => x.CategoryId == category.Id).Sum(x => x.Amount)</td>
             </tr>
         }
         <tr>
+            <td>not categorized</td>
+            @foreach (var user in Model.Users)
+            {
+                <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Where(x => x.CategoryId == null).Sum(x => x.Amount)</td>
+            }
+            <td>@Model.Transactions.Where(x => x.CategoryId == null).Sum(x => x.Amount)</td>
+        </tr>
+        <tr>
             <td>Sum</td>
-            <td><b>@Model.Categories.Sum(x => x.Amount)</b></td>
+            @foreach (var user in Model.Users)
+            {
+                <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Sum(x => x.Amount)</td>
+            }
+            <td><b>@Model.Transactions.Sum(x => x.Amount)</b></td>
         </tr>
     </table>
 }

@@ -1,7 +1,5 @@
 ﻿using Badzeet.Domain.Book.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Badzeet.Domain.Book
@@ -10,16 +8,13 @@ namespace Badzeet.Domain.Book
     {
         private readonly ITransactionRepository transactionRepository;
         private readonly IBookRepository bookRepository;
-        private readonly ICategoryRepository categoryRepository;
 
         public BookService(
             ITransactionRepository transactionRepository,
-            IBookRepository bookRepository,
-            ICategoryRepository categoryRepository)
+            IBookRepository bookRepository)
         {
             this.transactionRepository = transactionRepository;
             this.bookRepository = bookRepository;
-            this.categoryRepository = categoryRepository;
         }
 
         public async Task<DateInterval> GetLatestBudget(long bookId)
@@ -30,17 +25,6 @@ namespace Badzeet.Domain.Book
                 return default;
 
             return GetBudgetInterval(book, transaction.Date);
-        }
-
-        public async Task<IEnumerable<CategoryTuple>> GetBudget(long bookId, DateInterval interval)
-        {
-            var categories = await categoryRepository.GetCategories(bookId);
-            var transactions = await transactionRepository.GetTransactions(bookId, interval);
-
-            var categoryDict = categories.ToDictionary(k => k.Id, v => v.Name);
-            return transactions
-                .GroupBy(k => k.CategoryId, v => v.Amount)
-                .Select(x => new CategoryTuple(x.Key ?? default, GetCategoryName(categoryDict, x.Key), x.Sum()));
         }
 
         private DateInterval GetBudgetInterval(Model.Book book, DateTime date)
@@ -60,28 +44,6 @@ namespace Badzeet.Domain.Book
             return new DateInterval(startDate, endDate);
         }
 
-        private string GetCategoryName(IDictionary<long, string> categories, long? id)
-        {
-            if (id.HasValue == false)
-                return string.Empty;
-
-            return categories.ContainsKey(id.Value)
-                ? categories[id.Value]
-                : string.Empty;
-        }
     }
 
-    public class CategoryTuple
-    {
-        public CategoryTuple(long id, string name, decimal amount)
-        {
-            Id = id;
-            Name = name;
-            Amount = amount;
-        }
-
-        public long Id { get; }
-        public string Name { get; }
-        public decimal Amount { get; }
-    }
 }
