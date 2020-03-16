@@ -43,8 +43,15 @@
 }
 else
 {
-    <label>@Model.Interval.From.ToString("yyyy-MM-dd") - @Model.Interval.To.ToString("yyyy-MM-dd")</label>
-
+    <p>
+        @Model.Interval.From.ToString("m") - @Model.Interval.To.ToString("m")
+        @if (DateTime.Now <= Model.Interval.To)
+        {
+            <span class="font-weight-light badge badge-primary">
+                @((int)(Model.Interval.To - DateTime.Now).TotalDays) / @((Model.Interval.To - Model.Interval.From).TotalDays) days
+            </span>
+        }
+    </p>
     <table class="table table-sm table-striped">
         <tr>
             <th></th>
