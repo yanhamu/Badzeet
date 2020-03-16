@@ -66,7 +66,7 @@ namespace Badzeet.Web.Features.Book
             var transaction = await transactionRepository.GetTransaction(id);
             var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
             var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
-            var model = new EditModel()
+            var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
                 Transaction = new TransactionModel(transaction),
@@ -76,8 +76,23 @@ namespace Badzeet.Web.Features.Book
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SplitRecord(long id)
+        {
+            var transaction = await transactionRepository.GetTransaction(id);
+            var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
+            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
+            var model = new TransactionViewModel()
+            {
+                Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
+                Transaction = new TransactionModel(transaction),
+                Users = users
+            };
+            return View(model);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> EditRecord(EditModel model)
+        public async Task<IActionResult> EditRecord(TransactionViewModel model)
         {
             await transactionsService.Save(new Transaction(
                 model.Transaction.Id,
@@ -94,7 +109,7 @@ namespace Badzeet.Web.Features.Book
         {
             var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
             var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
-            var model = new EditModel()
+            var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
                 Users = users
@@ -106,7 +121,7 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewRecord(EditModel model)
+        public async Task<IActionResult> NewRecord(TransactionViewModel model)
         {
             transactionRepository.Add(
                 new Transaction()
@@ -131,7 +146,7 @@ namespace Badzeet.Web.Features.Book
         }
     }
 
-    public class EditModel
+    public class TransactionViewModel
     {
         public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public TransactionModel Transaction { get; set; } = new TransactionModel();

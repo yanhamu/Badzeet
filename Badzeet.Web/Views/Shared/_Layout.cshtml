@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand navbar-toggleable navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Badzeet</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,12 +23,10 @@
                         @if (@User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Book" asp-action="List">Book list</a>
+                                <a class="nav-link text-primary" asp-controller="Book" asp-action="List">List</a>
                             </li>
                             <li class="nav-item">
-                                <form class="form-inline" method="get" asp-controller="Book" asp-action="NewRecord">
-                                    <button class="btn btn-outline-danger" type="submit">Record</button>
-                                </form>
+                                    <a class="nav-link text-danger" asp-controller="Book" asp-action="NewRecord">New</a>
                             </li>
                         }
                     </ul>
@@ -44,19 +42,6 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="d-block d-sm-none row">
-                    <ul class="nav nav-pills justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Book" asp-action="List">List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Book" asp-action="NewRecord">New</a>
-                        </li>
-                    </ul>
-                </div>
-            }
             @RenderBody()
         </main>
     </div>
