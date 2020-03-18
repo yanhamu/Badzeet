@@ -1,0 +1,1 @@
+﻿alter table book.transactions alter column category_id bigint not null

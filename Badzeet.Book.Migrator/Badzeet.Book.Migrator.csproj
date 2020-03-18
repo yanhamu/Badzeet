@@ -25,6 +25,8 @@
     <None Remove="Scripts\0050_Alter_Transactions.sql" />
     <None Remove="Scripts\0053_Update_Transactions.sql" />
     <None Remove="Scripts\0055_Create_Invites.sql" />
+    <None Remove="Scripts\0058_Insert_Categories.sql" />
+    <None Remove="Scripts\0060_Alter_Transactions.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +61,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0060_Alter_Transactions.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0058_Insert_Categories.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0055_Create_Invites.sql">

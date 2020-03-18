@@ -7,7 +7,7 @@ namespace Badzeet.Web.Features.Book
     {
         public TransactionModel() { }
 
-        public TransactionModel(long id, DateTime date, string description, decimal amount, long? categoryId, Guid userId)
+        public TransactionModel(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId)
         {
             Id = id;
             Date = date;
@@ -31,7 +31,7 @@ namespace Badzeet.Web.Features.Book
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public long? CategoryId { get; set; }
+        public long CategoryId { get; set; }
         public Guid UserId { get; set; }
     }
 }

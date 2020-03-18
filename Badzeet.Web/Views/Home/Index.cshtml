@@ -1,4 +1,4 @@
-﻿@model Badzeet.Web.Features.DashboardViewModel
+﻿@model Badzeet.Web.Features.Home.DashboardViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -52,7 +52,7 @@ else
             </span>
         }
     </p>
-    <table class="table table-sm table-striped">
+    <table class="table table-sm">
         <tr>
             <th></th>
             @foreach (var u in Model.Users)
@@ -72,19 +72,11 @@ else
                 <td><b>@Model.Transactions.Where(x => x.CategoryId == category.Id).Sum(x => x.Amount)</b></td>
             </tr>
         }
-        <tr>
-            <td><b>not categorized</b></td>
+        <tr class="table-primary">
+            <td><b>Sum</b></td>
             @foreach (var user in Model.Users)
             {
-                <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Where(x => x.CategoryId == null).Sum(x => x.Amount)</td>
-            }
-            <td><b>@Model.Transactions.Where(x => x.CategoryId == null).Sum(x => x.Amount)</b></td>
-        </tr>
-        <tr>
-            <td>Sum</td>
-            @foreach (var user in Model.Users)
-            {
-                <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Sum(x => x.Amount)</td>
+                <td><b>@Model.Transactions.Where(x => x.UserId == user.UserId).Sum(x => x.Amount)</b></td>
             }
             <td><b>@Model.Transactions.Sum(x => x.Amount)</b></td>
         </tr>

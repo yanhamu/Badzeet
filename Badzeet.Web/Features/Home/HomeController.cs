@@ -6,9 +6,10 @@ using Badzeet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Badzeet.Web.Features
+namespace Badzeet.Web.Features.Home
 {
     public class HomeController : Controller
     {
@@ -34,7 +35,7 @@ namespace Badzeet.Web.Features
             {
                 var bookId = HttpContext.GetBookId();
                 var interval = await budgetService.GetLatestBudget(bookId);
-                var categories = await categoryRepository.GetCategories(bookId);
+                var categories = (await categoryRepository.GetCategories(bookId)).Select(c => new CategoryViewModel(c.Id, c.Name));
                 var transactions = await transactionRepository.GetTransactions(bookId, interval);
                 var users = await userBookRepository.GetUsers(bookId);
 
@@ -58,16 +59,28 @@ namespace Badzeet.Web.Features
         }
     }
 
+    public class CategoryViewModel
+    {
+        public CategoryViewModel(long id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public long Id { get; }
+        public string Name { get; }
+    }
+
     public class DashboardViewModel
     {
         public DateInterval Interval { get; set; }
-        public List<Category> Categories { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
         public IEnumerable<Transaction> Transactions { get; set; }
         public IEnumerable<UserBook> Users { get; set; }
 
         public DashboardViewModel(
             DateInterval interval,
-            List<Category> categories,
+            IEnumerable<CategoryViewModel> categories,
             IEnumerable<Transaction> transactions,
             IEnumerable<UserBook> users)
         {

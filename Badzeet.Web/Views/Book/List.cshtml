@@ -23,7 +23,7 @@
             <td></td>
             <td>@t.Description</td>
             <td>@t.Amount</td>
-            <td>@(t.CategoryId.HasValue ? categories[t.CategoryId.Value] : "")</td>
+            <td>@(categories[t.CategoryId])</td>
             <td>@(Model.Users.Single(u => u.UserId == t.UserId).Nickname)</td>
             <td>
                 <a asp-controller="Book" asp-action="EditRecord" asp-route-id="@t.Id">

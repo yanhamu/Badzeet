@@ -16,6 +16,12 @@ namespace Badzeet.DataAccess.Book
             this.dbContext = dbContext;
         }
 
+        public Task Create(long bookId, string name)
+        {
+            _ = dbContext.Set<Category>().Add(new Category() { Name = name, BookId = bookId });
+            return dbContext.SaveChangesAsync();
+        }
+
         public Task<List<Category>> GetCategories(long bookId)
         {
             return dbContext.Set<Category>()

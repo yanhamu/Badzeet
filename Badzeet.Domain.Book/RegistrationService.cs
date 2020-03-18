@@ -8,6 +8,7 @@ namespace Badzeet.Domain.Book
     {
         private readonly IUserBookRepository userBookRepository;
         private readonly IUserRepository userRepository;
+        private readonly ICategoryRepository categoryRepository;
         private readonly IInvitationRepository invitationRepository;
         private readonly IBookRepository bookRepository;
 
@@ -15,12 +16,14 @@ namespace Badzeet.Domain.Book
             IUserBookRepository userBookRepository, 
             IInvitationRepository invitationRepository,
             IBookRepository bookRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ICategoryRepository categoryRepository)
         {
             this.bookRepository = bookRepository;
             this.invitationRepository = invitationRepository;
             this.userBookRepository = userBookRepository;
             this.userRepository = userRepository;
+            this.categoryRepository = categoryRepository;
         }
 
         public async Task Register(Guid userId, string username, Guid? invitationId)
@@ -38,7 +41,8 @@ namespace Badzeet.Domain.Book
             else
             {
                 var book = await bookRepository.CreateBook(1);
-                var userBook = await userBookRepository.Create(userId, username, book.Id);
+                _ = await userBookRepository.Create(userId, username, book.Id);
+                await categoryRepository.Create(book.Id, "unspecified");
             }
         }
     }
