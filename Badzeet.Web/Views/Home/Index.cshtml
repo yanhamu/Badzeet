@@ -48,7 +48,8 @@ else
         @if (DateTime.Now <= Model.Interval.To)
         {
             <span class="font-weight-light badge badge-primary">
-                @((int)(Model.Interval.To - DateTime.Now).TotalDays) / @((Model.Interval.To - Model.Interval.From).TotalDays) days
+                @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays; }
+                @(days) @(days > 1 ? "days" : "day") ahead
             </span>
         }
     </p>
