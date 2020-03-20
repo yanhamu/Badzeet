@@ -43,7 +43,7 @@
 }
 else
 {
-    <p>
+    <p class="text-center">
         @Model.Interval.From.ToString("m") - @Model.Interval.To.ToString("m")
         @if (DateTime.Now <= Model.Interval.To)
         {
@@ -58,7 +58,7 @@ else
             <th></th>
             @foreach (var u in Model.Users)
             {
-                <th>@u.Nickname</th>
+                <th>@u.Value.Nickname</th>
             }
             <th>total</th>
         </tr>
@@ -66,20 +66,20 @@ else
         {
             <tr>
                 <td><b>@category.Name</b></td>
-                @foreach (var user in Model.Users)
+                @foreach (var userId in Model.Users.Keys)
                 {
-                    <td>@Model.Transactions.Where(x => x.UserId == user.UserId).Where(x => x.CategoryId == category.Id).Sum(x => x.Amount)</td>
+                    <td>@category.PerUserSum[userId].ToString("F0")</td>
                 }
-                <td><b>@Model.Transactions.Where(x => x.CategoryId == category.Id).Sum(x => x.Amount)</b></td>
+                <td><b>@category.Sum.ToString("F0")</b></td>
             </tr>
         }
         <tr class="table-primary">
             <td><b>Sum</b></td>
             @foreach (var user in Model.Users)
             {
-                <td><b>@Model.Transactions.Where(x => x.UserId == user.UserId).Sum(x => x.Amount)</b></td>
+                <td><b>@user.Value.Total.ToString("F0")</b></td>
             }
-            <td><b>@Model.Transactions.Sum(x => x.Amount)</b></td>
+            <td><b>@Model.Total.ToString("F0")</b></td>
         </tr>
     </table>
 }

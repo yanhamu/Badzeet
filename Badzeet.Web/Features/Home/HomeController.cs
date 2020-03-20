@@ -1,9 +1,9 @@
 ﻿using Badzeet.Domain.Book;
 using Badzeet.Domain.Book.Interfaces;
-using Badzeet.Domain.Book.Model;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -35,11 +35,45 @@ namespace Badzeet.Web.Features.Home
             {
                 var bookId = HttpContext.GetBookId();
                 var interval = await budgetService.GetLatestBudget(bookId);
-                var categories = (await categoryRepository.GetCategories(bookId)).Select(c => new CategoryViewModel(c.Id, c.Name));
+                var allCategories = await categoryRepository.GetCategories(bookId);
                 var transactions = await transactionRepository.GetTransactions(bookId, interval);
-                var users = await userBookRepository.GetUsers(bookId);
+                var allUsers = await userBookRepository.GetUsers(bookId);
 
-                return View(new DashboardViewModel(interval, categories, transactions, users));
+                var categories = new List<CategoryViewModel>();
+                var total = 0m;
+                var users = new Dictionary<Guid, UserViewModel>();
+
+                foreach (var category in allCategories)
+                {
+                    var categoryTransactions = transactions.Where(x => x.CategoryId == category.Id).ToArray();
+                    var totalSum = 0m;
+                    var perUserSum = new Dictionary<Guid, decimal>();
+                    foreach (var user in allUsers)
+                    {
+                        var sum = categoryTransactions
+                            .Where(x => x.UserId == user.UserId)
+                            .Sum(x => x.Amount);
+
+                        perUserSum.Add(user.UserId, sum);
+
+                        totalSum += sum;
+                        total += sum;
+
+                        if (users.ContainsKey(user.UserId) == false)
+                            users.Add(user.UserId, new UserViewModel(user.UserId, user.Nickname, 0));
+
+                        users[user.UserId].Total += sum;
+                    }
+                    var c = new CategoryViewModel(category.Id, category.Name, perUserSum, totalSum);
+                    categories.Add(c);
+                }
+
+                var model = new DashboardViewModel(
+                    interval,
+                    categories,
+                    users,
+                    total);
+                return View(model);
             }
             else
             {
@@ -61,33 +95,56 @@ namespace Badzeet.Web.Features.Home
 
     public class CategoryViewModel
     {
-        public CategoryViewModel(long id, string name)
+        public CategoryViewModel(
+            long id,
+            string name,
+            IDictionary<Guid, decimal> perUserSum,
+            decimal sum)
         {
             Id = id;
             Name = name;
+            PerUserSum = perUserSum;
+            Sum = sum;
         }
 
         public long Id { get; }
         public string Name { get; }
+
+        public decimal Sum { get; }
+        public IDictionary<Guid, decimal> PerUserSum { get; }
+    }
+
+    public class UserViewModel
+    {
+        public UserViewModel(Guid id, string nickname, decimal total)
+        {
+            Id = id;
+            Nickname = nickname;
+            Total = total;
+        }
+
+        public Guid Id { get; }
+        public string Nickname { get; }
+        public decimal Total { get; set; }
     }
 
     public class DashboardViewModel
     {
         public DateInterval Interval { get; set; }
         public IEnumerable<CategoryViewModel> Categories { get; set; }
-        public IEnumerable<Transaction> Transactions { get; set; }
-        public IEnumerable<UserBook> Users { get; set; }
+        public IDictionary<Guid, UserViewModel> Users { get; set; }
+        public decimal Total { get; set; }
 
         public DashboardViewModel(
             DateInterval interval,
             IEnumerable<CategoryViewModel> categories,
-            IEnumerable<Transaction> transactions,
-            IEnumerable<UserBook> users)
+            IDictionary<Guid, UserViewModel> users,
+            decimal total)
         {
             this.Interval = interval;
             this.Categories = categories;
-            this.Transactions = transactions;
             this.Users = users;
+            this.Total = total;
         }
     }
 }
