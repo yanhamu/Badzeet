@@ -4,26 +4,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Badzeet</h1>
 
     @if (Context.User.Identity.IsAuthenticated == false)
     {
+    <h1 class="display-4">Badzeet</h1>
+    <h2>Login</h2>
+    <partial name="/Views/Account/_Login.cshtml" />
+    <text>
+        Want to use it? Register <a asp-controller="Account" asp-action="Register">here</a>. It's <b>free</b>!
+    </text>
 
-        <h2>Login</h2>
-        <partial name="/Views/Account/_Login.cshtml" />
-        <text>
-            Want to use it? Register <a asp-controller="Account" asp-action="Register">here</a>. It's <b>free</b>!
-        </text>
-
-        <p class="mt-5">
-            For demo login click <a id="myLink" href="/" onclick="demoLogIn">here</a>
-        </p>
-        <p>or</p>
-        <p>login using <code>bob/bob</code></p>
-    }
-</div>
-@if (Context.User.Identity.IsAuthenticated == false)
-{
+    <p class="mt-5">
+        For demo login click <a id="myLink" href="/" onclick="demoLogIn">here</a>
+    </p>
+    <p>or</p>
+    <p>login using <code>bob/bob</code></p>
     <script type="text/javascript">
         function registerEvent() {
             var link = document.getElementById("myLink");
@@ -40,46 +35,49 @@
         }
         window.onload = registerEvent();
     </script>
-}
-else
+    }
+</div>
+@if (Context.User.Identity.IsAuthenticated)
 {
-    <p class="text-center">
+<div class="text-center">
+    <h2>
         @Model.Interval.From.ToString("m") - @Model.Interval.To.ToString("m")
-        @if (DateTime.Now <= Model.Interval.To)
-        {
-            <span class="font-weight-light badge badge-primary">
-                @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays; }
-                @(days) @(days > 1 ? "days" : "day") ahead
-            </span>
-        }
-    </p>
-    <table class="table table-sm">
-        <tr>
-            <th></th>
-            @foreach (var u in Model.Users)
+    </h2>
+</div>
+@if (DateTime.Now <= Model.Interval.To)
+{
+<div class="text-center">
+    @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays; }
+    @(days) @(days > 1 ? "days" : "day") ahead
+</div>
+}
+<table class="table table-sm">
+    <tr>
+        <th></th>
+        @foreach (var u in Model.Users)
             {
-                <th>@u.Value.Nickname</th>
+        <th>@u.Value.Nickname</th>
             }
-            <th>total</th>
-        </tr>
-        @foreach (var category in Model.Categories)
+        <th>total</th>
+    </tr>
+    @foreach (var category in Model.Categories)
         {
-            <tr>
-                <td><b>@category.Name</b></td>
-                @foreach (var userId in Model.Users.Keys)
+    <tr>
+        <td><b>@category.Name</b></td>
+        @foreach (var userId in Model.Users.Keys)
                 {
-                    <td>@category.PerUserSum[userId].ToString("F0")</td>
+        <td>@category.PerUserSum[userId].ToString("F0")</td>
                 }
-                <td><b>@category.Sum.ToString("F0")</b></td>
-            </tr>
+        <td><b>@category.Sum.ToString("F0")</b></td>
+    </tr>
         }
-        <tr class="table-primary">
-            <td><b>Sum</b></td>
-            @foreach (var user in Model.Users)
+    <tr class="table-primary">
+        <td><b>Sum</b></td>
+        @foreach (var user in Model.Users)
             {
-                <td><b>@user.Value.Total.ToString("F0")</b></td>
+        <td><b>@user.Value.Total.ToString("F0")</b></td>
             }
-            <td><b>@Model.Total.ToString("F0")</b></td>
-        </tr>
-    </table>
+        <td><b>@Model.Total.ToString("F0")</b></td>
+    </tr>
+</table>
 }
