@@ -32,6 +32,8 @@ namespace Badzeet.DataAccess.Book
         {
             return dbContext.Set<Category>()
                 .Where(x => x.BookId == bookId)
+                .OrderBy(x => x.Order)
+                .ThenBy(x => x.Name)
                 .ToListAsync();
         }
 

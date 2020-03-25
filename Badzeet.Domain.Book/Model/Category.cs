@@ -6,5 +6,6 @@
         public long BookId { get; set; }
         public Book Book { get; set; }
         public string Name { get; set; }
+        public int Order { get; set; }
     }
 }

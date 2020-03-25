@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -27,6 +27,7 @@
     <None Remove="Scripts\0055_Create_Invites.sql" />
     <None Remove="Scripts\0058_Insert_Categories.sql" />
     <None Remove="Scripts\0060_Alter_Transactions.sql" />
+    <None Remove="Scripts\0063_Alter_Category.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +62,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0063_Alter_Category.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0060_Alter_Transactions.sql">

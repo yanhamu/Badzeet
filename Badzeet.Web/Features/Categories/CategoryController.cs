@@ -21,16 +21,16 @@ namespace Badzeet.Web.Features.Categories
         public async Task<IActionResult> Index(long bookId)
         {
             var categories = await categoryRepository.GetCategories(bookId);
-            var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList();
+            var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Order = x.Order }).ToList();
             var model = new CategoryListViewModel() { Categories = c };
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long id, long bookId)
+        public async Task<IActionResult> Edit(long id)
         {
             var category = await categoryRepository.Get(id);
-            var model = new CategoryViewModel() { Id = category.Id, Name = category.Name };
+            var model = new CategoryViewModel() { Id = category.Id, Name = category.Name, Order = category.Order };
             return View(model);
         }
 
@@ -39,6 +39,7 @@ namespace Badzeet.Web.Features.Categories
         {
             var category = await categoryRepository.Get(model.Id);
             category.Name = model.Name;
+            category.Order = model.Order;
             await categoryRepository.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -52,6 +53,7 @@ namespace Badzeet.Web.Features.Categories
         {
             public long Id { get; set; }
             public string Name { get; set; }
+            public int Order { get; set; }
         }
     }
 }
