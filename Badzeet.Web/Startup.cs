@@ -4,6 +4,7 @@ using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Badzeet.Service.User;
 using Badzeet.Web.Configuration;
+using Badzeet.Web.Configuration.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,7 +47,10 @@ namespace Badzeet.Web
             services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(x =>
+            {
+                x.Filters.Add<BookIdFilter>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

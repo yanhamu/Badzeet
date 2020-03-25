@@ -8,5 +8,7 @@ namespace Badzeet.Domain.Book.Interfaces
     {
         Task<List<Category>> GetCategories(long bookId);
         Task Create(long bookId, string name);
+        Task<Category> Get(long categoryId);
+        Task Save();
     }
 }

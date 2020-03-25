@@ -22,11 +22,22 @@ namespace Badzeet.DataAccess.Book
             return dbContext.SaveChangesAsync();
         }
 
+        public async Task<Category> Get(long categoryId)
+        {
+            var category = await dbContext.Set<Category>().FindAsync(categoryId);
+            return category;
+        }
+
         public Task<List<Category>> GetCategories(long bookId)
         {
             return dbContext.Set<Category>()
                 .Where(x => x.BookId == bookId)
                 .ToListAsync();
+        }
+
+        public Task Save()
+        {
+            return dbContext.SaveChangesAsync();
         }
     }
 }

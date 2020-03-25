@@ -1,7 +1,6 @@
 ﻿using Badzeet.Domain.Book;
 using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
-using Badzeet.Web.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -41,10 +40,9 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(long bookId)
         {
-            var bookId = this.HttpContext.GetBookId();
-            var interval = await budgetService.GetLatestBudget(HttpContext.GetBookId());
+            var interval = await budgetService.GetLatestBudget(bookId);
 
             var transactions = await transactionsService.GetTransactions(bookId, interval);
             var categories = await categoryRepository.GetCategories(bookId);
@@ -61,11 +59,11 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRecord(long id)
+        public async Task<IActionResult> EditRecord(long id, long bookId)
         {
             var transaction = await transactionRepository.GetTransaction(id);
-            var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
-            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
+            var categories = await categoryRepository.GetCategories(bookId);
+            var users = await userBookRepository.GetUsers(bookId);
             var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -77,11 +75,11 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> SplitRecord(long id)
+        public async Task<IActionResult> SplitRecord(long id, long bookId)
         {
             var transaction = await transactionRepository.GetTransaction(id);
-            var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
-            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
+            var categories = await categoryRepository.GetCategories(bookId);
+            var users = await userBookRepository.GetUsers(bookId);
             var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -105,10 +103,10 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> NewRecord()
+        public async Task<IActionResult> NewRecord(long bookId)
         {
-            var categories = await categoryRepository.GetCategories(this.HttpContext.GetBookId());
-            var users = await userBookRepository.GetUsers(this.HttpContext.GetBookId());
+            var categories = await categoryRepository.GetCategories(bookId);
+            var users = await userBookRepository.GetUsers(bookId);
             var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -121,12 +119,12 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewRecord(TransactionViewModel model)
+        public async Task<IActionResult> NewRecord(TransactionViewModel model, long bookId)
         {
             transactionRepository.Add(
                 new Transaction()
                 {
-                    BookId = HttpContext.GetBookId(),
+                    BookId = bookId,
                     Amount = model.Transaction.Amount,
                     Date = model.Transaction.Date,
                     Description = model.Transaction.Description,

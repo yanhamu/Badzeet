@@ -1,7 +1,7 @@
 ﻿@model Badzeet.Web.Features.Book.TransactionsModel
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Badzeet List";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
     var date = DateTime.MinValue;
