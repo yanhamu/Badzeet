@@ -34,9 +34,9 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(long bookId)
+        public async Task<IActionResult> Index(long bookId, int budgetId)
         {
-            var interval = await budgetService.GetLatestBudget(bookId);
+            var interval = await budgetService.GetBudgetByOffset(bookId, budgetId);
             var allCategories = await categoryRepository.GetCategories(bookId);
             var transactions = await transactionRepository.GetTransactions(bookId, interval);
             var allUsers = await userBookRepository.GetUsers(bookId);
@@ -71,6 +71,7 @@ namespace Badzeet.Web.Features.Book
             }
 
             var model = new DashboardViewModel(
+                budgetId,
                 interval,
                 categories,
                 users,
@@ -79,9 +80,9 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long bookId)
+        public async Task<IActionResult> List(long bookId, int budgetId)
         {
-            var interval = await budgetService.GetLatestBudget(bookId);
+            var interval = await budgetService.GetBudgetByOffset(bookId, budgetId);//.GetLatestBudget(bookId);
 
             var transactions = await transactionsService.GetTransactions(bookId, interval);
             var categories = await categoryRepository.GetCategories(bookId);
@@ -227,12 +228,14 @@ namespace Badzeet.Web.Features.Book
 
     public class DashboardViewModel
     {
+        public int BudgetId { get; set; }
         public DateInterval Interval { get; set; }
         public IEnumerable<CategoryViewModel> Categories { get; set; }
         public IDictionary<Guid, UserViewModel> Users { get; set; }
         public decimal Total { get; set; }
 
         public DashboardViewModel(
+            int budgetId,
             DateInterval interval,
             IEnumerable<CategoryViewModel> categories,
             IDictionary<Guid, UserViewModel> users,
@@ -242,6 +245,7 @@ namespace Badzeet.Web.Features.Book
             this.Categories = categories;
             this.Users = users;
             this.Total = total;
+            this.BudgetId = budgetId;
         }
     }
 }

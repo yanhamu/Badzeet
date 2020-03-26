@@ -50,6 +50,7 @@ namespace Badzeet.Web
             services.AddControllersWithViews(x =>
             {
                 x.Filters.Add<BookIdFilter>();
+                x.Filters.Add<BudgetIdFilter>();
             });
         }
 

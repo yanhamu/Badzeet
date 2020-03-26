@@ -17,14 +17,30 @@ namespace Badzeet.Domain.Book
             this.bookRepository = bookRepository;
         }
 
-        public async Task<DateInterval> GetLatestBudget(long bookId)
+        public async Task<int> GetLatestBudgetOffset(long bookId)
         {
             var book = await bookRepository.GetBook(bookId);
-            var transaction = await transactionRepository.GetLastTransaction(bookId);
-            if (transaction is null)
-                return default;
+            var first = await GetBudgetByOffset(bookId, 0);
 
-            return GetBudgetInterval(book, transaction.Date);
+            var lastTransaction = await transactionRepository.GetLastTransaction(bookId);
+            var last = GetBudgetInterval(book, lastTransaction.Date);
+
+            var id = 0;
+            var date = first.From;
+            while (date < last.From)
+            {
+                date = date.AddMonths(1);
+                id += 1;
+            }
+
+            return id;
+        }
+
+        public async Task<DateInterval> GetBudgetByOffset(long bookId, int offset)
+        {
+            var book = await bookRepository.GetBook(bookId);
+            var startInterval = GetBudgetInterval(book, book.Created);
+            return new DateInterval(startInterval.From.AddMonths(offset), startInterval.To.AddMonths(offset));
         }
 
         private DateInterval GetBudgetInterval(Model.Book book, DateTime date)

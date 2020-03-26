@@ -6,9 +6,21 @@
 
 <div class="text-center">
     <h2>
-    <span><i class="fas fa-angle-left"></i></span>
+        @if (Model.BudgetId > 0)
+        {
+            <span>
+                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </span>
+        }
         @Model.Interval.From.ToString("m") - @Model.Interval.To.ToString("m")
-    <span><i class="fas fa-angle-right"></i></span>
+
+        <span>
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </span>
     </h2>
 </div>
 @if (DateTime.Now <= Model.Interval.To)
@@ -16,6 +28,12 @@
     <div class="text-center">
         @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays; }
         @(days) @(days > 1 ? "days" : "day") ahead
+    </div>
+}
+else
+{
+    <div class="text-center">
+        @Model.Interval.From.Year
     </div>
 }
 <table class="table table-sm">
