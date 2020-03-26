@@ -66,6 +66,9 @@ namespace Badzeet.Web.Features.Account
 
         public async Task Logout()
         {
+            contextAccessor.HttpContext.Response.Cookies.Delete("budgetId");
+            contextAccessor.HttpContext.Response.Cookies.Delete("da");
+
             await contextAccessor.HttpContext.SignOutAsync();
         }
     }
