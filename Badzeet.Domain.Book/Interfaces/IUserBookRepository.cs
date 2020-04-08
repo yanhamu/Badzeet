@@ -7,8 +7,8 @@ namespace Badzeet.Domain.Book.Interfaces
 {
     public interface IUserBookRepository
     {
-        Task<IEnumerable<UserBook>> GetUsers(long bookId);
-        Task<IEnumerable<UserBook>> GetBooks(Guid userId);
-        Task<UserBook> Create(Guid userId, string username, long id);
+        Task<IEnumerable<UserAccount>> GetUsers(long bookId);
+        Task<IEnumerable<UserAccount>> GetBooks(Guid userId);
+        Task<UserAccount> Create(Guid userId, long id);
     }
 }

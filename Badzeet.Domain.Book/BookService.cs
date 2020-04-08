@@ -39,11 +39,11 @@ namespace Badzeet.Domain.Book
         public async Task<DateInterval> GetBudgetByOffset(long bookId, int offset)
         {
             var book = await bookRepository.GetBook(bookId);
-            var startInterval = GetBudgetInterval(book, book.Created);
+            var startInterval = GetBudgetInterval(book, book.CreatedAt);
             return new DateInterval(startInterval.From.AddMonths(offset), startInterval.To.AddMonths(offset));
         }
 
-        private DateInterval GetBudgetInterval(Model.Book book, DateTime date)
+        private DateInterval GetBudgetInterval(Model.Account book, DateTime date)
         {
             DateTime startDate;
             if (date.Day >= book.FirstDayOfTheBudget)

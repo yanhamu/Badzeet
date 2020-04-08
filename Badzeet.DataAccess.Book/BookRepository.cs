@@ -12,20 +12,20 @@ namespace Badzeet.DataAccess.Book
             this.dbContext = dbContext;
         }
 
-        public async Task<Domain.Book.Model.Book> CreateBook(byte firstDayOfBudget)
+        public async Task<Domain.Book.Model.Account> CreateBook(byte firstDayOfBudget)
         {
-            var book = new Domain.Book.Model.Book() { FirstDayOfTheBudget = firstDayOfBudget };
+            var book = new Domain.Book.Model.Account() { FirstDayOfTheBudget = firstDayOfBudget };
             var bookEntity = dbContext
-                .Set<Domain.Book.Model.Book>()
+                .Set<Domain.Book.Model.Account>()
                 .Add(book);
             await dbContext.SaveChangesAsync();
             return bookEntity.Entity;
         }
 
-        public async Task<Domain.Book.Model.Book> GetBook(long bookId)
+        public async Task<Domain.Book.Model.Account> GetBook(long bookId)
         {
             return await dbContext
-                .Set<Domain.Book.Model.Book>()
+                .Set<Domain.Book.Model.Account>()
                 .FindAsync(bookId);
         }
     }

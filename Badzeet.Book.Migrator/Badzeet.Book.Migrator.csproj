@@ -30,6 +30,9 @@
     <None Remove="Scripts\0063_Alter_Category.sql" />
     <None Remove="Scripts\0065_Alter_Book.sql" />
     <None Remove="Scripts\0068_Update_Book.sql" />
+    <None Remove="Scripts\0070_Create_NewSchema.sql" />
+    <None Remove="Scripts\0073_Insert_Data.sql" />
+    <None Remove="Scripts\0075_Drop_Schema.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +67,15 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0075_Drop_Schema.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0073_Insert_Data.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0070_Create_NewSchema.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0068_Update_Book.sql">

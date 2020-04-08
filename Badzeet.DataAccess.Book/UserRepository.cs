@@ -13,9 +13,9 @@ namespace Badzeet.DataAccess.Book
         {
             this.context = context;
         }
-        public Task Create(Guid id)
+        public Task Create(Guid id, string username)
         {
-            context.Set<User>().Add(new User() { Id = id });
+            context.Set<User>().Add(new User() { Id = id, Nickname = username });
             return context.SaveChangesAsync();
         }
     }

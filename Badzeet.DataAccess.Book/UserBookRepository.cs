@@ -17,32 +17,32 @@ namespace Badzeet.DataAccess.Book
             this.context = context;
         }
 
-        public async Task<UserBook> Create(Guid userId, string username, long bookId)
+        public async Task<UserAccount> Create(Guid userId, long bookId)
         {
-            var userBook = new UserBook()
+            var userBook = new UserAccount()
             {
-                BookId = bookId,
-                UserId = userId,
-                Nickname = username
+                AccountId = bookId,
+                UserId = userId
             };
-            var trackedEntity = context.Set<UserBook>()
+            var trackedEntity = context.Set<UserAccount>()
                 .Add(userBook);
             await context.SaveChangesAsync();
             return trackedEntity.Entity;
         }
 
-        public async Task<IEnumerable<UserBook>> GetBooks(Guid userId)
+        public async Task<IEnumerable<UserAccount>> GetBooks(Guid userId)
         {
-            return await context.Set<UserBook>()
+            return await context.Set<UserAccount>()
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<UserBook>> GetUsers(long bookId)
+        public async Task<IEnumerable<UserAccount>> GetUsers(long bookId)
         {
             return await context
-                .Set<UserBook>()
-                .Where(x => x.BookId == bookId)
+                .Set<UserAccount>()
+                .Where(x => x.AccountId == bookId)
+                .Include(x => x.User)
                 .ToListAsync();
         }
     }

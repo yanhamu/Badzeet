@@ -16,7 +16,7 @@ namespace Badzeet.DataAccess.Book
 
         public async Task<Invitation> Create(Guid userId, long bookId)
         {
-            var tracked = context.Set<Invitation>().Add(new Invitation() { Id = Guid.NewGuid(), BookId = bookId, OwnerId = userId, CreatedAt = DateTime.UtcNow });
+            var tracked = context.Set<Invitation>().Add(new Invitation() { Id = Guid.NewGuid(), AccountId = bookId, OwnerId = userId, CreatedAt = DateTime.UtcNow });
             await context.SaveChangesAsync();
             return tracked.Entity;
         }

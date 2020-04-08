@@ -28,7 +28,7 @@ namespace Badzeet.Domain.Book
 
         public async Task Register(Guid userId, string username, Guid? invitationId)
         {
-            await userRepository.Create(userId);
+            await userRepository.Create(userId, username);
 
             if (invitationId.HasValue)
             {
@@ -36,12 +36,12 @@ namespace Badzeet.Domain.Book
                 if (invitation.UsedAt.HasValue)
                     throw new InvalidOperationException("invitation is already used");
                 invitation.UsedAt = DateTime.UtcNow;
-                await userBookRepository.Create(userId, username, invitation.BookId);
+                await userBookRepository.Create(userId, invitation.AccountId);
             }
             else
             {
                 var book = await bookRepository.CreateBook(1);
-                _ = await userBookRepository.Create(userId, username, book.Id);
+                _ = await userBookRepository.Create(userId, book.Id);
                 await categoryRepository.Create(book.Id, "unspecified");
             }
         }

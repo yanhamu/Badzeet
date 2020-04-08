@@ -49,7 +49,7 @@ namespace Badzeet.Web.Configuration
 
         public async Task<long> GetBookId(Guid userId)
         {
-            return (await userBookRepository.GetBooks(userId)).First().BookId;
+            return (await userBookRepository.GetBooks(userId)).First().AccountId;
         }
     }
 }

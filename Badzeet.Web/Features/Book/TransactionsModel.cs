@@ -7,6 +7,6 @@ namespace Badzeet.Web.Features.Book
     {
         public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public IEnumerable<TransactionModel> Transactions { get; set; } = new List<TransactionModel>();
-        public IEnumerable<UserBook> Users { get; set; } = new List<UserBook>();
+        public IEnumerable<UserAccount> Users { get; set; } = new List<UserAccount>();
     }
 }

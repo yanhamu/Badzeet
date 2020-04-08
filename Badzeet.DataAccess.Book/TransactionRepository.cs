@@ -26,7 +26,7 @@ namespace Badzeet.DataAccess.Book
         {
             return context
                 .Set<Transaction>()
-                .Where(x => x.BookId == bookId)
+                .Where(x => x.AccountId == bookId)
                 .OrderByDescending(x => x.Date)
                 .FirstOrDefaultAsync();
         }
@@ -40,7 +40,7 @@ namespace Badzeet.DataAccess.Book
         {
             return await context
                 .Set<Transaction>()
-                .Where(x => x.BookId == bookId)
+                .Where(x => x.AccountId == bookId)
                 .Where(x => x.Date >= interval.From)
                 .Where(x => x.Date <= interval.To)
                 .OrderByDescending(x => x.Date)

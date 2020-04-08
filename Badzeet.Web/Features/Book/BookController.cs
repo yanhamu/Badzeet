@@ -62,7 +62,7 @@ namespace Badzeet.Web.Features.Book
                     total += sum;
 
                     if (users.ContainsKey(user.UserId) == false)
-                        users.Add(user.UserId, new UserViewModel(user.UserId, user.Nickname, 0));
+                        users.Add(user.UserId, new UserViewModel(user.UserId, user.User.Nickname, 0));
 
                     users[user.UserId].Total += sum;
                 }
@@ -164,7 +164,7 @@ namespace Badzeet.Web.Features.Book
             transactionRepository.Add(
                 new Transaction()
                 {
-                    BookId = bookId,
+                    AccountId = bookId,
                     Amount = model.Transaction.Amount,
                     Date = model.Transaction.Date,
                     Description = model.Transaction.Description,
@@ -188,7 +188,7 @@ namespace Badzeet.Web.Features.Book
     {
         public List<CategoryModel> Categories { get; set; } = new List<CategoryModel>();
         public TransactionModel Transaction { get; set; } = new TransactionModel();
-        public IEnumerable<UserBook> Users { get; set; } = new List<UserBook>();
+        public IEnumerable<UserAccount> Users { get; set; } = new List<UserAccount>();
     }
 
     public class CategoryViewModel

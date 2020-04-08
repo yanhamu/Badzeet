@@ -5,6 +5,6 @@ namespace Badzeet.Domain.Book.Interfaces
 {
     public interface IUserRepository
     {
-        public Task Create(Guid id);
+        public Task Create(Guid id, string username);
     }
 }
