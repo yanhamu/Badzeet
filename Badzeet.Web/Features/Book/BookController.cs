@@ -68,7 +68,7 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> SplitRecord(long id, long bookId)
+        public async Task<IActionResult> Split(long id, long bookId)
         {
             var transaction = await transactionRepository.GetTransaction(id);
             var categories = await categoryRepository.GetCategories(bookId);
@@ -80,6 +80,37 @@ namespace Badzeet.Web.Features.Book
                 Users = users
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Split(SplitModel model, long bookId)
+        {
+            var transaction = await transactionRepository.GetTransaction(model.OldTransactionId);
+            transaction.Amount = model.OldAmount;
+
+            var newTransaction = new Transaction()
+            {
+                AccountId = transaction.AccountId,
+                Amount = model.NewAmount,
+                CategoryId = model.CategoryId,
+                Date = transaction.Date,
+                Description = model.Description,
+                UserId = model.OwnerId
+            };
+
+            transactionRepository.Add(newTransaction);
+            await transactionRepository.Save();
+            return RedirectToAction("List");
+        }
+
+        public class SplitModel
+        {
+            public long OldTransactionId { get; set; }
+            public decimal OldAmount { get; set; }
+            public decimal NewAmount { get; set; }
+            public long CategoryId { get; set; }
+            public Guid OwnerId { get; set; }
+            public string Description { get; set; }
         }
 
         [HttpPost]

@@ -1,0 +1,108 @@
+﻿@model Badzeet.Web.Features.Book.TransactionViewModel
+@{
+    ViewData["Title"] = "Split";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Split</h1>
+
+<form method="post">
+    <input id="id" value="@Model.Transaction.Id" name="OldTransactionId" type="hidden" />
+
+    <div class="form-group row">
+        <label asp-for="Transaction.Date" class="col-3 col-sm-2 col-form-label">Date</label>
+        <div class="col-9 col-sm-10">
+            <input disabled class="form-control" value="@Model.Transaction.Date.ToString("yyyy-MM-dd")" type="date" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Transaction.UserId" class="col-3 col-sm-2 col-form-label">Owner</label>
+        <div class="col-9 col-sm-10">
+            <input disabled type="text" class="form-control" value="@Model.Users.Single(x=>x.UserId == Model.Transaction.UserId).User.Nickname" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Transaction.Description" class="col-3 col-sm-2 col-form-label">Description</label>
+        <div class="col-9 col-sm-10">
+            <input disabled class="form-control" value="@Model.Transaction.Description" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Transaction.Amount" class="col-3 col-sm-2 col-form-label">Amount</label>
+        <div class="col-9 col-sm-10">
+            <input readonly class="form-control" value="@Model.Transaction.Amount" id="oldAmount" step="0.01" type="number" name="OldAmount" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Transaction.CategoryId" class="col-3 col-sm-2 col-form-label">Category</label>
+        <div class="col-9 col-sm-10">
+            <input type="text" disabled class="form-control" value="@Model.Categories.Single(x=>x.Id == Model.Transaction.CategoryId).Name" />
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h2>New Record</h2>
+            <div class="form-group row">
+                <label asp-for="Transaction.Description" class="col-4 col-sm-2 col-form-label">Description</label>
+                <div class="col-8 col-sm-10">
+                    <input class="form-control" value="@Model.Transaction.Description" type="text" name="Description" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Transaction.Amount" class="col-4 col-sm-2 col-form-label">Amount</label>
+                <div class="col-8 col-sm-10">
+                    <input class="form-control" value="0" step="0.01" type="number" id="newAmount" name="NewAmount" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Transaction.CategoryId" class="col-4 col-sm-2 col-form-label">Category</label>
+                <div class="col-8 col-sm-10">
+                    <select class="custom-select" name="CategoryId">
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <!option value="@cat.Id" @(Model.Transaction.CategoryId == cat.Id ? "selected" : "")>@cat.Name</!option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Transaction.UserId" class="col-4 col-sm-2 col-form-label">Owner</label>
+                <div class="col-8 col-sm-10">
+                    <select class="custom-select" name="OwnerId">
+                        @foreach (var own in Model.Users)
+                        {
+                            <!option value="@own.UserId" @(Model.Transaction.UserId == own.UserId ? "selected" : "")>@own.User.Nickname</!option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary form-control">Save</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function registerEvents() {
+        var previousAmountInput = document.getElementById("oldAmount");
+        totalAmount = Number(previousAmountInput.value);
+        var newAmountInput = document.getElementById("newAmount");
+        newAmountInput.addEventListener("input", function (event) {
+            var newAmount = Number(event.target.value);
+            previousAmountInput.value = (totalAmount - newAmount);
+        });
+    }
+
+    window.onload = registerEvents();
+</script>
