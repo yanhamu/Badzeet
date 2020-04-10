@@ -9,7 +9,7 @@ namespace Badzeet.Web.Features.Home
         public IActionResult Index()
         {
             return User.Identity.IsAuthenticated
-                ? (IActionResult)RedirectToAction("Index", "Book")
+                ? (IActionResult)RedirectToAction("Index", "Dashboard")
                 : View();
         }
 
