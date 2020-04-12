@@ -10,12 +10,16 @@
     @for (int i = 0; i < Model.Budgets.Count; i++)
     {
         <div class="form-group row">
-            <label for="cat" class="col-sm-2 col-form-label">@Model.Budgets[i].CategoryName</label>
-            <div class="col-sm-10">
-                <input type="number" hidden class="form-control" asp-for="@Model.Budgets[i].CategoryId">
+            <label for="cat" class="col-4 col-sm-3 col-md-2 col-form-label">@Model.Budgets[i].CategoryName</label>
+            <div class="col-8 col-sm-9 col-md-10">
+                <input hidden  type="number" id="cat" class="form-control" asp-for="@Model.Budgets[i].CategoryId">
                 <input type="number" class="form-control" asp-for="@Model.Budgets[i].Amount">
             </div>
         </div>
     }
-    <input class="form-control btn btn-primary" value="Save" type="submit" />
+    <div class="form-group row">
+        <div class="offset-sm-3 offset-md-2 col-sm-9 col-md-10">
+            <input class="form-control btn btn-primary" value="Save" type="submit" />
+        </div>
+    </div>
 </form>

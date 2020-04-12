@@ -93,16 +93,19 @@
     </div>
 </form>
 
-<script type="text/javascript">
-    function registerEvents() {
-        var previousAmountInput = document.getElementById("oldAmount");
-        totalAmount = Number(previousAmountInput.value);
-        var newAmountInput = document.getElementById("newAmount");
-        newAmountInput.addEventListener("input", function (event) {
-            var newAmount = Number(event.target.value);
-            previousAmountInput.value = (totalAmount - newAmount);
-        });
-    }
 
-    window.onload = registerEvents();
-</script>
+@section Scripts{
+    <script type="text/javascript">
+        function registerEvents() {
+            var previousAmountInput = document.getElementById("oldAmount");
+            totalAmount = Number(previousAmountInput.value);
+            var newAmountInput = document.getElementById("newAmount");
+            newAmountInput.addEventListener("input", function (event) {
+                var newAmount = Number(event.target.value);
+                previousAmountInput.value = (totalAmount - newAmount);
+            });
+        }
+
+        window.onload = registerEvents();
+    </script>
+}

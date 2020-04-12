@@ -74,17 +74,20 @@
     </div>
 </form>
 
-<script type="text/javascript">
-    function registerEvent() {
-        var link = document.getElementById("removeBtn");
-        link.addEventListener("click", function (event) {
-            var result = confirm("Are you sure?");
-            if (result == false) {
-                event.preventDefault();
 
-            }
-            //form.submit();
-        });
-    }
-    window.onload = registerEvent();
-</script>
+
+@section Scripts{
+    <script type="text/javascript">
+        function registerEvent() {
+            var link = document.getElementById("removeBtn");
+            link.addEventListener("click", function (event) {
+                var result = confirm("Are you sure?");
+                if (result == false) {
+                    event.preventDefault();
+
+                }
+            });
+        }
+        window.onload = registerEvent();
+    </script>
+}
