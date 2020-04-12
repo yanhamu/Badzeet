@@ -8,6 +8,7 @@ namespace Badzeet.Web.Configuration.Filters
     public class BudgetIdFilter : IAsyncActionFilter
     {
         private const string parameterName = "budgetId";
+        private const string cookieName = "mbid";
         private readonly BookService bookService;
 
         public BudgetIdFilter(BookService bookService)
@@ -27,7 +28,7 @@ namespace Badzeet.Web.Configuration.Filters
             if (HasArgument(context) && ProvidedValue(context))
             {
                 var budgetId = (int)context.ActionArguments[parameterName];
-                context.HttpContext.Response.Cookies.Append(parameterName, budgetId.ToString());
+                context.HttpContext.Response.Cookies.Append(cookieName, budgetId.ToString());
             }
 
             await next();
@@ -35,10 +36,10 @@ namespace Badzeet.Web.Configuration.Filters
 
         private async Task<int> GetBudgetId(ActionExecutingContext context, long bookId)
         {
-            if (context.HttpContext.Request.Cookies.ContainsKey(parameterName))
-                return int.Parse(context.HttpContext.Request.Cookies[parameterName]);
+            if (context.HttpContext.Request.Cookies.ContainsKey(cookieName))
+                return int.Parse(context.HttpContext.Request.Cookies[cookieName]);
 
-            return await bookService.GetLatestBudgetOffset(bookId);
+            return await bookService.GetLatestBudgetId(bookId);
         }
 
         private static bool ProvidedValue(ActionExecutingContext context)

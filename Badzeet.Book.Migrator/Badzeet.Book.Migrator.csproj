@@ -33,6 +33,7 @@
     <None Remove="Scripts\0070_Create_NewSchema.sql" />
     <None Remove="Scripts\0073_Insert_Data.sql" />
     <None Remove="Scripts\0075_Drop_Schema.sql" />
+    <None Remove="Scripts\0078_Create_Budget.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +68,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0078_Create_Budget.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0075_Drop_Schema.sql">

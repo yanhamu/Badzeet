@@ -15,5 +15,10 @@ namespace Badzeet.Domain.Book
             From = from.Date;
             To = to.Date;
         }
+
+        public DateInterval AddMonth(int months)
+        {
+            return new DateInterval(From.AddMonths(months), To.AddMonths(months));
+        }
     }
 }

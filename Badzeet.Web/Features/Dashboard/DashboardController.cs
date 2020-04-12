@@ -30,7 +30,7 @@ namespace Badzeet.Web.Features.Dashboard
         [HttpGet]
         public async Task<IActionResult> Index(long bookId, int budgetId)
         {
-            var interval = await budgetService.GetBudgetByOffset(bookId, budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
             var allCategories = await categoryRepository.GetCategories(bookId);
             var transactions = await transactionRepository.GetTransactions(bookId, interval);
             var allUsers = await userBookRepository.GetUsers(bookId);
@@ -76,7 +76,54 @@ namespace Badzeet.Web.Features.Dashboard
         [HttpGet]
         public async Task<IActionResult> Budget(long bookId, int budgetId)
         {
-            return await Index(bookId, budgetId);
+            var allCategories = await categoryRepository.GetCategories(bookId);
+            var categories = new List<DashboardBudgetCategory>();
+            var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
+            var transactions = await transactionRepository.GetTransactions(bookId, interval);
+            var allUsers = await userBookRepository.GetUsers(bookId);
+
+
+            foreach (var c in allCategories)
+            {
+                var categoryTransactions = transactions.Where(x => x.CategoryId == c.Id);
+                var users = new List<DashboardCategoryUser>();
+                foreach (var u in allUsers)
+                {
+                    var total = categoryTransactions.Where(x => x.UserId == u.UserId).Sum(x => x.Amount);
+                    users.Add(new DashboardCategoryUser() { Name = u.User.Nickname, Total = total });
+                }
+
+                categories.Add(new DashboardBudgetCategory()
+                {
+                    Name = c.Name,
+                    Total = categoryTransactions.Sum(t => t.Amount),
+                    Users = users.ToArray()
+                });
+            }
+
+            var model = new DashboardBudgetViewModel();
+            model.Categories = categories.ToArray();
+            return View(model);
+        }
+
+        public class DashboardBudgetViewModel
+        {
+            public DashboardBudgetCategory[] Categories { get; set; }
+        }
+
+        public class DashboardBudgetCategory
+        {
+            public string Name { get; set; }
+            public decimal Total { get; set; }
+            public decimal Budget { get; set; }
+            public DashboardCategoryUser[] Users { get; set; }
+        }
+
+        public class DashboardCategoryUser
+        {
+            public string Name { get; set; }
+            public decimal Total { get; set; }
+            public decimal Budget { get; set; }
         }
     }
 }

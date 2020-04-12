@@ -1,75 +1,34 @@
-﻿@model Badzeet.Web.Features.Dashboard.DashboardViewModel
+﻿@model Badzeet.Web.Features.Dashboard.DashboardController.DashboardBudgetViewModel
 @{
     ViewData["Title"] = "Budget";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h2>
-        @if (Model.BudgetId > 0)
-        {
-            <span>
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            </span>
-        }
-        @Model.Interval.From.ToString("m") - @Model.Interval.To.ToString("m")
-
-        <span>
-            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
-                <i class="fas fa-angle-right"></i>
-            </a>
-        </span>
-    </h2>
-</div>
-
-@if (DateTime.Now.Date == Model.Interval.To)
-{
-    <div class="text-center">
-        Last day of the budget
-    </div>
-}
-else if (DateTime.Now.Date < Model.Interval.To)
-{
-    <div class="text-center">
-        @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays + 1; }
-        @(days) @(days > 1 ? "days" : "day") ahead
-    </div>
-}
-else
-{
-    <div class="text-center">
-        @Model.Interval.From.Year
-    </div>
-}
-
 <table class="table table-sm">
-    <tr>
-        <th></th>
-        @foreach (var u in Model.Users)
-        {
-            <th>@u.Value.Nickname</th>
-        }
-        <th>total</th>
-    </tr>
     @foreach (var category in Model.Categories)
     {
-        <tr>
-            <td><b>@category.Name</b></td>
-            @foreach (var userId in Model.Users.Keys)
-            {
-                <td>@category.PerUserSum[userId].ToString("F0")</td>
-            }
-            <td><b>@category.Sum.ToString("F0")</b></td>
+        <tr class="table-primary">
+            <td colspan="2">
+                @category.Name
+            </td>
+            <td>@category.Total.ToString("F0")</td>
+            <td>@category.Budget</td>
         </tr>
-    }
-    <tr class="table-primary">
-        <td><b>Sum</b></td>
-        @foreach (var user in Model.Users)
+
+        @foreach (var u in category.Users)
         {
-            <td><b>@user.Value.Total.ToString("F0")</b></td>
+            <tr>
+                <td></td>
+                <td>
+                    @u.Name
+                </td>
+                <td>
+                    @u.Total.ToString("F0")
+                </td>
+                <td>
+                    @u.Budget.ToString("F0")
+                </td>
+            </tr>
         }
-        <td><b>@Model.Total.ToString("F0")</b></td>
-    </tr>
+    }
 </table>

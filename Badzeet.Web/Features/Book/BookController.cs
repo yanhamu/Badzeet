@@ -35,7 +35,7 @@ namespace Badzeet.Web.Features.Book
         [HttpGet]
         public async Task<IActionResult> List(long bookId, int budgetId)
         {
-            var interval = await budgetService.GetBudgetByOffset(bookId, budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
 
             var transactions = await transactionsService.GetTransactions(bookId, interval);
             var categories = await categoryRepository.GetCategories(bookId);

@@ -17,49 +17,45 @@ namespace Badzeet.Domain.Book
             this.bookRepository = bookRepository;
         }
 
-        public async Task<int> GetLatestBudgetOffset(long bookId)
+        public async Task<int> GetLatestBudgetId(long bookId)
         {
             var book = await bookRepository.GetBook(bookId);
-            var first = await GetBudgetByOffset(bookId, 0);
-
             var lastTransaction = await transactionRepository.GetLastTransaction(bookId);
-            var last = GetBudgetInterval(book, lastTransaction.Date);
+            var last = GetBudgetInterval(book.FirstDayOfTheBudget, lastTransaction.Date);
 
+            var pivot = new DateTime(2000, 1, book.FirstDayOfTheBudget);
             var id = 0;
-            var date = first.From;
-            while (date < last.From)
+            while (pivot < last.From)
             {
-                date = date.AddMonths(1);
                 id += 1;
+                pivot = pivot.AddMonths(1);
             }
 
             return id;
         }
 
-        public async Task<DateInterval> GetBudgetByOffset(long bookId, int offset)
+        public async Task<DateInterval> GetMonthlyBudgetById(long bookId, int budgetId)
         {
             var book = await bookRepository.GetBook(bookId);
-            var startInterval = GetBudgetInterval(book, book.CreatedAt);
-            return new DateInterval(startInterval.From.AddMonths(offset), startInterval.To.AddMonths(offset));
+            var start = new DateTime(2000, 1, book.FirstDayOfTheBudget);
+            return new DateInterval(start, start.AddMonths(1).AddDays(-1)).AddMonth(budgetId);
         }
 
-        private DateInterval GetBudgetInterval(Model.Account book, DateTime date)
+        private DateInterval GetBudgetInterval(byte firstDay, DateTime date)
         {
             DateTime startDate;
-            if (date.Day >= book.FirstDayOfTheBudget)
+            if (date.Day >= firstDay)
             {
-                startDate = new DateTime(date.Year, date.Month, book.FirstDayOfTheBudget);
+                startDate = new DateTime(date.Year, date.Month, firstDay);
             }
             else
             {
-                startDate = new DateTime(date.AddMonths(-1).Year, date.AddMonths(-1).Month, book.FirstDayOfTheBudget);
+                startDate = new DateTime(date.AddMonths(-1).Year, date.AddMonths(-1).Month, firstDay);
             }
 
             var endDate = startDate.AddMonths(1).AddDays(-1);
 
             return new DateInterval(startDate, endDate);
         }
-
     }
-
 }
