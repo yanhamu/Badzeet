@@ -10,14 +10,20 @@
 <table class="table table-sm">
     @foreach (var c in Model.Categories)
     {
-    <tr>
-        <td>@c.Name</td>
-        <td>@c.Order</td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@c.Id">
-                <i class="fa fa-edit fa-xs"></i>
-            </a>
-        </td>
-    </tr>
+        <tr>
+            <td>@c.Name</td>
+            <td>@c.Order</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@c.Id">
+                    <i class="fa fa-edit fa-xs"></i>
+                </a>
+            </td>
+        </tr>
     }
 </table>
+
+<div class="row">
+    <div class="col-12">
+        <a asp-action="New" class="btn btn-primary form-control">Add</a>
+    </div>
+</div>

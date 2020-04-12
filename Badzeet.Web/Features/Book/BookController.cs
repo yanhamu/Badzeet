@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Badzeet.Web.Features.Book
 {
     [Authorize]
-    public class BookController : Controller
+    public partial class BookController : Controller
     {
         private readonly TransactionsService transactionsService;
         private readonly ITransactionRepository transactionRepository;
@@ -101,16 +101,6 @@ namespace Badzeet.Web.Features.Book
             transactionRepository.Add(newTransaction);
             await transactionRepository.Save();
             return RedirectToAction("List");
-        }
-
-        public class SplitModel
-        {
-            public long OldTransactionId { get; set; }
-            public decimal OldAmount { get; set; }
-            public decimal NewAmount { get; set; }
-            public long CategoryId { get; set; }
-            public Guid OwnerId { get; set; }
-            public string Description { get; set; }
         }
 
         [HttpPost]

@@ -44,6 +44,26 @@ namespace Badzeet.Web.Features.Categories
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult New(long bookId)
+        {
+            return View(new CategoryViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> New(long bookId, CategoryViewModel model)
+        {
+            await categoryRepository.Create(bookId, model.Name, model.Order);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(long Id)
+        {
+            await categoryRepository.Remove(Id);
+            return RedirectToAction(nameof(Index));
+        }
+
         public class CategoryListViewModel
         {
             public List<CategoryViewModel> Categories { get; set; }

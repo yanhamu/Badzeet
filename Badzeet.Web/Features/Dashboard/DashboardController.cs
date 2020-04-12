@@ -72,5 +72,11 @@ namespace Badzeet.Web.Features.Dashboard
                 total);
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Budget(long bookId, int budgetId)
+        {
+            return await Index(bookId, budgetId);
+        }
     }
 }

@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Add Category</h1>
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="New" method="post">
+
     <div class="form-group row">
         <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
@@ -28,27 +28,3 @@
         </div>
     </div>
 </form>
-
-<form asp-action="Remove" method="post">
-    <div class="row">
-        <div class="offset-sm-2 col-sm-10">
-            <input type="hidden" asp-for="Id" />
-            <button type="submit" class="btn btn-danger form-control" id="removeBtn">Remove</button>
-        </div>
-    </div>
-</form>
-
-<script type="text/javascript">
-    function registerEvent() {
-        var link = document.getElementById("removeBtn");
-        link.addEventListener("click", function (event) {
-            var result = confirm("Are you sure?");
-            if (result == false) {
-                event.preventDefault();
-
-            }
-            //form.submit();
-        });
-    }
-    window.onload = registerEvent();
-</script>

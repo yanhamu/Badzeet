@@ -16,10 +16,18 @@ namespace Badzeet.DataAccess.Book
             this.dbContext = dbContext;
         }
 
-        public Task Create(long bookId, string name)
+        public Task Create(long bookId, string name, int order)
         {
-            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = bookId });
+            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = bookId, Order = order });
             return dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Category> Remove(long categoryId)
+        {
+            var category = await Get(categoryId);
+            dbContext.Remove(category);
+            await dbContext.SaveChangesAsync();
+            return category;
         }
 
         public async Task<Category> Get(long categoryId)
