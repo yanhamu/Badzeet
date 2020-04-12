@@ -57,6 +57,15 @@ namespace Badzeet.DataAccess.Book
 
             invitation.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
             invitation.HasOne(x => x.User).WithMany().HasForeignKey(x => x.OwnerId);
+
+            var categoryBudget = modelBuilder.Entity<CategoryBudget>();
+            categoryBudget.ToTable("category_budget");
+            categoryBudget.HasKey(x => new { x.AccountId, x.Id, x.CategoryId });
+            categoryBudget.Property(x => x.AccountId).HasColumnName("account_id");
+            categoryBudget.Property(x => x.CategoryId).HasColumnName("category_id");
+            categoryBudget.Property(x => x.Amount).HasColumnName("amount");
+            categoryBudget.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
+            categoryBudget.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
         }
     }
 }

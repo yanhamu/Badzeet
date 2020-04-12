@@ -1,0 +1,21 @@
+﻿@model Badzeet.Web.Features.Budget.EditBudgetViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Budget</h1>
+
+<form method="post">
+    @for (int i = 0; i < Model.Budgets.Count; i++)
+    {
+        <div class="form-group row">
+            <label for="cat" class="col-sm-2 col-form-label">@Model.Budgets[i].CategoryName</label>
+            <div class="col-sm-10">
+                <input type="number" hidden class="form-control" asp-for="@Model.Budgets[i].CategoryId">
+                <input type="number" class="form-control" asp-for="@Model.Budgets[i].Amount">
+            </div>
+        </div>
+    }
+    <input class="form-control btn btn-primary" value="Save" type="submit" />
+</form>

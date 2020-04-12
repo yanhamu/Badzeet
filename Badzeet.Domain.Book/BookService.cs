@@ -24,7 +24,7 @@ namespace Badzeet.Domain.Book
             var last = GetBudgetInterval(book.FirstDayOfTheBudget, lastTransaction.Date);
 
             var pivot = new DateTime(2000, 1, book.FirstDayOfTheBudget);
-            var id = 0;
+            short id = 0;
             while (pivot < last.From)
             {
                 id += 1;

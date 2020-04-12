@@ -1,5 +1,6 @@
 ﻿using Badzeet.Domain.Book;
 using Badzeet.Domain.Book.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,28 +9,35 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Dashboard
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly ITransactionRepository transactionRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
+        private readonly ICategoryBudgetRepository budgetRepository;
         private readonly BookService budgetService;
 
         public DashboardController(
             ITransactionRepository transactionRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
+            ICategoryBudgetRepository budgetRepository,
             BookService budgetService)
         {
             this.transactionRepository = transactionRepository;
             this.categoryRepository = categoryRepository;
             this.userBookRepository = userBookRepository;
+            this.budgetRepository = budgetRepository;
             this.budgetService = budgetService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(long bookId, int budgetId)
         {
+            if (await budgetRepository.HasBudget(bookId, budgetId))
+                return RedirectToAction("Index","Budget");
+
             var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
             var allCategories = await categoryRepository.GetCategories(bookId);
             var transactions = await transactionRepository.GetTransactions(bookId, interval);
@@ -71,59 +79,6 @@ namespace Badzeet.Web.Features.Dashboard
                 users,
                 total);
             return View(model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Budget(long bookId, int budgetId)
-        {
-            var allCategories = await categoryRepository.GetCategories(bookId);
-            var categories = new List<DashboardBudgetCategory>();
-            var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
-            var transactions = await transactionRepository.GetTransactions(bookId, interval);
-            var allUsers = await userBookRepository.GetUsers(bookId);
-
-
-            foreach (var c in allCategories)
-            {
-                var categoryTransactions = transactions.Where(x => x.CategoryId == c.Id);
-                var users = new List<DashboardCategoryUser>();
-                foreach (var u in allUsers)
-                {
-                    var total = categoryTransactions.Where(x => x.UserId == u.UserId).Sum(x => x.Amount);
-                    users.Add(new DashboardCategoryUser() { Name = u.User.Nickname, Total = total });
-                }
-
-                categories.Add(new DashboardBudgetCategory()
-                {
-                    Name = c.Name,
-                    Total = categoryTransactions.Sum(t => t.Amount),
-                    Users = users.ToArray()
-                });
-            }
-
-            var model = new DashboardBudgetViewModel();
-            model.Categories = categories.ToArray();
-            return View(model);
-        }
-
-        public class DashboardBudgetViewModel
-        {
-            public DashboardBudgetCategory[] Categories { get; set; }
-        }
-
-        public class DashboardBudgetCategory
-        {
-            public string Name { get; set; }
-            public decimal Total { get; set; }
-            public decimal Budget { get; set; }
-            public DashboardCategoryUser[] Users { get; set; }
-        }
-
-        public class DashboardCategoryUser
-        {
-            public string Name { get; set; }
-            public decimal Total { get; set; }
-            public decimal Budget { get; set; }
         }
     }
 }

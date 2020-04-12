@@ -37,7 +37,7 @@ namespace Badzeet.Web.Configuration.Filters
         private async Task<int> GetBudgetId(ActionExecutingContext context, long bookId)
         {
             if (context.HttpContext.Request.Cookies.ContainsKey(cookieName))
-                return int.Parse(context.HttpContext.Request.Cookies[cookieName]);
+                return short.Parse(context.HttpContext.Request.Cookies[cookieName]);
 
             return await bookService.GetLatestBudgetId(bookId);
         }

@@ -38,6 +38,7 @@ namespace Badzeet.Web
             services.AddTransient<TransactionsService>();
             services.AddTransient<BookService>();
             services.AddTransient<RegistrationService>();
+            
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
@@ -45,6 +46,8 @@ namespace Badzeet.Web
             services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();
+            services.AddScoped<ICategoryBudgetRepository, CategoryBudgetRepository>();
+
             services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
             services.AddControllersWithViews(x =>

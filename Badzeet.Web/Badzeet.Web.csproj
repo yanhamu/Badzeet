@@ -15,6 +15,4 @@
     <ProjectReference Include="..\Badzeet.Service.User\Badzeet.Service.User.csproj" />
   </ItemGroup>
 
-
-
 </Project>

@@ -10,8 +10,14 @@ namespace Badzeet.Web.Configuration.Filters
         {
             if (context.ActionDescriptor.Parameters.Any(x => x.Name == "bookId" && x.ParameterType == typeof(long)))
             {
-                var bookId = context.HttpContext.GetBookId();
-                context.ActionArguments.Add("bookId", bookId);
+                var accountId = context.HttpContext.GetBookId();
+                context.ActionArguments.Add("bookId", accountId);
+            }
+
+            if (context.ActionDescriptor.Parameters.Any(x => x.Name == "accountId" && x.ParameterType == typeof(long)))
+            {
+                var accountId = context.HttpContext.GetBookId();
+                context.ActionArguments.Add("accountId", accountId);
             }
 
             await next();
