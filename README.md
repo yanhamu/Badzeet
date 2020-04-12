@@ -1,5 +1,8 @@
 # Badzeet
+- easy expense tracking
+- shared accounts
+- budgeting
 
 ## TODOs:
-- Add Budget
-  - View, Dashboard, SQL
+- Returns
+- Budget list
