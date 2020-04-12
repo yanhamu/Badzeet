@@ -10,16 +10,56 @@
     @for (int i = 0; i < Model.Budgets.Count; i++)
     {
         <div class="form-group row">
-            <label for="cat" class="col-4 col-sm-3 col-md-2 col-form-label">@Model.Budgets[i].CategoryName</label>
+            <label class="col-4 col-sm-3 col-md-2 col-form-label">@Model.Budgets[i].CategoryName</label>
             <div class="col-8 col-sm-9 col-md-10">
-                <input hidden  type="number" id="cat" class="form-control" asp-for="@Model.Budgets[i].CategoryId">
+                <input hidden asp-for="@Model.Budgets[i].CategoryId">
                 <input type="number" class="form-control" asp-for="@Model.Budgets[i].Amount">
             </div>
         </div>
     }
+
+    <div class="form-group row">
+        <label for="cat" class="col-4 col-sm-3 col-md-2 col-form-label">Total</label>
+        <div class="col-8 col-sm-9 col-md-10">
+            <input class="form-control" disabled value="0" id="sum" />
+        </div>
+    </div>
+
     <div class="form-group row">
         <div class="offset-sm-3 offset-md-2 col-sm-9 col-md-10">
             <input class="form-control btn btn-primary" value="Save" type="submit" />
         </div>
     </div>
 </form>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function registerEvent() {
+            recalculate();
+            for (var inputElement of getInputsElements()) {
+                inputElement.addEventListener('input', recalculate);
+            }
+        }
+
+        function recalculate() {
+            var sum = 0;
+            for (var inputElement of getInputsElements()) {
+                sum += Number(inputElement.value);
+            }
+            var sumElement = document.getElementById("sum");
+            sumElement.value = sum;
+        }
+
+        function* getInputsElements() {
+            var inputs = document.getElementsByTagName("input");
+            for (var inputElement of inputs) {
+                if (inputElement.type == "number" && inputElement.name.endsWith("Amount")) {
+                    yield inputElement;
+                }
+            }
+        }
+
+        window.onload = registerEvent();
+    </script>
+}
