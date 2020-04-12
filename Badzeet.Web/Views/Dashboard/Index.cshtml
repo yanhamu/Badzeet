@@ -23,10 +23,17 @@
         </span>
     </h2>
 </div>
-@if (DateTime.Now <= Model.Interval.To)
+
+@if (DateTime.Now.Date == Model.Interval.To)
 {
     <div class="text-center">
-        @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays; }
+        Last day of the budget
+    </div>
+}
+else if (DateTime.Now.Date < Model.Interval.To)
+{
+    <div class="text-center">
+        @{ var days = (int)(Model.Interval.To - DateTime.Now).TotalDays + 1; }
         @(days) @(days > 1 ? "days" : "day") ahead
     </div>
 }
