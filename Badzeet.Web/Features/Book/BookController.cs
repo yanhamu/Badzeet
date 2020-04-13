@@ -83,7 +83,7 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public async Task<IActionResult> Split(SplitModel model, long bookId)
+        public async Task<IActionResult> Split(SplitModel model)
         {
             var transaction = await transactionRepository.GetTransaction(model.OldTransactionId);
             transaction.Amount = model.OldAmount;
@@ -117,10 +117,10 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpGet]
-        public async Task<IActionResult> NewRecord(long bookId)
+        public async Task<IActionResult> NewRecord(long accountId)
         {
-            var categories = await categoryRepository.GetCategories(bookId);
-            var users = await userBookRepository.GetUsers(bookId);
+            var categories = await categoryRepository.GetCategories(accountId);
+            var users = await userBookRepository.GetUsers(accountId);
             var model = new TransactionViewModel()
             {
                 Categories = categories.Select(x => new CategoryModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -133,12 +133,12 @@ namespace Badzeet.Web.Features.Book
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewRecord(TransactionViewModel model, long bookId)
+        public async Task<IActionResult> NewRecord(long accountId, TransactionViewModel model)
         {
             transactionRepository.Add(
                 new Transaction()
                 {
-                    AccountId = bookId,
+                    AccountId = accountId,
                     Amount = model.Transaction.Amount,
                     Date = model.Transaction.Date,
                     Description = model.Transaction.Description,

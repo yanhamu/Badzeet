@@ -3,7 +3,6 @@ using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -78,10 +77,10 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long bookId, int budgetId)
+        public async Task<IActionResult> Edit(long accountId, int budgetId)
         {
-            var categories = await categoryRepository.GetCategories(bookId);
-            var budgets = await budgetRepository.GetBudgets(bookId, budgetId);
+            var categories = await categoryRepository.GetCategories(accountId);
+            var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
 
             var categoryBudgetModels = new List<CategoryBudgetViewModel>();
             foreach (var category in categories)
@@ -98,63 +97,19 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(long bookId, int budgetId, List<CategoryBudgetViewModel> budgets)
+        public async Task<IActionResult> Edit(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
         {
-            var tracked = await budgetRepository.GetBudgets(bookId, budgetId);
+            var tracked = await budgetRepository.GetBudgets(accountId, budgetId);
 
             foreach (var t in tracked)
                 t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
 
             foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
-                budgetRepository.AddBudget(new CategoryBudget() { AccountId = bookId, Amount = b.Amount, CategoryId = b.CategoryId, Id = budgetId });
+                budgetRepository.AddBudget(new CategoryBudget() { AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId, Id = budgetId });
 
             await budgetRepository.Save();
 
             return RedirectToAction(nameof(Index));
         }
-    }
-
-    public class CategoryBudgetViewModel
-    {
-        public long CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public decimal Amount { get; set; }
-    }
-
-    public class EditBudgetViewModel
-    {
-        public List<CategoryBudgetViewModel> Budgets { get; set; }
-    }
-
-    public class BudgetViewModel
-    {
-        public int BudgetId { get; set; }
-        public BudgetCategoryViewModel[] Categories { get; set; }
-        public decimal Spend { get; set; }
-        public decimal Budget { get; set; }
-        public decimal RemainingBudget { get { return Budget - Spend; } }
-        public DateInterval BudgetInterval { get; set; }
-        public bool IsOngoing { get { return DateTime.Now.Date <= BudgetInterval.To && DateTime.Now.Date >= BudgetInterval.From; } }
-
-    }
-
-    public class BudgetCategoryViewModel
-    {
-        public string Name { get; set; }
-        public decimal Total { get; set; }
-        public decimal Budget { get; set; }
-        public CategoryUserViewModel[] Users { get; set; }
-    }
-
-    public class CategoryUserViewModel
-    {
-        public CategoryUserViewModel(string name, decimal total)
-        {
-            Name = name;
-            Total = total;
-        }
-
-        public string Name { get; }
-        public decimal Total { get; }
     }
 }

@@ -33,15 +33,15 @@ namespace Badzeet.Web.Features.Dashboard
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(long bookId, int budgetId)
+        public async Task<IActionResult> Index(long accountId, int budgetId)
         {
-            if (await budgetRepository.HasBudget(bookId, budgetId))
+            if (await budgetRepository.HasBudget(accountId, budgetId))
                 return RedirectToAction("Index","Budget");
 
-            var interval = await budgetService.GetMonthlyBudgetById(bookId, budgetId);
-            var allCategories = await categoryRepository.GetCategories(bookId);
-            var transactions = await transactionRepository.GetTransactions(bookId, interval);
-            var allUsers = await userBookRepository.GetUsers(bookId);
+            var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
+            var allCategories = await categoryRepository.GetCategories(accountId);
+            var transactions = await transactionRepository.GetTransactions(accountId, interval);
+            var allUsers = await userBookRepository.GetUsers(accountId);
 
             var categories = new List<CategoryViewModel>();
             var total = 0m;
