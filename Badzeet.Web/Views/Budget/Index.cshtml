@@ -26,9 +26,9 @@
 
 
 <div class="card mb-4" >
-    <div class="card-header">
+    <h5 class="card-header bg-primary text-white">
         Summary
-    </div>
+    </h5>
     <div class="card-body">
         <table class="table table-sm">
             <tr>
@@ -51,29 +51,29 @@
                 <td>
                     Remaining Budget:
                 </td>
-                <td class="@(Model.RemainingBudget > 0?"table-success":"table-danger") ">
+                <td class="@(Model.RemainingBudget > 0?"text-success":"text-danger") ">
                     @Model.RemainingBudget.ToString("F0")
                 </td>
             </tr>
             @if (Model.IsOngoing)
             {
-                <tr>
-                    <td>
-                        Remaining Days:
-                    </td>
-                    <td>
-                        @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    Remaining Days:
+                </td>
+                <td>
+                    @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
+                </td>
+            </tr>
             }
         </table>
     </div>
 </div>
 
 <div class="card mb-4">
-    <div class="card-header">
+    <h5 class="card-header bg-primary text-white">
         Details
-    </div>
+    </h5>
     <div class="card-body">
         <table class="table table-sm">
             <tr>
@@ -84,12 +84,12 @@
             </tr>
             @foreach (var category in Model.Categories)
             {
-                <tr class="table-primary">
-                    <td colspan="2">
+                <tr>
+                    <th colspan="2">
                         @category.Name
-                    </td>
-                    <td>@category.Total.ToString("F0")</td>
-                    <td>@category.Budget</td>
+                    </th>
+                    <th>@category.Total.ToString("F0")</th>
+                    <th>@category.Budget</th>
                 </tr>
 
                 @foreach (var u in category.Users)
