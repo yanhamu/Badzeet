@@ -1,4 +1,4 @@
-﻿@model Badzeet.Web.Features.Book.TransactionViewModel
+﻿@model Badzeet.Web.Features.Payments.PaymentsController.PaymentViewModel
 @{
     ViewData["Title"] = "New";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,33 +6,33 @@
 
 <h1>NewRecord</h1>
 
-<form method="post" asp-controller="Book" asp-action="NewRecord">
+<form method="post" asp-action="New">
     <div class="form-group row">
-        <label asp-for="Transaction.Date" class="col-sm-2 col-form-label">Date</label>
+        <label asp-for="Payment.Date" class="col-sm-2 col-form-label">Date</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Transaction.Date" type="date" />
+            <input class="form-control" asp-for="Payment.Date" type="date" />
         </div>
     </div>
 
     <div class="form-group row">
-        <label asp-for="Transaction.Description" class="col-sm-2 col-form-label">Description</label>
+        <label asp-for="Payment.Description" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Transaction.Description" type="text" />
+            <input class="form-control" asp-for="Payment.Description" type="text" />
         </div>
     </div>
 
     <div class="form-group row">
-        <label asp-for="Transaction.Amount" class="col-sm-2 col-form-label">Amount</label>
+        <label asp-for="Payment.Amount" class="col-sm-2 col-form-label">Amount</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Transaction.Amount" type="number" />
+            <input class="form-control" asp-for="Payment.Amount" type="number" />
         </div>
     </div>
 
     <div class="form-group row">
-        <label asp-for="Transaction.CategoryId" class="col-sm-2 col-form-label">Category</label>
+        <label asp-for="Payment.CategoryId" class="col-sm-2 col-form-label">Category</label>
         <div class="col-sm-10">
             <select class="custom-select"
-                    asp-for="Transaction.CategoryId"
+                    asp-for="Payment.CategoryId"
                     asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
                 <option>Please select one</option>
             </select>
@@ -40,10 +40,10 @@
     </div>
 
     <div class="form-group row">
-        <label asp-for="Transaction.UserId" class="col-sm-2 col-form-label">Owner</label>
+        <label asp-for="Payment.UserId" class="col-sm-2 col-form-label">Owner</label>
         <div class="col-sm-10">
             <select class="custom-select"
-                    asp-for="Transaction.UserId"
+                    asp-for="Payment.UserId"
                     asp-items="@(new SelectList(Model.Users,"UserId","User.Nickname"))">
             </select>
         </div>

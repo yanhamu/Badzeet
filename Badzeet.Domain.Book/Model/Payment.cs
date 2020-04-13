@@ -2,14 +2,14 @@
 
 namespace Badzeet.Domain.Book.Model
 {
-    public class Transaction
+    public class Payment
     {
-        public Transaction()
+        public Payment()
         {
 
         }
 
-        public Transaction(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId)
+        public Payment(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId)
         {
             Id = id;
             Date = date;

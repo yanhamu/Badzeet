@@ -1,4 +1,4 @@
-﻿@model Badzeet.Web.Features.Book.TransactionsModel
+﻿@model Badzeet.Web.Features.Payments.PaymentsController.PaymentsViewModel
 
 @{
     ViewData["Title"] = "List";
@@ -10,7 +10,7 @@
 <h1>Records</h1>
 
 <table class="table table-sm">
-    @foreach (var t in Model.Transactions)
+    @foreach (var t in Model.Payments)
     {
         @if (date != t.Date)
         {
@@ -26,7 +26,7 @@
             <td>@(categories[t.CategoryId])</td>
             <td>@(Model.Users.Single(u => u.UserId == t.UserId).User.Nickname)</td>
             <td>
-                <a asp-controller="Book" asp-action="EditRecord" asp-route-id="@t.Id">
+                <a asp-action="Edit" asp-route-id="@t.Id">
                     <i class="fa fa-edit fa-xs"></i>
                 </a>
             </td>

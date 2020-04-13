@@ -12,14 +12,14 @@ namespace Badzeet.Web.Features.Budget
     [Authorize]
     public class BudgetController : Controller
     {
-        private readonly ITransactionRepository transactionRepository;
+        private readonly IPaymentRepository transactionRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
         private readonly BookService budgetService;
 
         public BudgetController(
-            ITransactionRepository transactionRepository,
+            IPaymentRepository transactionRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
@@ -43,7 +43,7 @@ namespace Badzeet.Web.Features.Budget
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
-            var transactions = await transactionRepository.GetTransactions(accountId, interval);
+            var transactions = await transactionRepository.GetPayments(accountId, interval);
             var allUsers = await userBookRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
 

@@ -11,15 +11,15 @@ namespace Badzeet.DataAccess.Book
         {
             modelBuilder.HasDefaultSchema("budget");
 
-            var transaction = modelBuilder.Entity<Transaction>();
-            transaction.ToTable("transactions");
-            transaction.HasKey(x => x.Id);
-            transaction.Property(x => x.AccountId).HasColumnName("account_id");
-            transaction.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
-            transaction.Property(x => x.CategoryId).HasColumnName("category_id");
-            transaction.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
-            transaction.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
-            transaction.Property(x => x.UserId).HasColumnName("owner_id");
+            var payment = modelBuilder.Entity<Payment>();
+            payment.ToTable("payments");
+            payment.HasKey(x => x.Id);
+            payment.Property(x => x.AccountId).HasColumnName("account_id");
+            payment.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
+            payment.Property(x => x.CategoryId).HasColumnName("category_id");
+            payment.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
+            payment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
+            payment.Property(x => x.UserId).HasColumnName("owner_id");
 
             var book = modelBuilder.Entity<Badzeet.Domain.Book.Model.Account>();
             book.ToTable("accounts");

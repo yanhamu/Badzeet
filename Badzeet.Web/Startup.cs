@@ -35,11 +35,11 @@ namespace Badzeet.Web
             services.AddTransient<Features.Account.Service>();
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<TransactionsService>();
+            services.AddTransient<PaymentsService>();
             services.AddTransient<BookService>();
             services.AddTransient<RegistrationService>();
             
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IUserBookRepository, UserBookRepository>();

@@ -8,38 +8,38 @@ using System.Threading.Tasks;
 
 namespace Badzeet.DataAccess.Book
 {
-    public class TransactionRepository : ITransactionRepository
+    public class PaymentRepository : IPaymentRepository
     {
         private readonly BookDbContext context;
 
-        public TransactionRepository(BookDbContext context)
+        public PaymentRepository(BookDbContext context)
         {
             this.context = context;
         }
 
-        public Transaction Add(Transaction transaction)
+        public Payment Add(Payment payment)
         {
-            return context.Set<Transaction>().Add(transaction).Entity;
+            return context.Set<Payment>().Add(payment).Entity;
         }
 
-        public Task<Transaction> GetLastTransaction(long bookId)
+        public Task<Payment> GetLastPayment(long bookId)
         {
             return context
-                .Set<Transaction>()
+                .Set<Payment>()
                 .Where(x => x.AccountId == bookId)
                 .OrderByDescending(x => x.Date)
                 .FirstOrDefaultAsync();
         }
 
-        public Task<Transaction> GetTransaction(long id)
+        public Task<Payment> GetPayment(long id)
         {
-            return context.Set<Transaction>().SingleOrDefaultAsync(x => x.Id == id);
+            return context.Set<Payment>().SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactions(long bookId, DateInterval interval)
+        public async Task<IEnumerable<Payment>> GetPayments(long bookId, DateInterval interval)
         {
             return await context
-                .Set<Transaction>()
+                .Set<Payment>()
                 .Where(x => x.AccountId == bookId)
                 .Where(x => x.Date >= interval.From)
                 .Where(x => x.Date <= interval.To)
@@ -48,12 +48,12 @@ namespace Badzeet.DataAccess.Book
                 .ToListAsync();
         }
 
-        public async Task<Transaction> Remove(long id)
+        public async Task<Payment> Remove(long id)
         {
-            var transaction = await context.Set<Transaction>().FindAsync(id);
-            context.Set<Transaction>().Remove(transaction);
+            var payment = await context.Set<Payment>().FindAsync(id);
+            context.Set<Payment>().Remove(payment);
             await context.SaveChangesAsync();
-            return transaction;
+            return payment;
         }
 
         public Task Save()
