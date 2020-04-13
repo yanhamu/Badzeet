@@ -12,20 +12,17 @@ namespace Badzeet.Web.Features.Payments
     public class PaymentsController : Controller
     {
         private readonly PaymentsService paymentsService;
-        private readonly IPaymentRepository paymentRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
         private readonly BookService budgetService;
 
         public PaymentsController(
             PaymentsService paymentsService,
-            IPaymentRepository paymentRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
             BookService budgetService)
         {
             this.paymentsService = paymentsService;
-            this.paymentRepository = paymentRepository;
             this.categoryRepository = categoryRepository;
             this.userBookRepository = userBookRepository;
             this.budgetService = budgetService;
@@ -50,26 +47,23 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> New(long accountId, PaymentViewModel model)
         {
-            paymentRepository.Add(
-                new Payment()
-                {
-                    AccountId = accountId,
-                    Amount = model.Payment.Amount,
-                    Date = model.Payment.Date,
-                    Description = model.Payment.Description,
-                    CategoryId = model.Payment.CategoryId,
-                    UserId = model.Payment.UserId
-                });
-            await paymentRepository.Save();
+            await paymentsService.Add(new Payment()
+            {
+                AccountId = accountId,
+                Amount = model.Payment.Amount,
+                Date = model.Payment.Date,
+                Description = model.Payment.Description,
+                CategoryId = model.Payment.CategoryId,
+                UserId = model.Payment.UserId
+            });
 
             return RedirectToAction("List");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Edit(long id, long bookId)
         {
-            var transaction = await paymentRepository.GetPayment(id);
+            var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(bookId);
             var users = await userBookRepository.GetUsers(bookId);
             var model = new PaymentViewModel()
@@ -92,14 +86,14 @@ namespace Badzeet.Web.Features.Payments
                 model.Payment.Amount,
                 model.Payment.CategoryId,
                 model.Payment.UserId));
+
             return RedirectToAction("Index", "Dashboard");
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Split(long id, long bookId)
         {
-            var transaction = await paymentRepository.GetPayment(id);
+            var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(bookId);
             var users = await userBookRepository.GetUsers(bookId);
             var model = new PaymentViewModel()
@@ -114,28 +108,27 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> Split(SplitModel model)
         {
-            var transaction = await paymentRepository.GetPayment(model.OldPaymentId);
-            transaction.Amount = model.OldAmount;
+            var payment = await paymentsService.GetPayment(model.OldPaymentId);
+            payment.Amount = model.OldAmount;
 
-            var newTransaction = new Payment()
+            var newPayment = new Payment()
             {
-                AccountId = transaction.AccountId,
+                AccountId = payment.AccountId,
                 Amount = model.NewAmount,
                 CategoryId = model.CategoryId,
-                Date = transaction.Date,
+                Date = payment.Date,
                 Description = model.Description,
                 UserId = model.OwnerId
             };
 
-            paymentRepository.Add(newTransaction);
-            await paymentRepository.Save();
+            await paymentsService.Add(newPayment);
             return RedirectToAction("List");
         }
 
         [HttpPost]
         public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]long id)
         {
-            await paymentRepository.Remove(id);
+            await paymentsService.Remove(id);
             return RedirectToAction("List");
         }
 
@@ -144,14 +137,14 @@ namespace Badzeet.Web.Features.Payments
         {
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
 
-            var transactions = await paymentsService.GetPayments(accountId, interval);
+            var payments = await paymentsService.GetPayments(accountId, interval);
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userBookRepository.GetUsers(accountId);
 
             var model = new PaymentsViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payments = transactions.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId)),
+                Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId)),
                 Users = users
             };
 

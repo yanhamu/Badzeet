@@ -32,13 +32,13 @@ namespace Badzeet.DataAccess.Book
             category.HasKey(x => x.Id);
             category.Property(x => x.AccountId).HasColumnName("account_id");
 
-            var userBook = modelBuilder.Entity<UserAccount>();
-            userBook.ToTable("user_accounts");
-            userBook.HasKey(x => new { x.UserId, x.AccountId });
-            userBook.Property(x => x.UserId).HasColumnName("user_id");
-            userBook.Property(x => x.AccountId).HasColumnName("account_id");
+            var userAccount = modelBuilder.Entity<UserAccount>();
+            userAccount.ToTable("user_accounts");
+            userAccount.HasKey(x => new { x.UserId, x.AccountId });
+            userAccount.Property(x => x.UserId).HasColumnName("user_id");
+            userAccount.Property(x => x.AccountId).HasColumnName("account_id");
 
-            userBook.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
+            userAccount.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
 
             var user = modelBuilder.Entity<User>();
             user.ToTable("users");

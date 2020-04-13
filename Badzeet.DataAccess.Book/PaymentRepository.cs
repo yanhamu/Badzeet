@@ -17,43 +17,43 @@ namespace Badzeet.DataAccess.Book
             this.context = context;
         }
 
-        public Payment Add(Payment payment)
-        {
-            return context.Set<Payment>().Add(payment).Entity;
-        }
-
-        public Task<Payment> GetLastPayment(long bookId)
-        {
-            return context
-                .Set<Payment>()
-                .Where(x => x.AccountId == bookId)
-                .OrderByDescending(x => x.Date)
-                .FirstOrDefaultAsync();
-        }
-
-        public Task<Payment> GetPayment(long id)
+        public Task<Payment> Get(long id)
         {
             return context.Set<Payment>().SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Payment>> GetPayments(long bookId, DateInterval interval)
+        public Payment Add(Payment payment)
         {
-            return await context
-                .Set<Payment>()
-                .Where(x => x.AccountId == bookId)
-                .Where(x => x.Date >= interval.From)
-                .Where(x => x.Date <= interval.To)
-                .OrderByDescending(x => x.Date)
-                .Take(100)
-                .ToListAsync();
+            return context.Set<Payment>().Add(payment).Entity;
         }
 
         public async Task<Payment> Remove(long id)
         {
             var payment = await context.Set<Payment>().FindAsync(id);
             context.Set<Payment>().Remove(payment);
-            await context.SaveChangesAsync();
             return payment;
+        }
+
+        public Task<Payment> GetLastPayment(long accountId)
+        {
+            return context
+                .Set<Payment>()
+                .Where(x => x.AccountId == accountId)
+                .OrderByDescending(x => x.Date)
+                .FirstOrDefaultAsync();
+        }
+
+
+        public async Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval)
+        {
+            return await context
+                .Set<Payment>()
+                .Where(x => x.AccountId == accountId)
+                .Where(x => x.Date >= interval.From)
+                .Where(x => x.Date <= interval.To)
+                .OrderByDescending(x => x.Date)
+                .Take(100)
+                .ToListAsync();
         }
 
         public Task Save()

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Web.Configuration.Filters
 {
-    public class BookIdFilter : IAsyncActionFilter
+    public class AccountIdFilter : IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {

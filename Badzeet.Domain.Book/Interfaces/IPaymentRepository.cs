@@ -6,11 +6,11 @@ namespace Badzeet.Domain.Book.Interfaces
 {
     public interface IPaymentRepository
     {
-        Task<IEnumerable<Payment>> GetPayments(long bookId, DateInterval interval);
-        Task<Payment> GetPayment(long id);
-        Task Save();
+        Task<Payment> Get(long id);
         Payment Add(Payment transaction);
-        Task<Payment> GetLastPayment(long bookId);
         Task<Payment> Remove(long id);
+        Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval);
+        Task<Payment> GetLastPayment(long accountId);
+        Task Save();
     }
 }

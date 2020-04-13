@@ -18,9 +18,27 @@ namespace Badzeet.Domain.Book.Model
             return await repository.GetPayments(accountId, interval);
         }
 
+        public Task<Payment> GetPayment(long id)
+        {
+            return repository.Get(id);
+        }
+
+        public Task Add(Payment payment)
+        {
+            repository.Add(payment);
+            return repository.Save();
+        }
+
+        public async Task Remove(long id)
+        {
+            await repository.Remove(id);
+            await repository.Save();
+        }
+
+
         public async Task Save(Payment payment)
         {
-            var tracked = await repository.GetPayment(payment.Id);
+            var tracked = await repository.Get(payment.Id);
             tracked.Date = payment.Date;
             tracked.Description = payment.Description;
             tracked.Amount = payment.Amount;
