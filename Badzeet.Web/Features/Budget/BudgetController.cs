@@ -69,6 +69,7 @@ namespace Badzeet.Web.Features.Budget
             }
 
             var model = new BudgetViewModel();
+            model.BudgetId = budgetId;
             model.Categories = categories.ToArray();
             model.Spend = categories.Sum(x => x.Total);
             model.Budget = categories.Sum(x => x.Budget);
@@ -127,12 +128,14 @@ namespace Badzeet.Web.Features.Budget
 
     public class BudgetViewModel
     {
+        public int BudgetId { get; set; }
         public BudgetCategoryViewModel[] Categories { get; set; }
         public decimal Spend { get; set; }
         public decimal Budget { get; set; }
         public decimal RemainingBudget { get { return Budget - Spend; } }
         public DateInterval BudgetInterval { get; set; }
         public bool IsOngoing { get { return DateTime.Now.Date <= BudgetInterval.To && DateTime.Now.Date >= BudgetInterval.From; } }
+
     }
 
     public class BudgetCategoryViewModel

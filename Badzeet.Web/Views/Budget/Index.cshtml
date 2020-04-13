@@ -4,70 +4,111 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table table-sm">
-    <tr>
-        <td>
-            Spend:
-        </td>
-        <td>
-            @Model.Spend.ToString("F0")
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Budget:
-        </td>
-        <td>
-            @Model.Budget.ToString("F0")
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Remaining Budget:
-        </td>
-        <td class="@(Model.RemainingBudget > 0?"table-success":"table-danger") ">
-            @Model.RemainingBudget.ToString("F0")
-        </td>
-    </tr>
-    @if (Model.IsOngoing)
-    {
-        <tr>
-            <td>
-                Remaining Days:
-            </td>
-            <td>
-                @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays)
-            </td>
-        </tr>
-    }
-</table>
-
-<table class="table table-sm">
-    @foreach (var category in Model.Categories)
-    {
-        <tr class="table-primary">
-            <td colspan="2">
-                @category.Name
-            </td>
-            <td>@category.Total.ToString("F0")</td>
-            <td>@category.Budget</td>
-        </tr>
-
-        @foreach (var u in category.Users)
+<div class="text-center">
+    <h2>
+        @if (Model.BudgetId > 0)
         {
+            <span>
+                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </span>
+        }
+        @Model.BudgetInterval.From.ToString("m") - @Model.BudgetInterval.To.ToString("m")
+
+        <span>
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </span>
+    </h2>
+</div>
+
+
+<div class="card mb-4" >
+    <div class="card-header">
+        Summary
+    </div>
+    <div class="card-body">
+        <table class="table table-sm">
             <tr>
-                <td></td>
                 <td>
-                    @u.Name
+                    Spend:
                 </td>
                 <td>
-                    @u.Total.ToString("F0")
-                </td>
-                <td>
+                    @Model.Spend.ToString("F0")
                 </td>
             </tr>
-        }
-    }
-</table>
+            <tr>
+                <td>
+                    Budget:
+                </td>
+                <td>
+                    @Model.Budget.ToString("F0")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Remaining Budget:
+                </td>
+                <td class="@(Model.RemainingBudget > 0?"table-success":"table-danger") ">
+                    @Model.RemainingBudget.ToString("F0")
+                </td>
+            </tr>
+            @if (Model.IsOngoing)
+            {
+                <tr>
+                    <td>
+                        Remaining Days:
+                    </td>
+                    <td>
+                        @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Details
+    </div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <th colspan="2"></th>
+
+                <th>Spent</th>
+                <th>Planned</th>
+            </tr>
+            @foreach (var category in Model.Categories)
+            {
+                <tr class="table-primary">
+                    <td colspan="2">
+                        @category.Name
+                    </td>
+                    <td>@category.Total.ToString("F0")</td>
+                    <td>@category.Budget</td>
+                </tr>
+
+                @foreach (var u in category.Users)
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            @u.Name
+                        </td>
+                        <td>
+                            @u.Total.ToString("F0")
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
 
 <a class="btn btn-primary form-control" asp-action="Edit">Edit</a>

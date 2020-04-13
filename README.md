@@ -6,3 +6,4 @@
 ## TODOs:
 - Returns
 - Budget list
+- Periodic payments
