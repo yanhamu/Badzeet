@@ -41,7 +41,7 @@ namespace Badzeet.Web
             
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IBookRepository, AccountRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserBookRepository, UserBookRepository>();
             services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddScoped<IUserRepository, UserRepository>();

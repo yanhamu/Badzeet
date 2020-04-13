@@ -61,11 +61,11 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long id, long bookId)
+        public async Task<IActionResult> Edit(long id, long accountId)
         {
             var transaction = await paymentsService.GetPayment(id);
-            var categories = await categoryRepository.GetCategories(bookId);
-            var users = await userBookRepository.GetUsers(bookId);
+            var categories = await categoryRepository.GetCategories(accountId);
+            var users = await userBookRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -91,11 +91,11 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Split(long id, long bookId)
+        public async Task<IActionResult> Split(long id, long accountId)
         {
             var transaction = await paymentsService.GetPayment(id);
-            var categories = await categoryRepository.GetCategories(bookId);
-            var users = await userBookRepository.GetUsers(bookId);
+            var categories = await categoryRepository.GetCategories(accountId);
+            var users = await userBookRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),

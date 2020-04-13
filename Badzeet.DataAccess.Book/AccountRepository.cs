@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Badzeet.DataAccess.Book
 {
-    public class AccountRepository : IBookRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly BookDbContext dbContext;
 
@@ -13,7 +13,7 @@ namespace Badzeet.DataAccess.Book
             this.dbContext = dbContext;
         }
 
-        public async Task<Account> CreateBook(byte firstDayOfBudget)
+        public async Task<Account> CreateAccount(byte firstDayOfBudget)
         {
             var book = new Account() { FirstDayOfTheBudget = firstDayOfBudget };
             var bookEntity = dbContext
@@ -23,11 +23,11 @@ namespace Badzeet.DataAccess.Book
             return bookEntity.Entity;
         }
 
-        public async Task<Account> GetBook(long bookId)
+        public async Task<Account> GetAccount(long accountId)
         {
             return await dbContext
                 .Set<Account>()
-                .FindAsync(bookId);
+                .FindAsync(accountId);
         }
     }
 }

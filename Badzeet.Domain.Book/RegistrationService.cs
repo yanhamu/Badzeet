@@ -10,12 +10,12 @@ namespace Badzeet.Domain.Book
         private readonly IUserRepository userRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IInvitationRepository invitationRepository;
-        private readonly IBookRepository bookRepository;
+        private readonly IAccountRepository bookRepository;
 
         public RegistrationService(
             IUserBookRepository userBookRepository,
             IInvitationRepository invitationRepository,
-            IBookRepository bookRepository,
+            IAccountRepository bookRepository,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository)
         {
@@ -40,7 +40,7 @@ namespace Badzeet.Domain.Book
             }
             else
             {
-                var book = await bookRepository.CreateBook(1);
+                var book = await bookRepository.CreateAccount(1);
                 _ = await userBookRepository.Create(userId, book.Id);
                 await categoryRepository.Create(book.Id, "unspecified", 1000);
             }

@@ -7,11 +7,11 @@ namespace Badzeet.Domain.Book
     public class BookService
     {
         private readonly IPaymentRepository transactionRepository;
-        private readonly IBookRepository bookRepository;
+        private readonly IAccountRepository bookRepository;
 
         public BookService(
             IPaymentRepository transactionRepository,
-            IBookRepository bookRepository)
+            IAccountRepository bookRepository)
         {
             this.transactionRepository = transactionRepository;
             this.bookRepository = bookRepository;
@@ -19,7 +19,7 @@ namespace Badzeet.Domain.Book
 
         public async Task<int> GetLatestBudgetId(long bookId)
         {
-            var book = await bookRepository.GetBook(bookId);
+            var book = await bookRepository.GetAccount(bookId);
             var lastTransaction = await transactionRepository.GetLastPayment(bookId);
             var last = GetBudgetInterval(book.FirstDayOfTheBudget, lastTransaction.Date);
 
@@ -36,7 +36,7 @@ namespace Badzeet.Domain.Book
 
         public async Task<DateInterval> GetMonthlyBudgetById(long bookId, int budgetId)
         {
-            var book = await bookRepository.GetBook(bookId);
+            var book = await bookRepository.GetAccount(bookId);
             var start = new DateTime(2000, 1, book.FirstDayOfTheBudget);
             return new DateInterval(start, start.AddMonths(1).AddDays(-1)).AddMonth(budgetId);
         }
