@@ -12,7 +12,6 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Badzeet</a>
             <ul class="nav">
                 @if (@User.Identity.IsAuthenticated)
@@ -43,11 +42,14 @@
                     </div>
                 }
             </div>
-
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (User.Identity.IsAuthenticated)
+            {
+                @(await Component.InvokeAsync<Badzeet.Web.Features.RecurringPayments.RecurringPayments>())
+            }
             @RenderBody()
         </main>
     </div>

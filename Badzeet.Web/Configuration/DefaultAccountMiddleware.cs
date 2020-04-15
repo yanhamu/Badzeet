@@ -18,15 +18,13 @@ namespace Badzeet.Web.Configuration
         {
             if (context.User.Identity.IsAuthenticated == true)
             {
-                var claim = context.User.Claims.FirstOrDefault(c => c.Type == "Id");
+                var userId = context.GetUserId();
 
-                var userId = Guid.Parse(claim.Value);
-
-                var bookId = await service.GetBookId(userId);
-                context.Items["da"] = bookId;
+                var accountId = await service.GetAccountId(userId);
+                context.Items["da"] = accountId;
 
                 if (context.Request.Cookies.ContainsKey("da") == false)
-                    context.Response.Cookies.Append("da", bookId.ToString());
+                    context.Response.Cookies.Append("da", accountId.ToString());
             }
 
             await next(context);
@@ -35,7 +33,7 @@ namespace Badzeet.Web.Configuration
 
     public interface IUserAccountService
     {
-        public Task<long> GetBookId(Guid userId);
+        public Task<long> GetAccountId(Guid userId);
     }
 
     public class UserAccountService : IUserAccountService
@@ -47,7 +45,7 @@ namespace Badzeet.Web.Configuration
             this.userBookRepository = userBookRepository;
         }
 
-        public async Task<long> GetBookId(Guid userId)
+        public async Task<long> GetAccountId(Guid userId)
         {
             return (await userBookRepository.GetBooks(userId)).First().AccountId;
         }

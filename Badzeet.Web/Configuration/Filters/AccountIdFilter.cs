@@ -8,17 +8,8 @@ namespace Badzeet.Web.Configuration.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (context.ActionDescriptor.Parameters.Any(x => x.Name == "bookId" && x.ParameterType == typeof(long)))
-            {
-                var accountId = context.HttpContext.GetBookId();
-                context.ActionArguments.Add("bookId", accountId);
-            }
-
             if (context.ActionDescriptor.Parameters.Any(x => x.Name == "accountId" && x.ParameterType == typeof(long)))
-            {
-                var accountId = context.HttpContext.GetBookId();
-                context.ActionArguments.Add("accountId", accountId);
-            }
+                context.ActionArguments.Add("accountId", context.HttpContext.GetAccountId());
 
             await next();
         }

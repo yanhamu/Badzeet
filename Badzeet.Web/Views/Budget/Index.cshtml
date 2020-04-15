@@ -14,18 +14,17 @@
                 </a>
             </span>
         }
-        @Model.BudgetInterval.From.ToString("m") - @Model.BudgetInterval.To.ToString("m")
+        @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
 
         <span>
-            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId + 1)">
                 <i class="fas fa-angle-right"></i>
             </a>
         </span>
     </h2>
 </div>
 
-
-<div class="card mb-4" >
+<div class="card mb-4">
     <h5 class="card-header bg-primary text-white">
         Summary
     </h5>
@@ -57,14 +56,14 @@
             </tr>
             @if (Model.IsOngoing)
             {
-            <tr>
-                <td>
-                    Remaining Days:
-                </td>
-                <td>
-                    @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        Remaining Days:
+                    </td>
+                    <td>
+                        @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
+                    </td>
+                </tr>
             }
         </table>
     </div>
@@ -72,7 +71,7 @@
 
 <div class="card mb-4">
     <h5 class="card-header bg-primary text-white">
-        Details
+        Budget
     </h5>
     <div class="card-body">
         <table class="table table-sm">
@@ -108,7 +107,6 @@
                 }
             }
         </table>
+        <a class="btn btn-primary form-control" asp-action="Edit">Edit</a>
     </div>
 </div>
-
-<a class="btn btn-primary form-control" asp-action="Edit">Edit</a>

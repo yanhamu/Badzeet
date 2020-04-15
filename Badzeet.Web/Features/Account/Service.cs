@@ -1,5 +1,4 @@
 ﻿using Badzeet.Domain.Book;
-using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Service.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,18 +14,15 @@ namespace Badzeet.Web.Features.Account
     {
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IUserService userService;
-        private readonly BookService bookService;
         private readonly RegistrationService registrationService;
 
         public Service(
             IHttpContextAccessor contextAccessor,
             IUserService userService,
-            BookService bookService,
             RegistrationService registrationService)
         {
             this.contextAccessor = contextAccessor;
             this.userService = userService;
-            this.bookService = bookService;
             this.registrationService = registrationService;
         }
 

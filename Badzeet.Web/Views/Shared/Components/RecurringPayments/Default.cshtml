@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Badzeet.Web.Features.RecurringPayments.RecurringPayments.RecurringPayment>
+
+
+@foreach (var payment in Model)
+{
+    <div class="alert alert-warning" role="alert">
+        @payment.Description - @payment.Amount - @payment.CategoryName @payment.Date.ToString("yyyy-MM-dd")
+    </div>
+}

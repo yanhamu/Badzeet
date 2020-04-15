@@ -20,7 +20,7 @@ namespace Badzeet.Web.Configuration.Filters
         {
             if (HasArgument(context) && ProvidedValue(context) == false)
             {
-                var bookId = context.HttpContext.GetBookId();
+                var bookId = context.HttpContext.GetAccountId();
                 var budgetId = await GetBudgetId(context, bookId);
                 context.ActionArguments.Add(parameterName, budgetId);
             }
