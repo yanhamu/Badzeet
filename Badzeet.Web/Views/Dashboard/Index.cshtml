@@ -14,7 +14,7 @@
                 </a>
             </span>
         }
-        @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
+        @Model.Interval.From.ToString("dd MMM") - @Model.Interval.To.ToString("dd MMM")
 
         <span>
             <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
