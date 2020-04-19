@@ -24,7 +24,7 @@
     <div class="form-group row">
         <label asp-for="Payment.Amount" class="col-sm-2 col-form-label">Amount</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Payment.Amount" type="number" />
+            <input class="form-control" asp-for="Payment.Amount" type="number" id="amountInput" />
         </div>
     </div>
 
@@ -55,3 +55,14 @@
         </div>
     </div>
 </form>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function clearInput() {
+            document.getElementById("amountInput").value="";
+        };
+
+        window.onload = clearInput();
+    </script>
+}
