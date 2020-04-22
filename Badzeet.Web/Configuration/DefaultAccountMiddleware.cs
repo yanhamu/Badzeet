@@ -22,6 +22,7 @@ namespace Badzeet.Web.Configuration
 
                 var accountId = await service.GetAccountId(userId);
                 context.Items["da"] = accountId;
+                context.Items["ui"] = userId;
 
                 if (context.Request.Cookies.ContainsKey("da") == false)
                     context.Response.Cookies.Append("da", accountId.ToString());

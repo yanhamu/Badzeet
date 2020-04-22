@@ -35,6 +35,7 @@
     <None Remove="Scripts\0075_Drop_Schema.sql" />
     <None Remove="Scripts\0078_Create_Budget.sql" />
     <None Remove="Scripts\0080_Rename_Transactions.sql" />
+    <None Remove="Scripts\0083_Create_ScheduledPayments.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +70,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0083_Create_ScheduledPayments.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0080_Rename_Transactions.sql">
