@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Badzeet.DataAccess.Book\Badzeet.DataAccess.Book.csproj" />
-    <ProjectReference Include="..\Badzeet.Domain.Book\Badzeet.Domain.Book.csproj" />
+    <ProjectReference Include="..\Badzeet.Domain.Book\Badzeet.Domain.Budget.csproj" />
     <ProjectReference Include="..\Badzeet.Service.User\Badzeet.Service.User.csproj" />
   </ItemGroup>
 

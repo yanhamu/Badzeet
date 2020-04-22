@@ -2,6 +2,8 @@ using Badzeet.DataAccess.Book;
 using Badzeet.Domain.Book;
 using Badzeet.Domain.Book.Interfaces;
 using Badzeet.Domain.Book.Model;
+using Badzeet.Domain.Budget;
+using Badzeet.Domain.Budget.Interfaces;
 using Badzeet.Service.User;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
@@ -38,6 +40,7 @@ namespace Badzeet.Web
             services.AddTransient<PaymentsService>();
             services.AddTransient<BookService>();
             services.AddTransient<RegistrationService>();
+            services.AddTransient<ScheduledPaymentsService>();
             
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -47,6 +50,7 @@ namespace Badzeet.Web
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();
             services.AddScoped<ICategoryBudgetRepository, CategoryBudgetRepository>();
+            services.AddScoped<IScheduledPaymentRepository, ScheduledPaymentRepository>();
 
             services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Badzeet.Web.Features.RecurringPayments
+namespace Badzeet.Web.Features.ScheduledPayments
 {
-    public class RecurringPaymentsController : Controller
+    public class ScheduledPaymentsController : Controller
     {
         public IActionResult List()
         {

@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Badzeet.Web.Features.ScheduledPayments.ScheduledPayments.ScheduledPaymentViewModel>
+
+
+@foreach (var payment in Model)
+{
+    <div class="d-flex alert alert-warning" role="alert">
+        <div>
+            @payment.Description - <strong>@payment.Amount</strong> - @payment.CategoryName @payment.Date.ToString("yyyy-MM-dd")
+        </div>
+        <div class="ml-auto">
+            <i class="fas fa-check"></i>
+        </div>
+    </div>
+}

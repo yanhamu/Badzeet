@@ -46,10 +46,10 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @*@if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated)
             {
-                @(await Component.InvokeAsync<Badzeet.Web.Features.RecurringPayments.RecurringPayments>())
-            }*@
+                @(await Component.InvokeAsync<Badzeet.Web.Features.ScheduledPayments.ScheduledPayments>())
+            }
             @RenderBody()
         </main>
     </div>
