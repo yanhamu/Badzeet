@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Badzeet.Domain.Book.Model
+namespace Badzeet.Domain.Budget.Model
 {
     public class User
     {

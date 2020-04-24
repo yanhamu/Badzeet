@@ -1,7 +1,4 @@
-using Badzeet.DataAccess.Book;
-using Badzeet.Domain.Book;
-using Badzeet.Domain.Book.Interfaces;
-using Badzeet.Domain.Book.Model;
+using Badzeet.DataAccess.Budget;
 using Badzeet.Domain.Budget;
 using Badzeet.Domain.Budget.Interfaces;
 using Badzeet.Service.User;
@@ -41,7 +38,7 @@ namespace Badzeet.Web
             services.AddTransient<BookService>();
             services.AddTransient<RegistrationService>();
             services.AddTransient<ScheduledPaymentsService>();
-            
+
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();

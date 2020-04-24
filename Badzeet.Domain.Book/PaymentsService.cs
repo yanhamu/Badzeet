@@ -1,8 +1,9 @@
-﻿using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Budget.Interfaces;
+using Badzeet.Domain.Budget.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Badzeet.Domain.Book.Model
+namespace Badzeet.Domain.Budget
 {
     public class PaymentsService
     {

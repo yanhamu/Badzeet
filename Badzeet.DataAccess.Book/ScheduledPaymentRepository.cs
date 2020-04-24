@@ -1,4 +1,5 @@
-﻿using Badzeet.Domain.Budget.Interfaces;
+﻿using Badzeet.DataAccess.Budget;
+using Badzeet.Domain.Budget.Interfaces;
 using Badzeet.Domain.Budget.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Badzeet.DataAccess.Book
+namespace Badzeet.DataAccess.Budget
 {
     public class ScheduledPaymentRepository : IScheduledPaymentRepository
     {
@@ -16,9 +17,22 @@ namespace Badzeet.DataAccess.Book
         {
             this.context = context;
         }
-        public Task<List<ScheduledPayment>> GetScheduledPayments(Guid userId)
+
+        public async Task<ScheduledPayment> GetPayment(long id)
+        {
+            return await context.Set<ScheduledPayment>().FindAsync(id);
+        }
+
+        public Task<List<ScheduledPayment>> GetPayments(Guid userId)
         {
             return context.Set<ScheduledPayment>().Where(x => x.OwnerId == userId).ToListAsync();
+        }
+
+        public async Task<ScheduledPayment> Remove(long id)
+        {
+            var payment = await context.Set<ScheduledPayment>().FindAsync(id);
+            context.Set<ScheduledPayment>().Remove(payment);
+            return payment;
         }
     }
 }

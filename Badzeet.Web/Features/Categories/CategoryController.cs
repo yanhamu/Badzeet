@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Budget.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

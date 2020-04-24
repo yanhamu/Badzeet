@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Book;
+﻿using Badzeet.Domain.Budget;
 using System;
 using System.Collections.Generic;
 

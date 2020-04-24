@@ -1,8 +1,8 @@
-﻿using Badzeet.Domain.Book.Model;
+﻿using Badzeet.Domain.Budget.Model;
 using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.Domain.Book.Interfaces
+namespace Badzeet.Domain.Budget.Interfaces
 {
     public interface IInvitationRepository
     {

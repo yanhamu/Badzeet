@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Badzeet.Domain.Book
+namespace Badzeet.Domain.Budget
 {
     public struct DateInterval
     {

@@ -1,5 +1,5 @@
-﻿using Badzeet.Domain.Book;
-using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Budget;
+using Badzeet.Domain.Budget.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,7 +36,7 @@ namespace Badzeet.Web.Features.Dashboard
         public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             if (await budgetRepository.HasBudget(accountId, budgetId))
-                return RedirectToAction("Index","Budget");
+                return RedirectToAction("Index", "Budget");
 
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
             var allCategories = await categoryRepository.GetCategories(accountId);

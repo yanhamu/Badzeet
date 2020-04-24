@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.Domain.Book.Interfaces
+namespace Badzeet.Domain.Budget.Interfaces
 {
     public interface IUserRepository
     {

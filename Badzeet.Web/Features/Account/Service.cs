@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Book;
+﻿using Badzeet.Domain.Budget;
 using Badzeet.Service.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

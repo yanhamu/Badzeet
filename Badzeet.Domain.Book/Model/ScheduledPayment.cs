@@ -1,5 +1,4 @@
-﻿using Badzeet.Domain.Book.Model;
-using System;
+﻿using System;
 
 namespace Badzeet.Domain.Budget.Model
 {

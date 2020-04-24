@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Book;
+﻿using Badzeet.Domain.Budget;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;

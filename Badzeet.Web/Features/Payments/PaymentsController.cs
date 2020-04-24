@@ -1,6 +1,6 @@
-﻿using Badzeet.Domain.Book;
-using Badzeet.Domain.Book.Interfaces;
-using Badzeet.Domain.Book.Model;
+﻿using Badzeet.Domain.Budget;
+using Badzeet.Domain.Budget.Interfaces;
+using Badzeet.Domain.Budget.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

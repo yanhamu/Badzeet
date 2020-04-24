@@ -1,8 +1,8 @@
-﻿using Badzeet.Domain.Book.Interfaces;
+﻿using Badzeet.Domain.Budget.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.Domain.Book
+namespace Badzeet.Domain.Budget
 {
     public class RegistrationService
     {

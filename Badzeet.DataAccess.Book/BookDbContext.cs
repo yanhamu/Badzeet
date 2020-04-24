@@ -1,8 +1,7 @@
-﻿using Badzeet.Domain.Book.Model;
-using Badzeet.Domain.Budget.Model;
+﻿using Badzeet.Domain.Budget.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Badzeet.DataAccess.Book
+namespace Badzeet.DataAccess.Budget
 {
     public class BookDbContext : DbContext
     {
@@ -22,7 +21,7 @@ namespace Badzeet.DataAccess.Book
             payment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
             payment.Property(x => x.UserId).HasColumnName("owner_id");
 
-            var book = modelBuilder.Entity<Badzeet.Domain.Book.Model.Account>();
+            var book = modelBuilder.Entity<Badzeet.Domain.Budget.Model.Account>();
             book.ToTable("accounts");
             book.HasKey(x => x.Id);
             book.Property(x => x.FirstDayOfTheBudget).HasColumnName("first_day_of_budget");

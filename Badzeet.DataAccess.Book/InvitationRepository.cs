@@ -1,9 +1,10 @@
-﻿using Badzeet.Domain.Book.Interfaces;
-using Badzeet.Domain.Book.Model;
+﻿using Badzeet.DataAccess.Budget;
+using Badzeet.Domain.Budget.Interfaces;
+using Badzeet.Domain.Budget.Model;
 using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.DataAccess.Book
+namespace Badzeet.DataAccess.Budget
 {
     public class InvitationRepository : IInvitationRepository
     {
