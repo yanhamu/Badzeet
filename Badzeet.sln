@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Book.Migrator", "Badzeet.Book.Migrator\Badzeet.Book.Migrator.csproj", "{0244D7AA-9338-40E8-B1C0-479E2975A7BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Domain.Scheduler", "Badzeet.Domain.Scheduler\Badzeet.Domain.Scheduler.csproj", "{756C3600-3B15-4E96-9632-A1D061333C67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Scheduler.Domain", "Badzeet.Scheduler.Domain\Badzeet.Scheduler.Domain.csproj", "{A8780ACA-57F6-4B91-9019-D37151A7F230}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,10 @@ Global
 		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0244D7AA-9338-40E8-B1C0-479E2975A7BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{756C3600-3B15-4E96-9632-A1D061333C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{756C3600-3B15-4E96-9632-A1D061333C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{756C3600-3B15-4E96-9632-A1D061333C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{756C3600-3B15-4E96-9632-A1D061333C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
