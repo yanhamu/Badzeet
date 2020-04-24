@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Budget;
+﻿using Badzeet.Budget.Domain;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,9 +9,9 @@ namespace Badzeet.Web.Configuration.Filters
     {
         private const string parameterName = "budgetId";
         private const string cookieName = "mbid";
-        private readonly BookService bookService;
+        private readonly BudgetService bookService;
 
-        public BudgetIdFilter(BookService bookService)
+        public BudgetIdFilter(BudgetService bookService)
         {
             this.bookService = bookService;
         }

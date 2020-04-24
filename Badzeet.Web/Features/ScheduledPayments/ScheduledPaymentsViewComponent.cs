@@ -1,5 +1,5 @@
-﻿using Badzeet.Domain.Budget;
-using Badzeet.Domain.Budget.Interfaces;
+﻿using Badzeet.Budget.Domain;
+using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

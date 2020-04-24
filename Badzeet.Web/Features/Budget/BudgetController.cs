@@ -1,6 +1,6 @@
-﻿using Badzeet.Domain.Budget;
-using Badzeet.Domain.Budget.Interfaces;
-using Badzeet.Domain.Budget.Model;
+﻿using Badzeet.Budget.Domain;
+using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -16,14 +16,14 @@ namespace Badzeet.Web.Features.Budget
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
-        private readonly BookService budgetService;
+        private readonly BudgetService budgetService;
 
         public BudgetController(
             IPaymentRepository transactionRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
-            BookService budgetService)
+            BudgetService budgetService)
         {
             this.transactionRepository = transactionRepository;
             this.categoryRepository = categoryRepository;

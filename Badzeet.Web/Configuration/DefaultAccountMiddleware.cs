@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Budget.Interfaces;
+﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;

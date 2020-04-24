@@ -1,4 +1,4 @@
-﻿using Badzeet.Domain.Budget;
+﻿using Badzeet.Budget.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

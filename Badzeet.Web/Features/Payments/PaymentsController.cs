@@ -1,6 +1,6 @@
-﻿using Badzeet.Domain.Budget;
-using Badzeet.Domain.Budget.Interfaces;
-using Badzeet.Domain.Budget.Model;
+﻿using Badzeet.Budget.Domain;
+using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,13 +14,13 @@ namespace Badzeet.Web.Features.Payments
         private readonly PaymentsService paymentsService;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
-        private readonly BookService budgetService;
+        private readonly BudgetService budgetService;
 
         public PaymentsController(
             PaymentsService paymentsService,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
-            BookService budgetService)
+            BudgetService budgetService)
         {
             this.paymentsService = paymentsService;
             this.categoryRepository = categoryRepository;

@@ -1,6 +1,6 @@
+using Badzeet.Budget.Domain;
+using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.DataAccess.Budget;
-using Badzeet.Domain.Budget;
-using Badzeet.Domain.Budget.Interfaces;
 using Badzeet.Service.User;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
@@ -35,7 +35,7 @@ namespace Badzeet.Web
             services.AddTransient<IUserAccountService, UserAccountService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<PaymentsService>();
-            services.AddTransient<BookService>();
+            services.AddTransient<BudgetService>();
             services.AddTransient<RegistrationService>();
             services.AddTransient<ScheduledPaymentsService>();
 

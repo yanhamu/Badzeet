@@ -1,5 +1,5 @@
-﻿using Badzeet.Domain.Budget;
-using Badzeet.Domain.Budget.Interfaces;
+﻿using Badzeet.Budget.Domain;
+using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,14 +16,14 @@ namespace Badzeet.Web.Features.Dashboard
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserBookRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
-        private readonly BookService budgetService;
+        private readonly BudgetService budgetService;
 
         public DashboardController(
             IPaymentRepository transactionRepository,
             ICategoryRepository categoryRepository,
             IUserBookRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
-            BookService budgetService)
+            BudgetService budgetService)
         {
             this.transactionRepository = transactionRepository;
             this.categoryRepository = categoryRepository;
