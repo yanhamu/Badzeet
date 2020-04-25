@@ -36,37 +36,4 @@ namespace Badzeet.Scheduler.Domain
             await repository.SaveAll();
         }
     }
-
-    public class PaymentDto
-    {
-        public PaymentDto(long accountId, DateTime date, decimal amount, string description, long categoryId, Guid ownerId)
-        {
-            AccountId = accountId;
-            Date = date;
-            Amount = amount;
-            Description = description;
-            CategoryId = categoryId;
-            OwnerId = ownerId;
-        }
-
-        public long AccountId { get; }
-        public DateTime Date { get; }
-        public decimal Amount { get; }
-        public string Description { get; }
-        public long CategoryId { get; }
-        public Guid OwnerId { get; }
-    }
-
-    public interface IPaymentBus
-    {
-        Task Publish(PaymentDto paymentDto);
-    }
-
-    public class PaymentBus : IPaymentBus
-    {
-        public Task Publish(PaymentDto paymentDto)
-        {
-            return Task.CompletedTask;
-        }
-    }
 }

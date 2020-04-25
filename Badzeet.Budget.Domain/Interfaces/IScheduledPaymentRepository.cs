@@ -10,5 +10,6 @@ namespace Badzeet.Budget.Domain.Interfaces
         Task<List<ScheduledPayment>> GetPayments(Guid userId);
         Task<ScheduledPayment> GetPayment(long id);
         Task<ScheduledPayment> Remove(long id);
+        Task Add(ScheduledPayment scheduledPayment);
     }
 }

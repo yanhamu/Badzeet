@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.User.Domain", "Badz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Scheduler.DataAccess", "Badzeet.Scheduler.DataAccess\Badzeet.Scheduler.DataAccess.csproj", "{1B69719A-C292-4FCB-8276-428A4843E66D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Integration.Events", "Badzeet.Integration.Events\Badzeet.Integration.Events.csproj", "{BE907D29-D566-485F-9C08-B71DB5B011C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1B69719A-C292-4FCB-8276-428A4843E66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B69719A-C292-4FCB-8276-428A4843E66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B69719A-C292-4FCB-8276-428A4843E66D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿using Badzeet.Scheduler.Domain.Model;
+﻿using Badzeet.Integration.Events;
+using Badzeet.Scheduler.Domain.Model;
+using MediatR;
 using System;
 using System.Threading.Tasks;
 
@@ -6,34 +8,34 @@ namespace Badzeet.Scheduler.Domain.Processors
 {
     public class MonthlyPaymentProcessor : IProcessor
     {
-        private readonly PaymentBus bus;
+        private IMediator mediator;
 
-        public MonthlyPaymentProcessor()
+        public MonthlyPaymentProcessor(IMediator mediator)
         {
-            this.bus = new PaymentBus();
+            this.mediator = mediator;
         }
 
         public SchedulingType Id => SchedulingType.Monthly;
 
         public async Task Process(Payment payment, DateTime now)
         {
-            payment.ScheduledAt = CalculateNewSchedule(payment.Metadata, now);
+            payment.ScheduledAt = CalculateNewSchedule(payment.Metadata, payment.ScheduledAt);
             payment.UpdatedAt = DateTime.UtcNow;
 
-            await bus.Publish(new PaymentDto(payment.AccountId, payment.Date, payment.Amount, payment.Description, payment.CategoryId, payment.OwnerId));
+            await mediator.Send(new NewScheduledPaymentRequest(payment.AccountId, payment.Date, payment.Amount, payment.Description, payment.CategoryId, payment.OwnerId));
         }
 
-        private DateTime CalculateNewSchedule(string metadata, DateTime now)
+        private DateTime CalculateNewSchedule(string metadata, DateTime referenceDate)
         {
             var settings = MonthlySettings.Parse(metadata);
             if (settings.LastDay)
             {
-                var d = now.AddMonths(1);
+                var d = new DateTime(referenceDate.Year, referenceDate.Month, 1).AddMonths(2).AddDays(-1);
                 return new DateTime(d.Year, d.Month, d.Day, settings.When.Hours, settings.When.Minutes, settings.When.Seconds);
             }
             else
             {
-                var d = now.AddMonths(1);
+                var d = referenceDate.AddMonths(1);
                 return new DateTime(d.Year, d.Month, settings.Day.Value, settings.When.Hours, settings.When.Minutes, settings.When.Seconds);
             }
         }

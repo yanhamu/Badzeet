@@ -18,6 +18,12 @@ namespace Badzeet.DataAccess.Budget
             this.context = context;
         }
 
+        public Task Add(ScheduledPayment scheduledPayment)
+        {
+            context.Set<ScheduledPayment>().Add(scheduledPayment);
+            return Task.CompletedTask;
+        }
+
         public async Task<ScheduledPayment> GetPayment(long id)
         {
             return await context.Set<ScheduledPayment>().FindAsync(id);
