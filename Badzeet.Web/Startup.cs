@@ -1,7 +1,7 @@
 using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.DataAccess.Budget;
-using Badzeet.Service.User;
+using Badzeet.User.Domain;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;

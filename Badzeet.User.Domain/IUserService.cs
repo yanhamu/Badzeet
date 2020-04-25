@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.Service.User
+namespace Badzeet.User.Domain
 {
     public interface IUserService
     {

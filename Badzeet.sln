@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Web", "Badzeet.Web\Badzeet.Web.csproj", "{1A66C170-E074-4F3F-99F9-AEA2B5B28397}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Service.User", "Badzeet.Service.User\Badzeet.Service.User.csproj", "{6262C755-3BC6-47CE-8130-23A5E362F842}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Scheduler.Domain", "Badzeet.Scheduler.Domain\Badzeet.Scheduler.Domain.csproj", "{A8780ACA-57F6-4B91-9019-D37151A7F230}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Budget.DataAccess", "Badzeet.Budget.DataAccess\Badzeet.Budget.DataAccess.csproj", "{D7956E5E-FA42-4052-BAE3-5DA7FAB21150}"
@@ -14,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Budget.Domain", "Badzeet.Budget.Domain\Badzeet.Budget.Domain.csproj", "{6A03D425-7017-4797-9976-10E60F045E2F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Database.Migrator", "Badzeet.Database.Migrator\Badzeet.Database.Migrator.csproj", "{F558ECA3-6A55-4014-8CDE-DFA38B7C3120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.User.Domain", "Badzeet.User.Domain\Badzeet.User.Domain.csproj", "{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A66C170-E074-4F3F-99F9-AEA2B5B28397}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6262C755-3BC6-47CE-8130-23A5E362F842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6262C755-3BC6-47CE-8130-23A5E362F842}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6262C755-3BC6-47CE-8130-23A5E362F842}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6262C755-3BC6-47CE-8130-23A5E362F842}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8780ACA-57F6-4B91-9019-D37151A7F230}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{F558ECA3-6A55-4014-8CDE-DFA38B7C3120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F558ECA3-6A55-4014-8CDE-DFA38B7C3120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F558ECA3-6A55-4014-8CDE-DFA38B7C3120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

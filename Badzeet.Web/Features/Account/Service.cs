@@ -1,5 +1,5 @@
 ﻿using Badzeet.Budget.Domain;
-using Badzeet.Service.User;
+using Badzeet.User.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;

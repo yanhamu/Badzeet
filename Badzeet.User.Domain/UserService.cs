@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Badzeet.Service.User
+namespace Badzeet.User.Domain
 {
     public class UserService : IUserService
     {

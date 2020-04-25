@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Badzeet.Service.User
+namespace Badzeet.User.Domain
 {
     internal class PasswordService
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Badzeet.Service.User
+namespace Badzeet.User.Domain
 {
     public abstract class UserLoginResponse
     {

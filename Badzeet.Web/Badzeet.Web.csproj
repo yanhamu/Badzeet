@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Badzeet.Budget.DataAccess\Badzeet.Budget.DataAccess.csproj" />
     <ProjectReference Include="..\Badzeet.Budget.Domain\Badzeet.Budget.Domain.csproj" />
-    <ProjectReference Include="..\Badzeet.Service.User\Badzeet.Service.User.csproj" />
+    <ProjectReference Include="..\Badzeet.User.Domain\Badzeet.User.Domain.csproj" />
   </ItemGroup>
 
 </Project>
