@@ -8,7 +8,7 @@ namespace Badzeet.Scheduler.Domain.Processors
 {
     public class MonthlyPaymentProcessor : IProcessor
     {
-        private IMediator mediator;
+        private readonly IMediator mediator;
 
         public MonthlyPaymentProcessor(IMediator mediator)
         {
