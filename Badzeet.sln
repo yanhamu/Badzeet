@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Database.Migrator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.User.Domain", "Badzeet.User.Domain\Badzeet.User.Domain.csproj", "{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Scheduler.DataAccess", "Badzeet.Scheduler.DataAccess\Badzeet.Scheduler.DataAccess.csproj", "{1B69719A-C292-4FCB-8276-428A4843E66D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B69719A-C292-4FCB-8276-428A4843E66D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B69719A-C292-4FCB-8276-428A4843E66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B69719A-C292-4FCB-8276-428A4843E66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B69719A-C292-4FCB-8276-428A4843E66D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

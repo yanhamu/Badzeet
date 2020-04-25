@@ -49,7 +49,7 @@ namespace Badzeet.Web
             services.AddScoped<ICategoryBudgetRepository, CategoryBudgetRepository>();
             services.AddScoped<IScheduledPaymentRepository, ScheduledPaymentRepository>();
 
-            services.AddDbContext<BookDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
+            services.AddDbContext<BudgetDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
 
             services.AddControllersWithViews(x =>
             {

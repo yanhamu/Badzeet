@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badzeet.DataAccess.Budget
 {
-    public class BookDbContext : DbContext
+    public class BudgetDbContext : DbContext
     {
-        public BookDbContext(DbContextOptions options) : base(options) { }
+        public BudgetDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,11 +21,11 @@ namespace Badzeet.DataAccess.Budget
             payment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
             payment.Property(x => x.UserId).HasColumnName("owner_id");
 
-            var book = modelBuilder.Entity<Badzeet.Budget.Domain.Model.Account>();
-            book.ToTable("accounts");
-            book.HasKey(x => x.Id);
-            book.Property(x => x.FirstDayOfTheBudget).HasColumnName("first_day_of_budget");
-            book.Property(x => x.CreatedAt).HasColumnName("created_at");
+            var account = modelBuilder.Entity<Account>();
+            account.ToTable("accounts");
+            account.HasKey(x => x.Id);
+            account.Property(x => x.FirstDayOfTheBudget).HasColumnName("first_day_of_budget");
+            account.Property(x => x.CreatedAt).HasColumnName("created_at");
 
             var category = modelBuilder.Entity<Category>();
             category.ToTable("categories");

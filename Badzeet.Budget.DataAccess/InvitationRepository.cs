@@ -7,9 +7,9 @@ namespace Badzeet.DataAccess.Budget
 {
     public class InvitationRepository : IInvitationRepository
     {
-        private readonly BookDbContext context;
+        private readonly BudgetDbContext context;
 
-        public InvitationRepository(BookDbContext context)
+        public InvitationRepository(BudgetDbContext context)
         {
             this.context = context;
         }

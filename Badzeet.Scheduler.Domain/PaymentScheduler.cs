@@ -1,5 +1,6 @@
 ﻿using Badzeet.Scheduler.Domain.Interfaces;
 using Badzeet.Scheduler.Domain.Model;
+using Badzeet.Scheduler.Domain.Processors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace Badzeet.Scheduler.Domain
     {
         private readonly IEnumerable<IProcessor> processors;
         private readonly IPaymentRepository repository;
+        private readonly ILogRepository logRepository;
 
-        public PaymentScheduler(IEnumerable<IProcessor> processors, IPaymentRepository paymentRepository)
+        public PaymentScheduler(IEnumerable<IProcessor> processors, IPaymentRepository paymentRepository, ILogRepository logRepository)
         {
             this.processors = processors;
             this.repository = paymentRepository;
+            this.logRepository = logRepository;
         }
 
         public async Task Run()
@@ -28,13 +31,10 @@ namespace Badzeet.Scheduler.Domain
                 var processor = processors.Single(x => x.Id == payment.SchedulingType);
                 await processor.Process(payment, now);
             }
-        }
-    }
 
-    public interface IProcessor
-    {
-        SchedulingType Id { get; }
-        Task Process(Payment payment, DateTime now);
+            logRepository.Add(new Log() { StartedAt = now, FinishedAt = DateTime.UtcNow, RowsProcessed = payments.Count });
+            await repository.SaveAll();
+        }
     }
 
     public class PaymentDto

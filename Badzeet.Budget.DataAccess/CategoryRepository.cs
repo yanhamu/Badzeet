@@ -9,9 +9,9 @@ namespace Badzeet.DataAccess.Budget
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly BookDbContext dbContext;
+        private readonly BudgetDbContext dbContext;
 
-        public CategoryRepository(BookDbContext dbContext)
+        public CategoryRepository(BudgetDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

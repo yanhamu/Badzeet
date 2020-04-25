@@ -10,9 +10,9 @@ namespace Badzeet.DataAccess.Budget
 {
     public class UserBookRepository : IUserBookRepository
     {
-        private readonly BookDbContext context;
+        private readonly BudgetDbContext context;
 
-        public UserBookRepository(BookDbContext context)
+        public UserBookRepository(BudgetDbContext context)
         {
             this.context = context;
         }

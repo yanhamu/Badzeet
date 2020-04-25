@@ -10,9 +10,9 @@ namespace Badzeet.DataAccess.Budget
 {
     public class ScheduledPaymentRepository : IScheduledPaymentRepository
     {
-        private readonly BookDbContext context;
+        private readonly BudgetDbContext context;
 
-        public ScheduledPaymentRepository(BookDbContext context)
+        public ScheduledPaymentRepository(BudgetDbContext context)
         {
             this.context = context;
         }

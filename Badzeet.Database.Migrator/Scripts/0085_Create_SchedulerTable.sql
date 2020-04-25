@@ -11,5 +11,5 @@ create table scheduler.payments (
 	updated_at datetime2(0) not null,
 	scheduled_at datetime2(0) null,
 	scheduling_type tinyint not null,
-	scheudling_metadata nvarchar(400) null
+	scheduling_metadata nvarchar(400) null
 )

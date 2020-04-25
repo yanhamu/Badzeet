@@ -37,6 +37,7 @@
     <None Remove="Scripts\0080_Rename_Transactions.sql" />
     <None Remove="Scripts\0083_Create_ScheduledPayments.sql" />
     <None Remove="Scripts\0085_Create_SchedulerTable.sql" />
+    <None Remove="Scripts\0088_Create_SchedulerLog.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +72,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0088_Create_SchedulerLog.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0085_Create_SchedulerTable.sql">
