@@ -1,24 +1,32 @@
 ﻿using Badzeet.Scheduler.Domain.Interfaces;
 using Badzeet.Scheduler.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Badzeet.Scheduler.DataAccess
 {
     public class PaymentRepository : IPaymentRepository
     {
-        public Task<List<Payment>> FetchAllToProcess(DateTime now)
+        private readonly SchedulerDbContext context;
+
+        public PaymentRepository(SchedulerDbContext context)
         {
-            //TODO implement
-            var result = new List<Payment>();
-            return Task.FromResult(result);
+            this.context = context;
         }
 
-        public Task SaveAll()
+        public Task<List<Payment>> FetchAllToProcess(DateTime now)
         {
-            //TODO implement
-            return Task.CompletedTask;
+            return context.Set<Payment>()
+                .Where(x => x.ScheduledAt <= now)
+                .ToListAsync();
+        }
+
+        public Task<int> SaveAll()
+        {
+            return context.SaveChangesAsync();
         }
     }
 }

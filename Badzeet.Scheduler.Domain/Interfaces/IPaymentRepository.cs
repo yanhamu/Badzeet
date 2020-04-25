@@ -8,6 +8,6 @@ namespace Badzeet.Scheduler.Domain.Interfaces
     public interface IPaymentRepository
     {
         Task<List<Payment>> FetchAllToProcess(DateTime now);
-        Task SaveAll();
+        Task<int> SaveAll();
     }
 }

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Badzeet.User.Domain\Badzeet.User.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Scheduler\" />
+  </ItemGroup>
+
 </Project>
