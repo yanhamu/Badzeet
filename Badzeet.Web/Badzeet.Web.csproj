@@ -12,11 +12,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Badzeet.Budget.DataAccess\Badzeet.Budget.DataAccess.csproj" />
     <ProjectReference Include="..\Badzeet.Budget.Domain\Badzeet.Budget.Domain.csproj" />
+    <ProjectReference Include="..\Badzeet.Scheduler.DataAccess\Badzeet.Scheduler.DataAccess.csproj" />
+    <ProjectReference Include="..\Badzeet.Scheduler.Domain\Badzeet.Scheduler.Domain.csproj" />
     <ProjectReference Include="..\Badzeet.User.Domain\Badzeet.User.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Scheduler\" />
   </ItemGroup>
 
 </Project>

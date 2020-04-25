@@ -1,11 +1,11 @@
 ﻿using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Badzeet.DataAccess.Budget
+namespace Badzeet.Budget.DataAccess
 {
     public class BudgetDbContext : DbContext
     {
-        public BudgetDbContext(DbContextOptions options) : base(options) { }
+        public BudgetDbContext(DbContextOptions<BudgetDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,6 @@ namespace Badzeet.DataAccess.Budget
             userAccount.HasKey(x => new { x.UserId, x.AccountId });
             userAccount.Property(x => x.UserId).HasColumnName("user_id");
             userAccount.Property(x => x.AccountId).HasColumnName("account_id");
-
             userAccount.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
 
             var user = modelBuilder.Entity<User>();
@@ -54,7 +53,6 @@ namespace Badzeet.DataAccess.Budget
             invitation.Property(x => x.OwnerId).HasColumnName("owner_id");
             invitation.Property(x => x.UsedAt).HasColumnName("used_at");
             invitation.Property(x => x.CreatedAt).HasColumnName("created_at");
-
             invitation.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
             invitation.HasOne(x => x.User).WithMany().HasForeignKey(x => x.OwnerId);
 

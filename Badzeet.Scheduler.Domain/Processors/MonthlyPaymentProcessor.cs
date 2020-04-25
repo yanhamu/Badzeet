@@ -6,11 +6,11 @@ namespace Badzeet.Scheduler.Domain.Processors
 {
     public class MonthlyPaymentProcessor : IProcessor
     {
-        private readonly IPaymentBus bus;
+        private readonly PaymentBus bus;
 
-        public MonthlyPaymentProcessor(IPaymentBus bus)
+        public MonthlyPaymentProcessor()
         {
-            this.bus = bus;
+            this.bus = new PaymentBus();
         }
 
         public SchedulingType Id => SchedulingType.Monthly;

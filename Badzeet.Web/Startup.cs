@@ -1,29 +1,23 @@
-using Badzeet.Budget.Domain;
-using Badzeet.Budget.Domain.Interfaces;
-using Badzeet.DataAccess.Budget;
-using Badzeet.User.Domain;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
+using Badzeet.Web.Configuration.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Data;
 
 namespace Badzeet.Web
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
-
-        public IConfiguration configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -33,23 +27,10 @@ namespace Badzeet.Web
 
             services.AddTransient<Features.Account.Service>();
             services.AddTransient<IUserAccountService, UserAccountService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<PaymentsService>();
-            services.AddTransient<BudgetService>();
-            services.AddTransient<RegistrationService>();
-            services.AddTransient<ScheduledPaymentsService>();
 
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IUserBookRepository, UserBookRepository>();
-            services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IInvitationRepository, InvitationRepository>();
-            services.AddScoped<ICategoryBudgetRepository, CategoryBudgetRepository>();
-            services.AddScoped<IScheduledPaymentRepository, ScheduledPaymentRepository>();
-
-            services.AddDbContext<BudgetDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
+            services.RegisterBudgetDependencies(configuration);
+            services.RegisterUserDependencies();
+            services.RegisterSchedulerDependencies(configuration);
 
             services.AddControllersWithViews(x =>
             {

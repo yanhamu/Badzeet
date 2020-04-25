@@ -37,14 +37,14 @@ namespace Badzeet.User.Domain
             var hashedPassword = s.GetHashedPassword(password);
             var id = Guid.NewGuid();
             var sql = @"insert into users.users values (@id, @username, @password)";
-            await connection.ExecuteAsync(sql, new { id = id, username, password = hashedPassword });
+            await connection.ExecuteAsync(sql, new { id, username, password = hashedPassword });
             return id;
         }
 
         private async Task<UserDto> GetUser(string username)
         {
             var sql = "select id, password from users.users where username = @username";
-            var userDto = await connection.QuerySingleOrDefaultAsync<UserDto>(sql, new { username = username });
+            var userDto = await connection.QuerySingleOrDefaultAsync<UserDto>(sql, new { username });
             return userDto;
         }
 

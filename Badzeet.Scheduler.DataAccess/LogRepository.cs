@@ -5,9 +5,15 @@ namespace Badzeet.Scheduler.DataAccess
 {
     public class LogRepository : ILogRepository
     {
+        private readonly SchedulerDbContext context;
+
+        public LogRepository(SchedulerDbContext context)
+        {
+            this.context = context;
+        }
         public void Add(Log log)
         {
-            throw new System.NotImplementedException();
+            context.Set<Log>().Add(log);
         }
     }
 }

@@ -61,4 +61,12 @@ namespace Badzeet.Scheduler.Domain
     {
         Task Publish(PaymentDto paymentDto);
     }
+
+    public class PaymentBus : IPaymentBus
+    {
+        public Task Publish(PaymentDto paymentDto)
+        {
+            return Task.CompletedTask;
+        }
+    }
 }
