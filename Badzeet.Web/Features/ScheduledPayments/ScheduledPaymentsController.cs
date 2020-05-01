@@ -23,7 +23,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         [HttpPost]
         public async Task<IActionResult> Transform(long id, long accountId)
         {
-            await service.Transform(id, accountId);
+            await service.Transform(id);
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

@@ -11,51 +11,28 @@ namespace Badzeet.Budget.Domain
 {
     public class ScheduledPaymentsService : IRequestHandler<NewScheduledPaymentRequest>
     {
-        private readonly IScheduledPaymentRepository repository;
         private readonly IPaymentRepository paymentRepository;
 
-        public ScheduledPaymentsService(IScheduledPaymentRepository repository,
-            IPaymentRepository paymentRepository)
+        public ScheduledPaymentsService(IPaymentRepository paymentRepository)
         {
-            this.repository = repository;
             this.paymentRepository = paymentRepository;
         }
 
-        public Task<List<ScheduledPayment>> GetPayments(Guid userId)
+        public Task<IEnumerable<Payment>> GetPayments(Guid userId)
         {
-            return repository.GetPayments(userId);
+            return paymentRepository.GetPayments(userId, PaymentType.Scheduled);
         }
 
-        public async Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            await repository.Add(new ScheduledPayment()
-            {
-                AccountId = request.AccountId,
-                Amount = request.Amount,
-                CategoryId = request.CategoryId,
-                Date = request.Date,
-                Description = request.Description,
-                OwnerId = request.OwnerId
-            });
-
-            return Unit.Value;
+            paymentRepository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Scheduled, request.AccountId));
+            return Task.FromResult(Unit.Value);
         }
 
-        public async Task Transform(long id, long accountId)
+        public async Task Transform(long id)
         {
-            var scheduledPayment = await repository.GetPayment(id);
-            var payment = new Payment()
-            {
-                AccountId = accountId,
-                Amount = scheduledPayment.Amount,
-                CategoryId = scheduledPayment.CategoryId,
-                Date = scheduledPayment.Date,
-                Description = scheduledPayment.Description,
-                UserId = scheduledPayment.OwnerId
-            };
-
-            this.paymentRepository.Add(payment);
-            await this.repository.Remove(id);
+            var scheduledPayment = await paymentRepository.Get(id);
+            scheduledPayment.Type = PaymentType.Normal;
             await this.paymentRepository.Save();
         }
     }

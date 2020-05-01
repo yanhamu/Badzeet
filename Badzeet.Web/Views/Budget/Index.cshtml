@@ -35,7 +35,7 @@
                     Spend:
                 </td>
                 <td>
-                    @Model.Spend.ToString("F0") (@((Model.Spend / Model.Budget).ToString("P0"))) 
+                    @Model.Spend.ToString("F0") (@((Model.Spend / Model.Budget).ToString("P0")))
                 </td>
             </tr>
             <tr>
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <td>
-                    Remaining Budget:
+                    Remaining budget:
                 </td>
                 <td class="@(Model.RemainingBudget > 0?"text-success":"text-danger") ">
                     @Model.RemainingBudget.ToString("F0") (@((Model.RemainingBudget / Model.Budget).ToString("P0")))
@@ -58,12 +58,24 @@
             {
                 <tr>
                     <td>
-                        Remaining Days:
+                        Remaining days:
                     </td>
                     <td>
-                        @((int)(Model.BudgetInterval.To - DateTime.Now).TotalDays + 2)
+                        @{
+                            var remaining = (Model.BudgetInterval.To - DateTime.Now).TotalDays;
+                            var total = (int)(Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays + 2;
+                        }
+
+                        @((int)remaining + 2) (@((remaining / total).ToString("P0")))
                     </td>
                 </tr>
+                @if (remaining != 0)
+                {
+                    <tr>
+                        <td>Remaining daily average</td>
+                        <td>@(((double)Model.RemainingBudget / (remaining + 2)).ToString("F0"))</td>
+                    </tr>
+                }
             }
         </table>
     </div>

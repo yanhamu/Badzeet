@@ -20,6 +20,7 @@ namespace Badzeet.Budget.DataAccess
             payment.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
             payment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
             payment.Property(x => x.UserId).HasColumnName("owner_id");
+            payment.Property(x => x.Type).HasColumnName("type");
 
             var account = modelBuilder.Entity<Account>();
             account.ToTable("accounts");
@@ -64,16 +65,6 @@ namespace Badzeet.Budget.DataAccess
             categoryBudget.Property(x => x.Amount).HasColumnName("amount");
             categoryBudget.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
             categoryBudget.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
-
-            var scheduledPayment = modelBuilder.Entity<ScheduledPayment>();
-            scheduledPayment.ToTable("scheduled_payments");
-            scheduledPayment.HasKey(x => x.Id);
-            scheduledPayment.Property(x => x.AccountId).HasColumnName("account_id");
-            scheduledPayment.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
-            scheduledPayment.Property(x => x.CategoryId).HasColumnName("category_id");
-            scheduledPayment.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
-            scheduledPayment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.OwnerId);
-            scheduledPayment.Property(x => x.OwnerId).HasColumnName("owner_id");
         }
     }
 }

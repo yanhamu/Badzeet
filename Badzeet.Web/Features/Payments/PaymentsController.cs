@@ -47,15 +47,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> New(long accountId, PaymentViewModel model)
         {
-            await paymentsService.Add(new Payment()
-            {
-                AccountId = accountId,
-                Amount = model.Payment.Amount,
-                Date = model.Payment.Date,
-                Description = model.Payment.Description,
-                CategoryId = model.Payment.CategoryId,
-                UserId = model.Payment.UserId
-            });
+            await paymentsService.Add(new Payment(default, model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.CategoryId, model.Payment.UserId, PaymentType.Normal, accountId));
 
             return RedirectToAction("List");
         }
@@ -77,7 +69,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(PaymentViewModel model)
+        public async Task<IActionResult> Edit(long accountId, PaymentViewModel model)
         {
             await paymentsService.Save(new Payment(
                 model.Payment.Id,
@@ -85,7 +77,9 @@ namespace Badzeet.Web.Features.Payments
                 model.Payment.Description,
                 model.Payment.Amount,
                 model.Payment.CategoryId,
-                model.Payment.UserId));
+                model.Payment.UserId,
+                PaymentType.Normal,
+                accountId));
 
             return RedirectToAction("Index", "Dashboard");
         }
@@ -110,17 +104,7 @@ namespace Badzeet.Web.Features.Payments
         {
             var payment = await paymentsService.GetPayment(model.OldPaymentId);
             payment.Amount = model.OldAmount;
-
-            var newPayment = new Payment()
-            {
-                AccountId = payment.AccountId,
-                Amount = model.NewAmount,
-                CategoryId = model.CategoryId,
-                Date = payment.Date,
-                Description = model.Description,
-                UserId = model.OwnerId
-            };
-
+            var newPayment = new Payment(default, payment.Date, model.Description, model.NewAmount, model.CategoryId, model.OwnerId, PaymentType.Normal, payment.AccountId);
             await paymentsService.Add(newPayment);
             return RedirectToAction("List");
         }

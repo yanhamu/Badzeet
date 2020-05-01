@@ -29,7 +29,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
                 Amount = x.Amount,
                 CategoryId = x.CategoryId,
                 CategoryName = categories.Single(c => c.Id == x.CategoryId).Name,
-                OwnerId = x.OwnerId,
+                OwnerId = x.UserId,
                 Date = x.Date
             });
 
