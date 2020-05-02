@@ -18,10 +18,10 @@ namespace Badzeet.Web.Features.ScheduledPayments
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Guid userId, long budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(Guid userId, long accountId, long budgetId)
         {
             var categories = await categoryRepository.GetCategories(budgetId);
-            var payments = await service.GetPayments(userId);
+            var payments = await service.GetPayments(userId, accountId);
             var paymentsModel = payments.Select(x => new ScheduledPaymentViewModel()
             {
                 Description = x.Description,

@@ -1,9 +1,7 @@
 ﻿using Badzeet.Budget.DataAccess;
-using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,30 +43,22 @@ namespace Badzeet.DataAccess.Budget
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval)
-        {
-            return await context
-                .Set<Payment>()
-                .Where(x => x.AccountId == accountId)
-                .Where(x => x.Date >= interval.From)
-                .Where(x => x.Date <= interval.To)
-                .OrderByDescending(x => x.Date)
-                .Take(100)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Payment>> GetPayments(Guid userId, PaymentType paymentType)
-        {
-            return await context
-                .Set<Payment>()
-                .Where(x => x.UserId == userId)
-                .Where(x => x.Type == paymentType)
-                .ToListAsync();
-        }
-
         public Task Save()
         {
             return context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Payment>> GetPayments(PaymentsFilter filter)
+        {
+            var baseQuery = context.Set<Payment>().Where(x => x.AccountId == filter.AccountId);
+
+            if (filter.UserId.HasValue)
+                baseQuery = baseQuery.Where(x => x.UserId == filter.UserId.Value);
+            if (filter.PaymentType.HasValue)
+                baseQuery = baseQuery.Where(x => x.Type == filter.PaymentType.Value);
+            if (filter.Interval.HasValue)
+                baseQuery = baseQuery.Where(x => x.Date >= filter.Interval.Value.From).Where(x => x.Date <= filter.Interval.Value.To);
+            return await baseQuery.ToListAsync();
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Badzeet.DataAccess.Budget
             this.dbContext = dbContext;
         }
 
-        public Task Create(long bookId, string name, int order)
+        public Task Create(long accountId, string name, int order)
         {
-            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = bookId, Order = order });
+            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = accountId, Order = order });
             return dbContext.SaveChangesAsync();
         }
 
@@ -37,10 +37,10 @@ namespace Badzeet.DataAccess.Budget
             return category;
         }
 
-        public Task<List<Category>> GetCategories(long bookId)
+        public Task<List<Category>> GetCategories(long accountId)
         {
             return dbContext.Set<Category>()
-                .Where(x => x.AccountId == bookId)
+                .Where(x => x.AccountId == accountId)
                 .OrderBy(x => x.Order)
                 .ThenBy(x => x.Name)
                 .ToListAsync();

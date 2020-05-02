@@ -10,9 +10,24 @@ namespace Badzeet.Budget.Domain.Interfaces
         Task<Payment> Get(long id);
         Payment Add(Payment transaction);
         Task<Payment> Remove(long id);
-        Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval);
-        Task<IEnumerable<Payment>> GetPayments(Guid userId, PaymentType paymentType);
+        Task<IEnumerable<Payment>> GetPayments(PaymentsFilter filter);
         Task<Payment> GetLastPayment(long accountId);
         Task Save();
+    }
+
+    public class PaymentsFilter
+    {
+        public PaymentsFilter(long accountId, Guid? userId = null, DateInterval? interval = null, PaymentType? paymentType = null)
+        {
+            AccountId = accountId;
+            UserId = userId;
+            Interval = interval;
+            PaymentType = paymentType;
+        }
+
+        public long AccountId { get; }
+        public Guid? UserId { get; }
+        public DateInterval? Interval { get; }
+        public PaymentType? PaymentType { get; }
     }
 }

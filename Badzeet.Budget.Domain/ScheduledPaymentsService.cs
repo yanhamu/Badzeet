@@ -11,29 +11,29 @@ namespace Badzeet.Budget.Domain
 {
     public class ScheduledPaymentsService : IRequestHandler<NewScheduledPaymentRequest>
     {
-        private readonly IPaymentRepository paymentRepository;
+        private readonly IPaymentRepository repository;
 
         public ScheduledPaymentsService(IPaymentRepository paymentRepository)
         {
-            this.paymentRepository = paymentRepository;
+            this.repository = paymentRepository;
         }
 
-        public Task<IEnumerable<Payment>> GetPayments(Guid userId)
+        public Task<IEnumerable<Payment>> GetPayments(Guid userId, long accountId)
         {
-            return paymentRepository.GetPayments(userId, PaymentType.Scheduled);
+            return repository.GetPayments(new PaymentsFilter(accountId, userId));
         }
 
         public Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            paymentRepository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Scheduled, request.AccountId));
+            repository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Scheduled, request.AccountId));
             return Task.FromResult(Unit.Value);
         }
 
         public async Task Transform(long id)
         {
-            var scheduledPayment = await paymentRepository.Get(id);
+            var scheduledPayment = await repository.Get(id);
             scheduledPayment.Type = PaymentType.Normal;
-            await this.paymentRepository.Save();
+            await this.repository.Save();
         }
     }
 }

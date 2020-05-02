@@ -16,7 +16,7 @@ namespace Badzeet.Budget.Domain
 
         public async Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval)
         {
-            return await repository.GetPayments(accountId, interval);
+            return await repository.GetPayments(new PaymentsFilter(accountId, interval: interval));
         }
 
         public Task<Payment> GetPayment(long id)

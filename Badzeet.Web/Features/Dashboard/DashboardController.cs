@@ -12,20 +12,20 @@ namespace Badzeet.Web.Features.Dashboard
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly IPaymentRepository transactionRepository;
+        private readonly IPaymentRepository paymentsRepository;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserBookRepository userBookRepository;
+        private readonly IUserAccountRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
         private readonly BudgetService budgetService;
 
         public DashboardController(
-            IPaymentRepository transactionRepository,
+            IPaymentRepository paymentsRepository,
             ICategoryRepository categoryRepository,
-            IUserBookRepository userBookRepository,
+            IUserAccountRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
             BudgetService budgetService)
         {
-            this.transactionRepository = transactionRepository;
+            this.paymentsRepository = paymentsRepository;
             this.categoryRepository = categoryRepository;
             this.userBookRepository = userBookRepository;
             this.budgetRepository = budgetRepository;
@@ -40,7 +40,7 @@ namespace Badzeet.Web.Features.Dashboard
 
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
             var allCategories = await categoryRepository.GetCategories(accountId);
-            var transactions = await transactionRepository.GetPayments(accountId, interval);
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval:interval));
             var allUsers = await userBookRepository.GetUsers(accountId);
 
             var categories = new List<CategoryViewModel>();

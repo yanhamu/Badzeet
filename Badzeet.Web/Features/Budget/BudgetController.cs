@@ -12,20 +12,20 @@ namespace Badzeet.Web.Features.Budget
     [Authorize]
     public class BudgetController : Controller
     {
-        private readonly IPaymentRepository transactionRepository;
+        private readonly IPaymentRepository paymentsRepository;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserBookRepository userBookRepository;
+        private readonly IUserAccountRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
         private readonly BudgetService budgetService;
 
         public BudgetController(
-            IPaymentRepository transactionRepository,
+            IPaymentRepository paymentsRepository,
             ICategoryRepository categoryRepository,
-            IUserBookRepository userBookRepository,
+            IUserAccountRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
             BudgetService budgetService)
         {
-            this.transactionRepository = transactionRepository;
+            this.paymentsRepository = paymentsRepository;
             this.categoryRepository = categoryRepository;
             this.userBookRepository = userBookRepository;
             this.budgetRepository = budgetRepository;
@@ -36,14 +36,12 @@ namespace Badzeet.Web.Features.Budget
         public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             if (await budgetRepository.HasBudget(accountId, budgetId) == false)
-            {
                 return RedirectToAction("Index", "Dashboard");
-            }
 
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
-            var transactions = await transactionRepository.GetPayments(accountId, interval);
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval:interval));
             var allUsers = await userBookRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
 

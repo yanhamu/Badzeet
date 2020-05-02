@@ -6,14 +6,14 @@ namespace Badzeet.Budget.Domain
 {
     public class RegistrationService
     {
-        private readonly IUserBookRepository userBookRepository;
+        private readonly IUserAccountRepository userBookRepository;
         private readonly IUserRepository userRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IInvitationRepository invitationRepository;
         private readonly IAccountRepository bookRepository;
 
         public RegistrationService(
-            IUserBookRepository userBookRepository,
+            IUserAccountRepository userBookRepository,
             IInvitationRepository invitationRepository,
             IAccountRepository bookRepository,
             IUserRepository userRepository,

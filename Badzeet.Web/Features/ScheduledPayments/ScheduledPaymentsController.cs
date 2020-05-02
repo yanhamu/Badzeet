@@ -1,6 +1,7 @@
 ﻿using Badzeet.Budget.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.ScheduledPayments
@@ -15,8 +16,9 @@ namespace Badzeet.Web.Features.ScheduledPayments
             this.service = scheduledPaymentService;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List(long accountId, Guid userId)
         {
+            var payments = await service.GetPayments(userId, accountId);
             return View();
         }
 

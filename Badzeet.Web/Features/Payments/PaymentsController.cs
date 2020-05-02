@@ -13,13 +13,13 @@ namespace Badzeet.Web.Features.Payments
     {
         private readonly PaymentsService paymentsService;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserBookRepository userBookRepository;
+        private readonly IUserAccountRepository userBookRepository;
         private readonly BudgetService budgetService;
 
         public PaymentsController(
             PaymentsService paymentsService,
             ICategoryRepository categoryRepository,
-            IUserBookRepository userBookRepository,
+            IUserAccountRepository userBookRepository,
             BudgetService budgetService)
         {
             this.paymentsService = paymentsService;

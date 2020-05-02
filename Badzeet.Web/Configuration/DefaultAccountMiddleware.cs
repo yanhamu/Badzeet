@@ -39,9 +39,9 @@ namespace Badzeet.Web.Configuration
 
     public class UserAccountService : IUserAccountService
     {
-        private readonly IUserBookRepository userBookRepository;
+        private readonly IUserAccountRepository userBookRepository;
 
-        public UserAccountService(IUserBookRepository userBookRepository)
+        public UserAccountService(IUserAccountRepository userBookRepository)
         {
             this.userBookRepository = userBookRepository;
         }
