@@ -17,12 +17,12 @@ namespace Badzeet.Budget.Domain.Interfaces
 
     public class PaymentsFilter
     {
-        public PaymentsFilter(long accountId, Guid? userId = null, DateInterval? interval = null, PaymentType? paymentType = null)
+        public PaymentsFilter(long accountId, Guid? userId = null, DateInterval? interval = null, PaymentType? type = null)
         {
             AccountId = accountId;
             UserId = userId;
             Interval = interval;
-            PaymentType = paymentType;
+            PaymentType = type;
         }
 
         public long AccountId { get; }

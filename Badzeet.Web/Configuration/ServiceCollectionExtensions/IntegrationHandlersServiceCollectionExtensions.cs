@@ -7,7 +7,7 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
     {
         public static void RegisterIntegrationHandlers(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(Budget.Domain.ScheduledPaymentsService));
+            services.AddMediatR(typeof(Budget.Domain.PaymentsService));
         }
     }
 }

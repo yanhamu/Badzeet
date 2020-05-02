@@ -17,12 +17,11 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
             services.AddTransient<PaymentsService>();
             services.AddTransient<BudgetService>();
             services.AddTransient<RegistrationService>();
-            services.AddTransient<ScheduledPaymentsService>();
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IUserAccountRepository, UserBookRepository>();
+            services.AddScoped<IUserAccountRepository, UserAccountRepository>();
             services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();

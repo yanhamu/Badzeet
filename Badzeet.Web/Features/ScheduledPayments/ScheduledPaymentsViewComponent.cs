@@ -1,5 +1,5 @@
-﻿using Badzeet.Budget.Domain;
-using Badzeet.Budget.Domain.Interfaces;
+﻿using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -9,19 +9,19 @@ namespace Badzeet.Web.Features.ScheduledPayments
 {
     public class ScheduledPayments : ViewComponent
     {
-        private readonly ScheduledPaymentsService service;
+        private readonly IPaymentRepository repository;
         private readonly ICategoryRepository categoryRepository;
 
-        public ScheduledPayments(ScheduledPaymentsService service, ICategoryRepository categoryRepository)
+        public ScheduledPayments(IPaymentRepository repository, ICategoryRepository categoryRepository)
         {
-            this.service = service;
+            this.repository = repository;
             this.categoryRepository = categoryRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(Guid userId, long accountId, long budgetId)
         {
             var categories = await categoryRepository.GetCategories(budgetId);
-            var payments = await service.GetPayments(userId, accountId);
+            var payments = await repository.GetPayments(new PaymentsFilter(accountId, userId, type: PaymentType.Scheduled));
             var paymentsModel = payments.Select(x => new ScheduledPaymentViewModel()
             {
                 Description = x.Description,

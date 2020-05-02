@@ -1,8 +1,32 @@
-﻿
+﻿@model Badzeet.Web.Features.ScheduledPayments.ScheduledPaymentsController.PaymentsListViewModel
 @{
     ViewData["Title"] = "Scheduled Payments";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
 }
 
 <h1>Scheduled Payments</h1>
 
+<table class="table table-sm">
+    @foreach (var p in Model.Payments)
+    {
+        <tr>
+            <td>@p.Date.ToString("yyyy-MM-dd")</td>
+            <td>@p.Description</td>
+            <td>@p.Amount.ToString("F0")</td>
+            <td>@(categories[p.CategoryId])</td>
+            <td>@(Model.Users.Single(u => u.Id == p.OwnerId).Nickname)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@p.Id">
+                    <i class="fa fa-edit fa-xs"></i>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="row">
+    <div class="col-12">
+        <a asp-action="New" class="btn btn-primary form-control">Add</a>
+    </div>
+</div>

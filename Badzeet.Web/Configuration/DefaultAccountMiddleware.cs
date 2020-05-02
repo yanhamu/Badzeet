@@ -48,7 +48,7 @@ namespace Badzeet.Web.Configuration
 
         public async Task<long> GetAccountId(Guid userId)
         {
-            return (await userBookRepository.GetBooks(userId)).First().AccountId;
+            return (await userBookRepository.GetUserAccounts(userId)).First().AccountId;
         }
     }
 }

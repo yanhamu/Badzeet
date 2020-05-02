@@ -9,29 +9,29 @@ using System.Threading.Tasks;
 
 namespace Badzeet.DataAccess.Budget
 {
-    public class UserBookRepository : IUserAccountRepository
+    public class UserAccountRepository : IUserAccountRepository
     {
         private readonly BudgetDbContext context;
 
-        public UserBookRepository(BudgetDbContext context)
+        public UserAccountRepository(BudgetDbContext context)
         {
             this.context = context;
         }
 
         public async Task<UserAccount> Create(Guid userId, long accountId)
         {
-            var userBook = new UserAccount()
+            var userAccount = new UserAccount()
             {
                 AccountId = accountId,
                 UserId = userId
             };
             var trackedEntity = context.Set<UserAccount>()
-                .Add(userBook);
+                .Add(userAccount);
             await context.SaveChangesAsync();
             return trackedEntity.Entity;
         }
 
-        public async Task<IEnumerable<UserAccount>> GetBooks(Guid userId)
+        public async Task<IEnumerable<UserAccount>> GetUserAccounts(Guid userId)
         {
             return await context.Set<UserAccount>()
                 .Where(x => x.UserId == userId)

@@ -65,12 +65,14 @@ namespace Badzeet.Web.Features.Budget
                 });
             }
 
-            var model = new BudgetViewModel();
-            model.BudgetId = budgetId;
-            model.Categories = categories.ToArray();
-            model.Spend = categories.Sum(x => x.Total);
-            model.Budget = categories.Sum(x => x.Budget);
-            model.BudgetInterval = interval;
+            var model = new BudgetViewModel
+            {
+                BudgetId = budgetId,
+                Categories = categories.ToArray(),
+                Spend = categories.Sum(x => x.Total),
+                Budget = categories.Sum(x => x.Budget),
+                BudgetInterval = interval
+            };
             return View(model);
         }
 

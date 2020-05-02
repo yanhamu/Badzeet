@@ -1,6 +1,7 @@
 ﻿using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,22 +10,23 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Payments
 {
+    [Authorize]
     public class PaymentsController : Controller
     {
         private readonly PaymentsService paymentsService;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserAccountRepository userBookRepository;
+        private readonly IUserAccountRepository userAccountRepository;
         private readonly BudgetService budgetService;
 
         public PaymentsController(
             PaymentsService paymentsService,
             ICategoryRepository categoryRepository,
-            IUserAccountRepository userBookRepository,
+            IUserAccountRepository userAccountRepository,
             BudgetService budgetService)
         {
             this.paymentsService = paymentsService;
             this.categoryRepository = categoryRepository;
-            this.userBookRepository = userBookRepository;
+            this.userAccountRepository = userAccountRepository;
             this.budgetService = budgetService;
         }
 
@@ -32,7 +34,7 @@ namespace Badzeet.Web.Features.Payments
         public async Task<IActionResult> New(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
-            var users = await userBookRepository.GetUsers(accountId);
+            var users = await userAccountRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -57,7 +59,7 @@ namespace Badzeet.Web.Features.Payments
         {
             var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(accountId);
-            var users = await userBookRepository.GetUsers(accountId);
+            var users = await userAccountRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -89,7 +91,7 @@ namespace Badzeet.Web.Features.Payments
         {
             var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(accountId);
-            var users = await userBookRepository.GetUsers(accountId);
+            var users = await userAccountRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
@@ -123,7 +125,7 @@ namespace Badzeet.Web.Features.Payments
 
             var payments = await paymentsService.GetPayments(accountId, interval);
             var categories = await categoryRepository.GetCategories(accountId);
-            var users = await userBookRepository.GetUsers(accountId);
+            var users = await userAccountRepository.GetUsers(accountId);
 
             var model = new PaymentsViewModel()
             {
@@ -133,6 +135,13 @@ namespace Badzeet.Web.Features.Payments
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Transform(long id)
+        {
+            await paymentsService.Transform(id);
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public class CategoryViewModel

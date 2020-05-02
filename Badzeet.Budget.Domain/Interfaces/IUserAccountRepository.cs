@@ -8,7 +8,7 @@ namespace Badzeet.Budget.Domain.Interfaces
     public interface IUserAccountRepository
     {
         Task<IEnumerable<UserAccount>> GetUsers(long accountId);
-        Task<IEnumerable<UserAccount>> GetBooks(Guid userId);
+        Task<IEnumerable<UserAccount>> GetUserAccounts(Guid userId);
         Task<UserAccount> Create(Guid userId, long id);
     }
 }

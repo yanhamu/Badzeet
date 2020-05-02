@@ -26,13 +26,13 @@ namespace Badzeet.Web
                 .AddCookie();
             services.AddHttpContextAccessor();
             
-            services.AddTransient<Features.Account.Service>();
             services.AddTransient<IUserAccountService, UserAccountService>();
 
             services.RegisterBudgetDependencies(configuration);
             services.RegisterUserDependencies();
             services.RegisterSchedulerDependencies(configuration);
             services.RegisterIntegrationHandlers();
+            services.RegisterServiceDependencies();
 
             services.AddControllersWithViews(x =>
             {
