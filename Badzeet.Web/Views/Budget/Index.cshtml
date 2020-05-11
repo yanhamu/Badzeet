@@ -8,11 +8,11 @@
     <h2>
         @if (Model.BudgetId > 0)
         {
-            <span>
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            </span>
+        <span>
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        </span>
         }
         @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
 
@@ -56,42 +56,37 @@
             </tr>
             @if (Model.IsOngoing)
             {
-                <tr>
-                    <td>
-                        Remaining days:
-                    </td>
-                    <td>
-                        @{
+            <tr>
+                <td>
+                    Remaining days:
+                </td>
+                <td>
+                    @{
                             var remaining = (Model.BudgetInterval.To - DateTime.Now).TotalDays;
                             var total = (int)(Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays + 2;
-                        }
+                    }
 
-                        @((int)remaining + 2) (@((remaining / total).ToString("P0")))
-                    </td>
-                </tr>
-                @if (remaining != 0)
+                    @((int)remaining + 2) (@((remaining / total).ToString("P0")))
+                </td>
+            </tr>
+            @if (remaining != 0)
                 {
-                    <tr>
-                        <td>Remaining daily average</td>
-                        <td>@(((double)Model.RemainingBudget / (remaining + 2)).ToString("F0"))</td>
-                    </tr>
+            <tr>
+                <td>Remaining daily average</td>
+                <td>@(((double)Model.RemainingBudget / (remaining + 2)).ToString("F0"))</td>
+            </tr>
                 }
             }
         </table>
         <table class="table table-sm">
-            <tr><th colspan="@(Model.Totals.Count()+1)">Total per user</th></tr>
-            <tr>
-                @foreach (var u in Model.Totals)
+            <tr><th colspan="2">Total spend per user</th></tr>
+            @foreach (var u in Model.Totals)
                 {
-                    <td>@u.Username</td>
-                }
-            </tr>
             <tr>
-                @foreach (var u in Model.Totals)
-                {
-                    <td>@u.Total</td>
-                }
+                <td>@u.Username</td>
+                <td>@u.Total.ToString("F0")</td>
             </tr>
+                }
         </table>
     </div>
 </div>
@@ -110,27 +105,27 @@
             </tr>
             @foreach (var category in Model.Categories)
             {
-                <tr>
-                    <th colspan="2">
-                        @category.Name
-                    </th>
-                    <th>@category.Total.ToString("F0")</th>
-                    <th>@category.Budget</th>
-                </tr>
+            <tr data-toggle="collapse" data-target="#@category.Name">
+                <th colspan="2">
+                    @category.Name
+                </th>
+                <th>@category.Total.ToString("F0")</th>
+                <th>@category.Budget.ToString("F0")</th>
+            </tr>
 
-                @foreach (var u in category.Users)
+            @foreach (var u in category.Users)
                 {
-                    <tr>
-                        <td></td>
-                        <td>
-                            @u.Name
-                        </td>
-                        <td>
-                            @u.Total.ToString("F0")
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
+            <tr id="@category.Name" class="collapse">
+                <td></td>
+                <td>
+                    @u.Name
+                </td>
+                <td>
+                    @u.Total.ToString("F0")
+                </td>
+                <td>
+                </td>
+            </tr>
                 }
             }
         </table>
