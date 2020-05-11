@@ -41,7 +41,7 @@ namespace Badzeet.Web.Features.Budget
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval:interval));
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
             var allUsers = await userBookRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
 
@@ -53,7 +53,7 @@ namespace Badzeet.Web.Features.Budget
                 foreach (var u in allUsers)
                 {
                     var total = categoryTransactions.Where(x => x.UserId == u.UserId).Sum(x => x.Amount);
-                    users.Add(new CategoryUserViewModel(u.User.Nickname, total));
+                    users.Add(new CategoryUserViewModel(u.UserId, u.User.Nickname, total));
                 }
 
                 categories.Add(new BudgetCategoryViewModel()
@@ -65,13 +65,16 @@ namespace Badzeet.Web.Features.Budget
                 });
             }
 
+            var totals = categories.SelectMany(x => x.Users).GroupBy(x => new { x.UserId, x.Name }).Select(g => new UserTotal(g.Key.UserId, g.Key.Name, g.Sum(x => x.Total)));
+
             var model = new BudgetViewModel
             {
                 BudgetId = budgetId,
                 Categories = categories.ToArray(),
                 Spend = categories.Sum(x => x.Total),
                 Budget = categories.Sum(x => x.Budget),
-                BudgetInterval = interval
+                BudgetInterval = interval,
+                Totals = totals
             };
             return View(model);
         }

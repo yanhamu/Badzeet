@@ -78,6 +78,21 @@
                 }
             }
         </table>
+        <table class="table table-sm">
+            <tr><th colspan="@(Model.Totals.Count()+1)">Total per user</th></tr>
+            <tr>
+                @foreach (var u in Model.Totals)
+                {
+                    <td>@u.Username</td>
+                }
+            </tr>
+            <tr>
+                @foreach (var u in Model.Totals)
+                {
+                    <td>@u.Total</td>
+                }
+            </tr>
+        </table>
     </div>
 </div>
 
