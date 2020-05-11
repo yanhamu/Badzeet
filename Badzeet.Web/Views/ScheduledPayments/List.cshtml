@@ -11,7 +11,7 @@
     @foreach (var p in Model.Payments)
     {
         <tr>
-            <td>@p.Date.ToString("yyyy-MM-dd")</td>
+            <td>@p.ScheduledAt.ToString("yyyy-MM-dd")</td>
             <td>@p.Description</td>
             <td>@p.Amount.ToString("F0")</td>
             <td>@(categories[p.CategoryId])</td>

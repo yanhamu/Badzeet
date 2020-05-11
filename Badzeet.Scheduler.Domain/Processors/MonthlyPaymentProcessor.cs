@@ -2,6 +2,7 @@
 using Badzeet.Scheduler.Domain.Model;
 using MediatR;
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Badzeet.Scheduler.Domain.Processors
@@ -22,10 +23,10 @@ namespace Badzeet.Scheduler.Domain.Processors
             payment.ScheduledAt = CalculateNewSchedule(payment.Metadata, payment.ScheduledAt);
             payment.UpdatedAt = DateTime.UtcNow;
 
-            await mediator.Send(new NewScheduledPaymentRequest(payment.AccountId, payment.Date, payment.Amount, payment.Description, payment.CategoryId, payment.OwnerId));
+            await mediator.Send(new NewScheduledPaymentRequest(payment.AccountId, now, payment.Amount, payment.Description, payment.CategoryId, payment.OwnerId));
         }
 
-        private DateTime CalculateNewSchedule(string metadata, DateTime referenceDate)
+        public DateTime CalculateNewSchedule(string metadata, DateTime referenceDate)
         {
             var settings = MonthlySettings.Parse(metadata);
             if (settings.LastDay)
@@ -40,11 +41,13 @@ namespace Badzeet.Scheduler.Domain.Processors
             }
         }
 
-        private class MonthlySettings
+        public class MonthlySettings
         {
             public bool LastDay { get; set; }
             public int? Day { get; set; }
             public TimeSpan When { get; set; }
+
+            public MonthlySettings() { }
 
             private MonthlySettings(bool lastDay, int? day, TimeSpan when)
             {
@@ -55,12 +58,12 @@ namespace Badzeet.Scheduler.Domain.Processors
 
             public static MonthlySettings Parse(string serialized)
             {
-                return System.Text.Json.JsonSerializer.Deserialize<MonthlySettings>(serialized);
+                return JsonSerializer.Deserialize<MonthlySettings>(serialized);
             }
 
             public string Serialize()
             {
-                return System.Text.Json.JsonSerializer.Serialize(this);
+                return JsonSerializer.Serialize(this);
             }
 
             public static MonthlySettings CreateLastDayOfTheMonth(TimeSpan when)

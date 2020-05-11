@@ -1,0 +1,75 @@
+﻿@model Badzeet.Web.Features.ScheduledPayments.ScheduledPaymentsController.MonthlyPaymentViewModel
+@{
+    ViewData["Title"] = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Schedule payment</h1>
+
+<form method="post" asp-action="New">
+    <div class="form-group row">
+        <label asp-for="Day" class="col-sm-2 col-form-label">Day of month</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Day" type="number" max="28" min="1" value="1" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="LastDay" class="col-sm-2 col-form-label">Last day</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="LastDay" type="checkbox" value="false" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="LastDay" class="col-sm-2 col-form-label">When</label>
+        <div class="col-sm-10">
+            <input class="form-check-inline" asp-for="When" type="time" value="16:00" />
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group row">
+        <label asp-for="Payment.Description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Payment.Description" type="text" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Payment.Amount" class="col-sm-2 col-form-label">Amount</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="Payment.Amount" type="number" id="amountInput" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Payment.CategoryId" class="col-sm-2 col-form-label">Category</label>
+        <div class="col-sm-10">
+            <select class="custom-select"
+                    asp-for="Payment.CategoryId"
+                    asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                <option>Please select one</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Payment.OwnerId" class="col-sm-2 col-form-label">Owner</label>
+        <div class="col-sm-10">
+            <select class="custom-select"
+                    asp-for="Payment.OwnerId"
+                    asp-items="@(new SelectList(Model.Users,"Id","Nickname"))">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+            <button type="submit" class="btn btn-primary form-control">Save</button>
+        </div>
+    </div>
+
+</form>

@@ -10,5 +10,7 @@ namespace Badzeet.Scheduler.Domain.Interfaces
         Task<List<Payment>> FetchAllToProcess(DateTime now);
         Task<int> SaveAll();
         Task<IEnumerable<Payment>> GetPayments(long accountId);
+        void Add(Payment payment);
+        Task<Payment> Get(long id);
     }
 }

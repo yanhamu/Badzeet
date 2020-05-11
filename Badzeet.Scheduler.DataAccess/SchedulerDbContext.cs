@@ -22,7 +22,6 @@ namespace Badzeet.Scheduler.DataAccess
             payment.ToTable("payments");
             payment.HasKey(x => x.Id);
             payment.Property(x => x.AccountId).HasColumnName("account_id");
-            payment.Property(x => x.Date).HasColumnName("date");
             payment.Property(x => x.Amount).HasColumnName("amount");
             payment.Property(x => x.Description).HasColumnName("description");
             payment.Property(x => x.CategoryId).HasColumnName("category_id");
