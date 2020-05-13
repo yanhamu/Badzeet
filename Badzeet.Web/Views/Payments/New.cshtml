@@ -52,9 +52,9 @@
     <div class="form-group row">
         <label asp-for="Payment.Type" class="col-sm-2 col-form-label">Type</label>
         <div class="col-sm-10">
-            <select class="custom-select"
-                    asp-for="Payment.Type"
-                    asp-items="Html.GetEnumSelectList<Badzeet.Budget.Domain.Model.PaymentType>()">
+            <select class="custom-select" asp-for="Payment.Type">
+                <option value="1">Normal</option>
+                <option value="3">Pending</option>
             </select>
         </div>
     </div>
@@ -70,7 +70,7 @@
 @section Scripts{
     <script type="text/javascript">
         function clearInput() {
-            document.getElementById("amountInput").value="";
+            document.getElementById("amountInput").value = "";
         };
 
         window.onload = clearInput();

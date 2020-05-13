@@ -15,12 +15,17 @@
                         <td>@payment.CategoryName</td>
                         <td>@payment.Owner</td>
                         <td>
-                            <a asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a asp-controller="Payments" asp-action="Confirm" asp-route-id="@payment.Id">
-                                <i class="fa fa-check"></i>
-                            </a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-link pb-0 pt-0 pr-0" asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id">
+                                    <i class="fa fa-edit fa-sm"></i>
+                                </a>
+                                <form method="post" asp-controller="Payments" asp-action="Transform">
+                                    <input type="hidden" name="id" value="@payment.Id" />
+                                    <button class="btn btn-link pb-0  pt-0 pr-0">
+                                        <i class="fa fa-check fa-sm"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }

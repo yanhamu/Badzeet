@@ -2,6 +2,7 @@
 using Badzeet.Budget.Domain.Model;
 using Badzeet.Integration.Events;
 using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,6 +55,7 @@ namespace Badzeet.Budget.Domain
         public async Task Transform(long id)
         {
             var scheduledPayment = await repository.Get(id);
+            scheduledPayment.Date = DateTime.UtcNow;
             scheduledPayment.Type = PaymentType.Normal;
             await this.repository.Save();
         }
