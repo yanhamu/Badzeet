@@ -9,19 +9,19 @@ namespace Badzeet.Web.Configuration.Filters
     {
         private const string parameterName = "budgetId";
         private const string cookieName = "mbid";
-        private readonly BudgetService bookService;
+        private readonly BudgetService BudgetService;
 
         public BudgetIdFilter(BudgetService bookService)
         {
-            this.bookService = bookService;
+            this.BudgetService = bookService;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (HasArgument(context) && ProvidedValue(context) == false)
             {
-                var bookId = context.HttpContext.GetAccountId();
-                var budgetId = await GetBudgetId(context, bookId);
+                var accountId = context.HttpContext.GetAccountId();
+                var budgetId = await GetBudgetId(context, accountId);
                 context.ActionArguments.Add(parameterName, budgetId);
             }
 
@@ -34,12 +34,12 @@ namespace Badzeet.Web.Configuration.Filters
             await next();
         }
 
-        private async Task<int> GetBudgetId(ActionExecutingContext context, long bookId)
+        private async Task<int> GetBudgetId(ActionExecutingContext context, long accountId)
         {
             if (context.HttpContext.Request.Cookies.ContainsKey(cookieName))
                 return short.Parse(context.HttpContext.Request.Cookies[cookieName]);
 
-            return await bookService.GetLatestBudgetId(bookId);
+            return await BudgetService.GetLatestBudgetId(accountId);
         }
 
         private static bool ProvidedValue(ActionExecutingContext context)

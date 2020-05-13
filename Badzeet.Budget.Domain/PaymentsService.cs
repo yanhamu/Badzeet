@@ -47,6 +47,7 @@ namespace Badzeet.Budget.Domain
             tracked.Amount = payment.Amount;
             tracked.CategoryId = payment.CategoryId;
             tracked.UserId = payment.UserId;
+            tracked.Type = payment.Type;
             await repository.Save();
         }
 

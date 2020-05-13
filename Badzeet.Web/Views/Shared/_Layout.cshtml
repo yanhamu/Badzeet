@@ -50,7 +50,7 @@
         <main role="main" class="pb-3">
             @if (User.Identity.IsAuthenticated)
             {
-                @(await Component.InvokeAsync<Badzeet.Web.Features.ScheduledPayments.ScheduledPayments>(new { UserId = this.Context.Items["ui"], budgetId = this.Context.Items["da"] }))
+                @(await Component.InvokeAsync<Badzeet.Web.Features.ScheduledPayments.ScheduledPayments>(new { UserId = this.Context.Items["ui"], accountId = this.Context.Items["da"] }))
             }
             @RenderBody()
         </main>

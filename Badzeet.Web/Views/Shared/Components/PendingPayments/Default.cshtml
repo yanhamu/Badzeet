@@ -1,0 +1,30 @@
+﻿@model Badzeet.Web.Features.Payments.PendingPayments.PendingPaymentsViewModel
+
+
+@if (Model.PendingPayments.Any())
+{
+    <div class="card mb-4">
+        <h5 class="card-header bg-secondary text-white">Pending payments</h5>
+        <div class="card-body">
+            <table class="table table-sm">
+                @foreach (var payment in Model.PendingPayments)
+                {
+                    <tr>
+                        <td>@payment.Description</td>
+                        <td>@payment.Amount.ToString("F0")</td>
+                        <td>@payment.CategoryName</td>
+                        <td>@payment.Owner</td>
+                        <td>
+                            <a asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a asp-controller="Payments" asp-action="Confirm" asp-route-id="@payment.Id">
+                                <i class="fa fa-check"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

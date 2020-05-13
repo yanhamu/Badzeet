@@ -49,7 +49,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> New(long accountId, PaymentViewModel model)
         {
-            await paymentsService.Add(new Payment(default, model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.CategoryId, model.Payment.UserId, PaymentType.Normal, accountId));
+            await paymentsService.Add(new Payment(default, model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.CategoryId, model.Payment.UserId, model.Payment.Type, accountId));
 
             return RedirectToAction("List");
         }
@@ -80,7 +80,7 @@ namespace Badzeet.Web.Features.Payments
                 model.Payment.Amount,
                 model.Payment.CategoryId,
                 model.Payment.UserId,
-                PaymentType.Normal,
+                model.Payment.Type,
                 accountId));
 
             return RedirectToAction("Index", "Dashboard");
@@ -130,7 +130,7 @@ namespace Badzeet.Web.Features.Payments
             var model = new PaymentsViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId)),
+                Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId, x.Type)),
                 Users = users
             };
 
@@ -161,7 +161,7 @@ namespace Badzeet.Web.Features.Payments
         {
             public PaymentModel() { }
 
-            public PaymentModel(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId)
+            public PaymentModel(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId, PaymentType type)
             {
                 Id = id;
                 Date = date;
@@ -169,6 +169,7 @@ namespace Badzeet.Web.Features.Payments
                 Amount = amount;
                 this.CategoryId = categoryId;
                 this.UserId = userId;
+                this.Type = type;
             }
 
             public PaymentModel(Payment payment)
@@ -179,6 +180,7 @@ namespace Badzeet.Web.Features.Payments
                 this.Amount = payment.Amount;
                 this.CategoryId = payment.CategoryId;
                 this.UserId = payment.UserId;
+                this.Type = payment.Type;
             }
 
             public long Id { get; set; }
@@ -187,6 +189,7 @@ namespace Badzeet.Web.Features.Payments
             public decimal Amount { get; set; }
             public long CategoryId { get; set; }
             public Guid UserId { get; set; }
+            public PaymentType Type { get; set; }
         }
 
         public class PaymentsViewModel

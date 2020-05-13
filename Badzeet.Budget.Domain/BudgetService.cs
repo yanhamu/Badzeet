@@ -7,23 +7,23 @@ namespace Badzeet.Budget.Domain
     public class BudgetService
     {
         private readonly IPaymentRepository transactionRepository;
-        private readonly IAccountRepository bookRepository;
+        private readonly IAccountRepository accountRepository;
 
         public BudgetService(
             IPaymentRepository transactionRepository,
             IAccountRepository bookRepository)
         {
             this.transactionRepository = transactionRepository;
-            this.bookRepository = bookRepository;
+            this.accountRepository = bookRepository;
         }
 
-        public async Task<int> GetLatestBudgetId(long bookId)
+        public async Task<int> GetLatestBudgetId(long accountId)
         {
-            var book = await bookRepository.GetAccount(bookId);
-            var lastTransaction = await transactionRepository.GetLastPayment(bookId);
-            var last = GetBudgetInterval(book.FirstDayOfTheBudget, lastTransaction.Date);
+            var account = await accountRepository.GetAccount(accountId);
+            var lastTransaction = await transactionRepository.GetLastPayment(accountId);
+            var last = GetBudgetInterval(account.FirstDayOfTheBudget, lastTransaction.Date);
 
-            var pivot = new DateTime(2000, 1, book.FirstDayOfTheBudget);
+            var pivot = new DateTime(2000, 1, account.FirstDayOfTheBudget);
             short id = 0;
             while (pivot < last.From)
             {
@@ -34,11 +34,11 @@ namespace Badzeet.Budget.Domain
             return id;
         }
 
-        public async Task<DateInterval> GetMonthlyBudgetById(long bookId, int budgetId)
+        public async Task<DateInterval> GetMonthlyBudgetById(long accountId, int budgetId)
         {
-            var book = await bookRepository.GetAccount(bookId);
-            var start = new DateTime(2000, 1, book.FirstDayOfTheBudget);
-            return new DateInterval(start, start.AddMonths(1).AddDays(-1)).AddMonth(budgetId);
+            var account = await accountRepository.GetAccount(accountId);
+            var start = new DateTime(2000, 1, account.FirstDayOfTheBudget);
+            return new DateInterval(start, start.AddMonths(1).AddMilliseconds(-1)).AddMonth(budgetId);
         }
 
         private DateInterval GetBudgetInterval(byte firstDay, DateTime date)

@@ -8,11 +8,11 @@
     <h2>
         @if (Model.BudgetId > 0)
         {
-        <span>
-            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
-                <i class="fas fa-angle-left"></i>
-            </a>
-        </span>
+            <span>
+                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId - 1)">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            </span>
         }
         @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
 
@@ -25,7 +25,7 @@
 </div>
 
 <div class="card mb-4">
-    <h5 class="card-header bg-primary text-white">
+    <h5 class="card-header bg-info text-white">
         Summary
     </h5>
     <div class="card-body">
@@ -56,43 +56,45 @@
             </tr>
             @if (Model.IsOngoing)
             {
-            <tr>
-                <td>
-                    Remaining days:
-                </td>
-                <td>
-                    @{
+                <tr>
+                    <td>
+                        Remaining days:
+                    </td>
+                    <td>
+                        @{
                             var remaining = (Model.BudgetInterval.To - DateTime.Now).TotalDays;
-                            var total = (int)(Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays + 2;
-                    }
+                            var total = (Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays;
+                        }
 
-                    @((int)remaining + 2) (@((remaining / total).ToString("P0")))
-                </td>
-            </tr>
-            @if (remaining != 0)
+                        @((int)Math.Ceiling(remaining)) (@((remaining / total).ToString("P0")))
+                    </td>
+                </tr>
+                @if (remaining != 0)
                 {
-            <tr>
-                <td>Remaining daily average</td>
-                <td>@(((double)Model.RemainingBudget / (remaining + 2)).ToString("F0"))</td>
-            </tr>
+                    <tr>
+                        <td>Remaining daily average</td>
+                        <td>@(((double)Model.RemainingBudget / (remaining)).ToString("F0"))</td>
+                    </tr>
                 }
             }
         </table>
         <table class="table table-sm">
             <tr><th colspan="2">Total spend per user</th></tr>
             @foreach (var u in Model.Totals)
-                {
-            <tr>
-                <td>@u.Username</td>
-                <td>@u.Total.ToString("F0")</td>
-            </tr>
-                }
+            {
+                <tr>
+                    <td>@u.Username</td>
+                    <td>@u.Total.ToString("F0")</td>
+                </tr>
+            }
         </table>
     </div>
 </div>
 
+@(await Component.InvokeAsync<Badzeet.Web.Features.Payments.PendingPayments>(new { UserId = this.Context.Items["ui"], accountId = this.Context.Items["da"] }))
+
 <div class="card mb-4">
-    <h5 class="card-header bg-primary text-white">
+    <h5 class="card-header bg-info text-white">
         Budget
     </h5>
     <div class="card-body">
@@ -105,27 +107,27 @@
             </tr>
             @foreach (var category in Model.Categories)
             {
-            <tr data-toggle="collapse" data-target="#@category.Name">
-                <th colspan="2">
-                    @category.Name
-                </th>
-                <th>@category.Total.ToString("F0")</th>
-                <th>@category.Budget.ToString("F0")</th>
-            </tr>
+                <tr data-toggle="collapse" data-target="#@category.Name">
+                    <th colspan="2">
+                        @category.Name
+                    </th>
+                    <th>@category.Total.ToString("F0")</th>
+                    <th>@category.Budget.ToString("F0")</th>
+                </tr>
 
-            @foreach (var u in category.Users)
+                @foreach (var u in category.Users)
                 {
-            <tr id="@category.Name" class="collapse">
-                <td></td>
-                <td>
-                    @u.Name
-                </td>
-                <td>
-                    @u.Total.ToString("F0")
-                </td>
-                <td>
-                </td>
-            </tr>
+                    <tr id="@category.Name" class="collapse">
+                        <td></td>
+                        <td>
+                            @u.Name
+                        </td>
+                        <td>
+                            @u.Total.ToString("F0")
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                 }
             }
         </table>

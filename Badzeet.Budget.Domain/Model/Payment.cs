@@ -34,6 +34,7 @@ namespace Badzeet.Budget.Domain.Model
     public enum PaymentType : byte
     {
         Normal = 1,
-        Scheduled = 2
+        Scheduled = 2,
+        Pending = 3
     }
 }

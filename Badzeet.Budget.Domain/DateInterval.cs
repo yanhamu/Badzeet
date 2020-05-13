@@ -12,8 +12,8 @@ namespace Badzeet.Budget.Domain
             if (from > to)
                 throw new ArgumentException("from cannot be higher than to");
 
-            From = from.Date;
-            To = to.Date;
+            From = from;
+            To = to;
         }
 
         public DateInterval AddMonth(int months)
