@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Badzeet.Web.Features.Budget.BudgetViewComponent.BudgetCategoryViewModel>
+<div class="card mb-4">
+    <h5 class="card-header bg-primary text-white">
+        Budget
+    </h5>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <th colspan="2"></th>
+
+                <th>Spent</th>
+                <th>Planned</th>
+            </tr>
+            @foreach (var category in Model)
+            {
+                <tr data-toggle="collapse" data-target="#@category.Name">
+                    <th colspan="2">
+                        @category.Name
+                    </th>
+                    <th>@category.Total.ToString("F0")</th>
+                    <th>@category.Budget.ToString("F0")</th>
+                </tr>
+
+                @foreach (var u in category.Users)
+                {
+                    <tr id="@category.Name" class="collapse">
+                        <td></td>
+                        <td>
+                            @u.Name
+                        </td>
+                        <td>
+                            @u.Total.ToString("F0")
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <a class="btn btn-primary form-control" asp-action="Edit">Edit</a>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿@model Badzeet.Web.Features.Payments.PendingPayments.PendingPaymentsViewModel
+﻿@model Badzeet.Web.Features.Payments.PendingPaymentsViewComponent.PendingPaymentsViewModel
 
 
 @if (Model.PendingPayments.Any())
@@ -16,12 +16,12 @@
                         <td>@payment.Owner</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <a class="btn btn-link pb-0 pt-0 pr-0" asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id">
+                                <a class="btn btn-link py-0 pr-0" asp-controller="Payments" asp-action="Edit" asp-route-id="@payment.Id">
                                     <i class="fa fa-edit fa-sm"></i>
                                 </a>
                                 <form method="post" asp-controller="Payments" asp-action="Transform">
                                     <input type="hidden" name="id" value="@payment.Id" />
-                                    <button class="btn btn-link pb-0  pt-0 pr-0">
+                                    <button class="btn btn-link py-0 pr-0">
                                         <i class="fa fa-check fa-sm"></i>
                                     </button>
                                 </form>

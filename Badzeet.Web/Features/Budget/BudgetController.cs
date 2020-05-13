@@ -3,6 +3,7 @@ using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,22 +13,16 @@ namespace Badzeet.Web.Features.Budget
     [Authorize]
     public class BudgetController : Controller
     {
-        private readonly IPaymentRepository paymentsRepository;
         private readonly ICategoryRepository categoryRepository;
-        private readonly IUserAccountRepository userBookRepository;
         private readonly ICategoryBudgetRepository budgetRepository;
         private readonly BudgetService budgetService;
 
         public BudgetController(
-            IPaymentRepository paymentsRepository,
             ICategoryRepository categoryRepository,
-            IUserAccountRepository userBookRepository,
             ICategoryBudgetRepository budgetRepository,
             BudgetService budgetService)
         {
-            this.paymentsRepository = paymentsRepository;
             this.categoryRepository = categoryRepository;
-            this.userBookRepository = userBookRepository;
             this.budgetRepository = budgetRepository;
             this.budgetService = budgetService;
         }
@@ -38,45 +33,13 @@ namespace Badzeet.Web.Features.Budget
             if (await budgetRepository.HasBudget(accountId, budgetId) == false)
                 return RedirectToAction("Index", "Dashboard");
 
-            var allCategories = await categoryRepository.GetCategories(accountId);
-            var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
-            var allUsers = await userBookRepository.GetUsers(accountId);
-            var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
 
-            foreach (var c in allCategories)
-            {
-                var categoryTransactions = transactions.Where(x => x.CategoryId == c.Id);
-                var budget = budgets.SingleOrDefault(x => x.CategoryId == c.Id);
-                var users = new List<CategoryUserViewModel>();
-                foreach (var u in allUsers)
-                {
-                    var total = categoryTransactions.Where(x => x.UserId == u.UserId).Sum(x => x.Amount);
-                    users.Add(new CategoryUserViewModel(u.UserId, u.User.Nickname, total));
-                }
-
-                categories.Add(new BudgetCategoryViewModel()
-                {
-                    Name = c.Name,
-                    Total = categoryTransactions.Sum(t => t.Amount),
-                    Users = users.ToArray(),
-                    Budget = budget?.Amount ?? 0
-                });
-            }
-
-            var totals = categories.SelectMany(x => x.Users).GroupBy(x => new { x.UserId, x.Name }).Select(g => new UserTotal(g.Key.UserId, g.Key.Name, g.Sum(x => x.Total)));
-
-            var model = new BudgetViewModel
+            return View(new BudgetViewModel
             {
                 BudgetId = budgetId,
-                Categories = categories.ToArray(),
-                Spend = categories.Sum(x => x.Total),
-                Budget = categories.Sum(x => x.Budget),
                 BudgetInterval = interval,
-                Totals = totals
-            };
-            return View(model);
+            });
         }
 
         [HttpGet]
@@ -113,6 +76,13 @@ namespace Badzeet.Web.Features.Budget
             await budgetRepository.Save();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public class BudgetViewModel
+        {
+            public int BudgetId { get; set; }
+            public DateInterval BudgetInterval { get; set; }
+            public bool IsOngoing { get { return DateTime.Now.Date <= BudgetInterval.To && DateTime.Now.Date >= BudgetInterval.From; } }
         }
     }
 }

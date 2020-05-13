@@ -1,5 +1,4 @@
-﻿using Badzeet.Budget.Domain;
-using Badzeet.Budget.Domain.Interfaces;
+﻿using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Payments
 {
-    public class PendingPayments : ViewComponent
+    public class PendingPaymentsViewComponent : ViewComponent
     {
         private readonly IPaymentRepository repository;
         private readonly ICategoryRepository categoryRepository;
 
-        public PendingPayments(IPaymentRepository repository, ICategoryRepository categoryRepository)
+        public PendingPaymentsViewComponent(IPaymentRepository repository, ICategoryRepository categoryRepository)
         {
             this.repository = repository;
             this.categoryRepository = categoryRepository;
@@ -23,7 +22,7 @@ namespace Badzeet.Web.Features.Payments
         public async Task<IViewComponentResult> InvokeAsync(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
-            var pendingPayments = await GetTest(accountId);
+            var pendingPayments = await repository.GetPayments(new PaymentsFilter(accountId, type: PaymentType.Pending));
             var paymentsModel = pendingPayments.Select(x => new PendingPaymentViewModel()
             {
                 Description = x.Description,
@@ -37,11 +36,6 @@ namespace Badzeet.Web.Features.Payments
             });
 
             return View(new PendingPaymentsViewModel(paymentsModel));
-        }
-
-        private async Task<IEnumerable<Payment>> GetTest(long accountId)
-        {
-            return await repository.GetPayments(new PaymentsFilter(accountId, type: PaymentType.Pending));
         }
 
         public class PendingPaymentsViewModel
