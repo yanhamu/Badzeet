@@ -82,7 +82,6 @@ namespace Badzeet.Web.Features.Budget
         {
             public int BudgetId { get; set; }
             public DateInterval BudgetInterval { get; set; }
-            public bool IsOngoing { get { return DateTime.Now.Date <= BudgetInterval.To && DateTime.Now.Date >= BudgetInterval.From; } }
         }
     }
 }
