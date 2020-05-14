@@ -62,7 +62,7 @@ namespace Badzeet.Budget.Domain
 
         public Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            repository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Scheduled, request.AccountId));
+            repository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
             return Task.FromResult(Unit.Value);
         }
     }
