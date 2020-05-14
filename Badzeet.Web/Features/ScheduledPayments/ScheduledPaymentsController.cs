@@ -30,6 +30,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
             this.paymentRepository = paymentRepository;
         }
 
+        [HttpGet]
         public async Task<IActionResult> List(long accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
@@ -52,7 +53,6 @@ namespace Badzeet.Web.Features.ScheduledPayments
         [HttpPost]
         public async Task<IActionResult> Edit(long accountId, MonthlyPaymentViewModel model)
         {
-            //TODO add edit view
             var metadata = GetSettings(model);
             var scheduledAt = CalculateFirstScheduledDate(metadata);
             var payment = await paymentRepository.Get(model.Payment.Id);
@@ -97,6 +97,14 @@ namespace Badzeet.Web.Features.ScheduledPayments
             return RedirectToAction(nameof(List));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]long id)
+        {
+            await paymentRepository.Remove(id);
+            await paymentRepository.SaveAll();
+            return Redirect(nameof(List));
+        }
+
         private MonthlyPaymentProcessor.MonthlySettings GetSettings(MonthlyPaymentViewModel model)
         {
             return model.LastDay
@@ -106,11 +114,11 @@ namespace Badzeet.Web.Features.ScheduledPayments
 
         private DateTime CalculateFirstScheduledDate(MonthlyPaymentProcessor.MonthlySettings metadata)
         {
-            var scheduledDate = DateTime.UtcNow;
-
+            var now = DateTime.UtcNow;
+            var scheduledDate = now;
             if (metadata.LastDay)
             {
-                while (scheduledDate.Month == scheduledDate.Month)
+                while (scheduledDate.Month == now.Month)
                     scheduledDate = scheduledDate.AddDays(1);
                 scheduledDate = scheduledDate.AddDays(-1);
                 return new DateTime(scheduledDate.Year, scheduledDate.Month, scheduledDate.Day).Add(metadata.When);
