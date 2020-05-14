@@ -54,11 +54,13 @@
 
     <div class="form-group row">
         <label asp-for="Payment.Type" class="col-sm-2 col-form-label">Type</label>
-        <div class="col-sm-10">
-            <select class="custom-select" asp-for="Payment.Type">
-                <option value="1">Normal</option>
-                <option value="3">Pending</option>
-            </select>
+        <div class="btn-group btn-group-toggle col-sm-4" data-toggle="buttons">
+            <label class="btn btn-secondary @(Model.Payment.Type == Badzeet.Budget.Domain.Model.PaymentType.Normal ? "active" : "")">
+                <input type="radio" asp-for="Payment.Type" autocomplete="off" value="Normal"> Normal
+            </label>
+            <label class="btn btn-secondary @(Model.Payment.Type == Badzeet.Budget.Domain.Model.PaymentType.Pending ? "active" : "")">
+                <input type="radio" asp-for="Payment.Type" autocomplete="off" value="Pending"> Pending
+            </label>
         </div>
     </div>
 

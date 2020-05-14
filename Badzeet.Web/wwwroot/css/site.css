@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
     font-size: 14px;
 }
 
@@ -28,17 +28,16 @@ html {
 button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
-}
+}*/
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+/*html {
     position: relative;
     min-height: 100%;
 }
 
 body {
-    /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
 
@@ -47,5 +46,5 @@ body {
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
+    line-height: 60px;
+}*/
