@@ -46,6 +46,7 @@ namespace Badzeet.Web.Features.Payments
 
             model.Payment.Date = DateTime.Now;
             model.Payment.UserId = Guid.Parse(this.User.Claims.Single(x => x.Type == "Id").Value);
+            model.Payment.Type = PaymentType.Normal;
             return View(model);
         }
 
