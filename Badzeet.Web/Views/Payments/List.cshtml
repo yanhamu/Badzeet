@@ -1,13 +1,13 @@
 ﻿@model Badzeet.Web.Features.Payments.PaymentsController.PaymentsViewModel
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Payments";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
     var date = DateTime.MinValue;
 }
 
-<h1>Records</h1>
+<h1>Payments</h1>
 
 <table class="table table-sm">
     @foreach (var t in Model.Payments)

@@ -18,11 +18,6 @@ namespace Badzeet.Budget.Domain
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Payment>> GetPayments(long accountId, DateInterval interval)
-        {
-            return await repository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
-        }
-
         public Task<Payment> GetPayment(long id)
         {
             return repository.Get(id);

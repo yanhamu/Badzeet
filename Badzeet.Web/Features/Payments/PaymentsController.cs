@@ -15,6 +15,7 @@ namespace Badzeet.Web.Features.Payments
     {
         private readonly PaymentsService paymentsService;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IPaymentRepository paymentRepository;
         private readonly IUserAccountRepository userAccountRepository;
         private readonly BudgetService budgetService;
 
@@ -22,10 +23,12 @@ namespace Badzeet.Web.Features.Payments
             PaymentsService paymentsService,
             ICategoryRepository categoryRepository,
             IUserAccountRepository userAccountRepository,
+            IPaymentRepository paymentRepository,
             BudgetService budgetService)
         {
             this.paymentsService = paymentsService;
             this.categoryRepository = categoryRepository;
+            this.paymentRepository = paymentRepository;
             this.userAccountRepository = userAccountRepository;
             this.budgetService = budgetService;
         }
@@ -119,11 +122,11 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long accountId, int budgetId)
+        public async Task<IActionResult> List(long accountId, int budgetId, long? categoryId)
         {
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
 
-            var payments = await paymentsService.GetPayments(accountId, interval);
+            var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal, categoryId: categoryId));
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
 
