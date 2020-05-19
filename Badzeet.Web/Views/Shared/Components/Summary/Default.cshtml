@@ -1,69 +1,80 @@
 ﻿@model Badzeet.Web.Features.Budget.SummaryViewComponent.SummaryViewModel
 
 
-    <div class="card mb-4">
-        <h5 class="card-header bg-primary text-white">
-            Summary
-        </h5>
-        <div class="card-body">
-            <table class="table table-sm">
+<div class="card mb-4">
+    <h5 class="card-header bg-primary text-white">
+        Summary
+    </h5>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <td>
+                    Spend:
+                </td>
+                <td>
+                    @Model.Spend.ToString("F0") (@((Model.Spend / Model.Budget).ToString("P0")))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Budget:
+                </td>
+                <td>
+                    @Model.Budget.ToString("F0")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Remaining budget:
+                </td>
+                <td class="@(Model.RemainingBudget > 0?"text-success":"text-danger") ">
+                    @Model.RemainingBudget.ToString("F0") (@((Model.RemainingBudget / Model.Budget).ToString("P0")))
+                </td>
+            </tr>
+            @if (Model.Pending > 0m)
+            {
                 <tr>
-                    <td>
-                        Spend:
-                    </td>
-                    <td>
-                        @Model.Spend.ToString("F0") (@((Model.Spend / Model.Budget).ToString("P0")))
-                    </td>
+                    <td>Pending payments</td>
+                    <td>@Model.Pending.ToString("F0")</td>
                 </tr>
                 <tr>
-                    <td>
-                        Budget:
-                    </td>
-                    <td>
-                        @Model.Budget.ToString("F0")
-                    </td>
+                    <td>Remainging inc. pending</td>
+                    <td>@((Model.RemainingBudget - Model.Pending).ToString("F0")) (@(((Model.RemainingBudget - Model.Pending )/ Model.Budget).ToString("P0")))</td>
                 </tr>
+            }
+            @if (Model.IsOngoing)
+            {
                 <tr>
                     <td>
-                        Remaining budget:
+                        Remaining days:
                     </td>
-                    <td class="@(Model.RemainingBudget > 0?"text-success":"text-danger") ">
-                        @Model.RemainingBudget.ToString("F0") (@((Model.RemainingBudget / Model.Budget).ToString("P0")))
-                    </td>
-                </tr>
-                @if (Model.IsOngoing)
-                {
-                    <tr>
-                        <td>
-                            Remaining days:
-                        </td>
-                        <td>
-                            @{
-                                var remaining = (Model.BudgetInterval.To - DateTime.Now).TotalDays;
-                                var total = (Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays;
-                            }
+                    <td>
+                        @{
+                            var remaining = (Model.BudgetInterval.To - DateTime.Now).TotalDays;
+                            var total = (Model.BudgetInterval.To - Model.BudgetInterval.From).TotalDays;
+                        }
 
-                            @((int)Math.Ceiling(remaining)) (@((remaining / total).ToString("P0")))
-                        </td>
-                    </tr>
-                    @if (remaining != 0)
-                    {
-                        <tr>
-                            <td>Remaining daily average</td>
-                            <td>@(((double)Model.RemainingBudget / (remaining)).ToString("F0"))</td>
-                        </tr>
-                    }
-                }
-            </table>
-            <table class="table table-sm">
-                <tr><th colspan="2">Total spend per user</th></tr>
-                @foreach (var u in Model.Totals)
+                        @((int)Math.Ceiling(remaining)) (@((remaining / total).ToString("P0")))
+                    </td>
+                </tr>
+                @if (remaining != 0)
                 {
                     <tr>
-                        <td>@u.Username</td>
-                        <td>@u.Total.ToString("F0")</td>
+                        <td>Remaining daily average</td>
+                        <td>@(((double)Model.RemainingBudget / (remaining)).ToString("F0"))</td>
                     </tr>
                 }
-            </table>
-        </div>
+            }
+        </table>
+        <table class="table table-sm">
+            <tr><th colspan="2">Total spend per user</th></tr>
+            @foreach (var u in Model.Totals)
+            {
+                <tr>
+                    <td>@u.Username</td>
+                    <td>@u.Total.ToString("F0")</td>
+                </tr>
+            }
+        </table>
     </div>
+</div>
