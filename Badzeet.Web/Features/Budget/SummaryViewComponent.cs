@@ -1,5 +1,6 @@
 ﻿using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Badzeet.Web.Features.Budget
         public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
-            var payments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
+            var payments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
             var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
             var users = await userAccountRepository.GetUsers(accountId);
 
