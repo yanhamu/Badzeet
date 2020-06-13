@@ -40,7 +40,7 @@ namespace Badzeet.Web.Features.Dashboard
 
             var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
             var allCategories = await categoryRepository.GetCategories(accountId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval:interval));
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
             var allUsers = await userBookRepository.GetUsers(accountId);
 
             var categories = new List<CategoryViewModel>();

@@ -17,7 +17,9 @@ namespace Badzeet.Budget.Domain.Interfaces
 
     public class PaymentsFilter
     {
-        public PaymentsFilter(long accountId, Guid? userId = null, DateInterval? interval = null, PaymentType? type = null, long? categoryId = null)
+        public PaymentsFilter(long accountId, Guid? userId = null, DateInterval? interval = null, PaymentType? type = null) : this(accountId, new long[0], userId, interval, type) { }
+
+        public PaymentsFilter(long accountId, long[] categoryId, Guid? userId = null, DateInterval? interval = null, PaymentType? type = null)
         {
             AccountId = accountId;
             UserId = userId;
@@ -30,6 +32,6 @@ namespace Badzeet.Budget.Domain.Interfaces
         public Guid? UserId { get; }
         public DateInterval? Interval { get; }
         public PaymentType? PaymentType { get; }
-        public long? CategoryId { get; set; }
+        public long[] CategoryId { get; set; }
     }
 }

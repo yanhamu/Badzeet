@@ -7,7 +7,28 @@
     var date = DateTime.MinValue;
 }
 
-<h1>Payments</h1>
+<div class="row">
+    <div class="col-8">
+        <h1>Payments</h1>
+    </div>
+    <div class="col-4">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filter" aria-expanded="false" aria-controls="collapseExample" id="filter-toggle">
+            Filters
+        </button>
+    </div>
+</div>
+<div class="collapse" id="filter">
+    <div class="card card-body">
+        @foreach (var category in categories)
+        {
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="cid-@category.Key" name="c-filter">
+                <label class="form-check-label" for="exampleCheck1">@category.Value</label>
+            </div>
+        }
+        <button class="btn btn-primary" id="apply-filter">Apply</button>
+    </div>
+</div>
 
 <table class="table table-sm">
     @foreach (var t in Model.Payments)
@@ -33,3 +54,52 @@
         </tr>
     }
 </table>
+
+@section Scripts{
+    <script type="text/javascript">
+        function initialize() {
+            prepareFilter();
+            setFilter();
+
+        };
+
+        function setFilter() {
+            var applyFilterButton = document.getElementById("apply-filter");
+            applyFilterButton.onclick = function () {
+                var filters = document.getElementsByName('c-filter');
+                var ids = [];
+                filters.forEach((f) => {
+                    if (f.checked) {
+                        ids.push(f.id.split('-')[1]);
+                    }
+                });
+
+                if (ids.length != 0) {
+                    var url = 'cid=' + ids.join('&cid=');
+                    window.location.href = window.location.href.replace(window.location.search, '') + '?' + url;
+                } else {
+                    window.location.href = window.location.href.replace(window.location.search, '');
+                }
+            };
+        };
+
+        function prepareFilter() {
+            var total = 0;
+            var search = window.location.search.replace('?', '');
+            var parameters = search.split('&');
+            parameters.forEach(p => {
+                if (p.startsWith('cid=')) {
+                    var id = p.replace('cid=', '');
+                    var checkbox = document.getElementById('cid-' + id);
+                    checkbox.checked = true;
+                    total += 1;
+                }
+            });
+
+            var toggle = document.getElementById('filter-toggle');
+            toggle.textContent = toggle.textContent + ' (' + total.toString() + ')';
+        }
+
+        window.onload = initialize();
+    </script>
+}

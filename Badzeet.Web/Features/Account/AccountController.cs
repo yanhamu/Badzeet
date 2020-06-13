@@ -51,6 +51,7 @@ namespace Badzeet.Web.Features.Account
 
             return Redirect("/");
         }
+
         [HttpPost]
         public async Task<IActionResult> Logout(string returnUrl)
         {
