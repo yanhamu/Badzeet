@@ -27,3 +27,4 @@
 @(await Component.InvokeAsync<Badzeet.Web.Features.Budget.SummaryViewComponent>(new { accountId = this.Context.Items["da"], budgetId = Model.BudgetId  }))
 @(await Component.InvokeAsync<Badzeet.Web.Features.Payments.PendingPaymentsViewComponent>(new { UserId = this.Context.Items["ui"], accountId = this.Context.Items["da"] }))
 @(await Component.InvokeAsync<Badzeet.Web.Features.Budget.BudgetViewComponent>(new { accountId = this.Context.Items["da"], budgetId = Model.BudgetId  }))
+@(await Component.InvokeAsync<Badzeet.Web.Features.UserAccounts.UserAccountsViewComponent>(new { accountId = this.Context.Items["da"], budgetId = Model.BudgetId }))

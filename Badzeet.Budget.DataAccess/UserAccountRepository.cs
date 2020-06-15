@@ -35,6 +35,7 @@ namespace Badzeet.DataAccess.Budget
         {
             return await context.Set<UserAccount>()
                 .Where(x => x.UserId == userId)
+                .Include(x => x.User)
                 .ToListAsync();
         }
 
@@ -45,6 +46,11 @@ namespace Badzeet.DataAccess.Budget
                 .Where(x => x.AccountId == accountId)
                 .Include(x => x.User)
                 .ToListAsync();
+        }
+
+        public async Task Save()
+        {
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Badzeet.Budget.Domain.Interfaces
         Task<IEnumerable<UserAccount>> GetUsers(long accountId);
         Task<IEnumerable<UserAccount>> GetUserAccounts(Guid userId);
         Task<UserAccount> Create(Guid userId, long id);
+        Task Save();
     }
 }
