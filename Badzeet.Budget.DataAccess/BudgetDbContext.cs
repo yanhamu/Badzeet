@@ -38,7 +38,6 @@ namespace Badzeet.Budget.DataAccess
             userAccount.HasKey(x => new { x.UserId, x.AccountId });
             userAccount.Property(x => x.UserId).HasColumnName("user_id");
             userAccount.Property(x => x.AccountId).HasColumnName("account_id");
-            userAccount.Property(x => x.Balance).HasColumnName("balance").IsRequired(false);
             userAccount.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
             userAccount.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
 

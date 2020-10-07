@@ -8,6 +8,5 @@ namespace Badzeet.Budget.Domain.Model
         public long AccountId { get; set; }
         public User User { get; set; }
         public Account Account { get; set; }
-        public decimal? Balance { get; set; }
     }
 }

@@ -22,7 +22,6 @@ namespace Badzeet.Web.Features.UserAccounts
             var a = accounts.Where(x => x.AccountId == accountId)
                 .Select(x => new UserAccountViewModel()
                 {
-                    Balance = x.Balance,
                     Name = x.User.Nickname,
                     UserId = x.UserId
                 })
@@ -31,12 +30,10 @@ namespace Badzeet.Web.Features.UserAccounts
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid userId, long accountId, decimal balance)
+        public async Task<IActionResult> Edit(Guid userId, long accountId, object temporary)
         {
             var accounts = await userAccountRepository.GetUserAccounts(userId);
             var a = accounts.Where(x => x.AccountId == accountId).Single();
-
-            a.Balance = balance;
 
             await userAccountRepository.Save();
 
