@@ -3,7 +3,6 @@ using Badzeet.Budget.Domain.Model;
 using Badzeet.Integration.Events;
 using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,10 +54,11 @@ namespace Badzeet.Budget.Domain
             await this.repository.Save();
         }
 
-        public Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            repository.Add(new Payment(0, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
-            return Task.FromResult(Unit.Value);
+            repository.Add(new Payment(default, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
+            await repository.Save();
+            return Unit.Value;
         }
     }
 }
