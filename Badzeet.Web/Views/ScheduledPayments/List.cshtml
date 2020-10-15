@@ -8,7 +8,7 @@
 <h1>Scheduled Payments</h1>
 
 <table class="table table-sm">
-    @foreach (var p in Model.Payments)
+    @foreach (var p in Model.Payments.OrderByDescending(x=>x.ScheduledAt))
     {
         <tr>
             <td>@p.ScheduledAt.ToString("yyyy-MM-dd")</td>

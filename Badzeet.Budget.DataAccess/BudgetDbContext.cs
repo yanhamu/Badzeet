@@ -1,4 +1,5 @@
-﻿using Badzeet.Budget.Domain.Model;
+﻿using Badzeet.Budget.DataAccess.Maps;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Badzeet.Budget.DataAccess
@@ -10,28 +11,6 @@ namespace Badzeet.Budget.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("budget");
-
-            var payment = modelBuilder.Entity<Payment>();
-            payment.ToTable("payments");
-            payment.HasKey(x => x.Id);
-            payment.Property(x => x.AccountId).HasColumnName("account_id");
-            payment.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
-            payment.Property(x => x.CategoryId).HasColumnName("category_id");
-            payment.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
-            payment.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
-            payment.Property(x => x.UserId).HasColumnName("owner_id");
-            payment.Property(x => x.Type).HasColumnName("type");
-
-            var account = modelBuilder.Entity<Account>();
-            account.ToTable("accounts");
-            account.HasKey(x => x.Id);
-            account.Property(x => x.FirstDayOfTheBudget).HasColumnName("first_day_of_budget");
-            account.Property(x => x.CreatedAt).HasColumnName("created_at");
-
-            var category = modelBuilder.Entity<Category>();
-            category.ToTable("categories");
-            category.HasKey(x => x.Id);
-            category.Property(x => x.AccountId).HasColumnName("account_id");
 
             var userAccount = modelBuilder.Entity<UserAccount>();
             userAccount.ToTable("user_accounts");
@@ -66,6 +45,8 @@ namespace Badzeet.Budget.DataAccess
             categoryBudget.Property(x => x.Amount).HasColumnName("amount");
             categoryBudget.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
             categoryBudget.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountMap).Assembly);
         }
     }
 }

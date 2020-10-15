@@ -64,6 +64,9 @@ namespace Badzeet.Web.Features.ScheduledPayments
             payment.ScheduledAt = scheduledAt;
             payment.SchedulingType = SchedulingType.Monthly;
             payment.UpdatedAt = DateTime.UtcNow;
+
+            await paymentRepository.SaveAll();
+
             return RedirectToAction(nameof(List));
         }
 
