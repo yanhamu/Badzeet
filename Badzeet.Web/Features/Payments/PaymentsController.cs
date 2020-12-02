@@ -87,7 +87,7 @@ namespace Badzeet.Web.Features.Payments
                 model.Payment.Type,
                 accountId));
 
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("List");
         }
 
         [HttpGet]
