@@ -42,6 +42,7 @@
     <None Remove="Scripts\0092_Drop_Column.sql" />
     <None Remove="Scripts\0095_Add_Column.sql" />
     <None Remove="Scripts\0098_Drop_Column.sql" />
+    <None Remove="Scripts\0110_Create_Tokens.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +77,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0110_Create_Tokens.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0098_Drop_Column.sql">

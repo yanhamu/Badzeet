@@ -55,6 +55,12 @@ namespace Badzeet.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(x =>
+            {
+                x.AllowAnyOrigin();
+                x.AllowAnyHeader();
+                x.AllowAnyMethod();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

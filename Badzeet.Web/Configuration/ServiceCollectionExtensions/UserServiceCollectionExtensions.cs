@@ -8,6 +8,9 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
         public static void RegisterUserDependencies(this IServiceCollection services)
         {
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<UserRepository>();
+            services.AddTransient<TokenRepository>();
+            services.AddTransient<ITokenService, TokenService>();
         }
     }
 }
