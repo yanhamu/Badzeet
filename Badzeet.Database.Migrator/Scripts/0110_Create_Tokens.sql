@@ -1,7 +1,7 @@
 ﻿create table users.tokens(
 	id uniqueidentifier primary key,
 	user_id uniqueidentifier not null foreign key references users.users(id),
-	token binary(256) not null,
+	token binary(128) not null,
 	expires datetime2 not null
 )
 go

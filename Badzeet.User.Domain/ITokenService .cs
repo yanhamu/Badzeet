@@ -6,6 +6,7 @@ namespace Badzeet.User.Domain
     public interface ITokenService
     {
         Task<IssueTokenResponse> Issue(string username, string password);
-        Task<Guid?> FindTokenId(Guid userid, string token);
+        Task<bool> Validate(Guid userid, string token);
+        Task<IssueTokenResponse> Refresh(Guid userId, string token);
     }
 }

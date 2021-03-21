@@ -8,7 +8,7 @@ namespace Badzeet.User.Domain
     {
         private readonly UserRepository userRepository;
         private readonly TokenRepository tokenRepository;
-        private const int tokenLength = 256;
+        private const int tokenLength = 128;
         private readonly TimeSpan validityPeriod = TimeSpan.FromMinutes(30);
 
         public TokenService(UserRepository userRepository, TokenRepository tokenRepository)
@@ -16,6 +16,7 @@ namespace Badzeet.User.Domain
             this.userRepository = userRepository;
             this.tokenRepository = tokenRepository;
         }
+
         public async Task<IssueTokenResponse> Issue(string username, string password)
         {
             var user = await userRepository.GetUser(username);
@@ -27,12 +28,37 @@ namespace Badzeet.User.Domain
                 return new IssueTokenResponse();
 
             var token = PasswordService.GenerateToken(tokenLength);
-            var expiration = DateTime.UtcNow.Add(validityPeriod);
+            DateTime expiration = GetExpiration();
             await tokenRepository.Save(user.Id, token, expiration);
-            return IssueTokenResponse.Create(expiration, token, user.Id, user.Username);
+            return IssueTokenResponse.Create(expiration, token, user.Id);
         }
 
-        public async Task<Guid?> FindTokenId(Guid userid, string token)
+        private DateTime GetExpiration()
+        {
+            return DateTime.UtcNow.Add(validityPeriod);
+        }
+
+        public async Task<bool> Validate(Guid userid, string token)
+        {
+            var t = await FindToken(userid, token);
+            return t != default;
+        }
+
+        public async Task<IssueTokenResponse> Refresh(Guid userId, string token)
+        {
+            var staleToken = await FindToken(userId, token);
+            if (staleToken == default)
+            {
+                return new IssueTokenResponse();
+            }
+            var newToken = PasswordService.GenerateToken(tokenLength);
+            var expiration = GetExpiration();
+            await tokenRepository.Save(userId, newToken, expiration);
+            await tokenRepository.Remove(staleToken.Id);
+            return IssueTokenResponse.Create(expiration, newToken, userId);
+        }
+
+        private async Task<TokenDto> FindToken(Guid userid, string token)
         {
             var tokens = await tokenRepository.Get(userid);
             var decoded = Convert.FromBase64String(token);
@@ -40,26 +66,24 @@ namespace Badzeet.User.Domain
             if (same == default)
                 return null;
 
-            return same.Id;
+            return same;
         }
     }
 
     public class IssueTokenResponse
     {
-        public string Username { get; set; }
         public Guid UserId { get; set; }
         public string Token { get; set; }
         public DateTime Expires { get; set; }
         public bool IsSuccess { get => Token != null; }
 
-        internal static IssueTokenResponse Create(DateTime expire, byte[] token, Guid userId, string username)
+        internal static IssueTokenResponse Create(DateTime expire, byte[] token, Guid userId)
         {
             return new IssueTokenResponse()
             {
                 Expires = expire,
                 Token = Convert.ToBase64String(token),
                 UserId = userId,
-                Username = username
             };
         }
     }

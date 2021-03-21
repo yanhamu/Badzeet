@@ -25,6 +25,8 @@ namespace Badzeet.Web
                 .AddCookie();
             services.AddHttpContextAccessor();
 
+            services.AddAuthentication();
+
             services.AddTransient<IUserAccountService, UserAccountService>();
 
             services.RegisterBudgetDependencies(configuration);
@@ -55,6 +57,10 @@ namespace Badzeet.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseCors(x =>
             {
                 x.AllowAnyOrigin();

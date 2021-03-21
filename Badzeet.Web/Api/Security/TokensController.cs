@@ -1,6 +1,6 @@
 ﻿using Badzeet.User.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using System;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Api.Security
@@ -14,7 +14,7 @@ namespace Badzeet.Web.Api.Security
             this.tokenService = tokenService;
         }
 
-        [Route("api/login")]
+        [Route("api/tokens")]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] Request request)
         {
@@ -24,6 +24,20 @@ namespace Badzeet.Web.Api.Security
 
             return Ok(result);
         }
+
+        [Route("api/tokens")]
+        [HttpPut]
+        public async Task<IActionResult> Login([FromBody] RefreshRequest request)
+        {
+            var result = await tokenService.Refresh(request.UserId, request.Token);
+            return Ok(result);
+        }
+    }
+
+    public class RefreshRequest
+    {
+        public Guid UserId { get; set; }
+        public string Token { get; set; }
     }
 
     public class Request
