@@ -44,7 +44,7 @@ namespace Badzeet.Web.Features.Account
         [HttpPost]
         public async Task<IActionResult> Login(UserCredentialsModel credentials, string returnUrl)
         {
-            var loginResult = await service.Login(credentials);
+            var loginResult = await service.Login(credentials, returnUrl);
 
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);

@@ -1,12 +1,13 @@
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Badzeet.Web
 {
@@ -21,11 +22,24 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
-            services.AddHttpContextAccessor();
+            services.AddIdentityServer()
+                .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+                .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+                .AddInMemoryClients(IdentityServerConfig.Clients)
+                //.AddTestUsers(TestUsers.Users)
+                .AddDeveloperSigningCredential();
 
-            services.AddAuthentication();
+            services.AddHttpContextAccessor();
+            services.AddAuthentication("Cookies")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:44373";
+                    options.TokenValidationParameters = new TokenValidationParameters() { ValidateAudience = false};
+
+                })
+                .AddCookie("Cookies");
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddTransient<IUserAccountService, UserAccountService>();
 
@@ -55,8 +69,8 @@ namespace Badzeet.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseIdentityServer();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -67,9 +81,6 @@ namespace Badzeet.Web
                 x.AllowAnyHeader();
                 x.AllowAnyMethod();
             });
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseMiddleware<DefaultAccountMiddleware>();
 

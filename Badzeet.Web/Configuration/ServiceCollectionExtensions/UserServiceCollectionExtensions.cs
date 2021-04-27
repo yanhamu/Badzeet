@@ -9,8 +9,6 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
         {
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<UserRepository>();
-            services.AddTransient<TokenRepository>();
-            services.AddTransient<ITokenService, TokenService>();
         }
     }
 }

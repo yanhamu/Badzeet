@@ -9,7 +9,7 @@ namespace Badzeet.User.Domain
             this.IsSuccessful = isSuccessful;
         }
         public bool IsSuccessful { get; }
-        public abstract Guid GetUserId();
+        public abstract Guid UserId { get; }
 
         public static FailedUserLoginResponse CreateFailed()
         {
@@ -26,24 +26,16 @@ namespace Badzeet.User.Domain
     {
         public FailedUserLoginResponse() : base(false) { }
 
-        public override Guid GetUserId()
-        {
-            throw new InvalidOperationException("Can't access unauthorized user id");
-        }
+        public override Guid UserId => throw new InvalidOperationException("Can't access unauthorized user id");
     }
 
     public class SuccessfulUserLoginResponse : UserLoginResponse
     {
-        private readonly Guid userId;
-
         public SuccessfulUserLoginResponse(Guid userId) : base(true)
         {
-            this.userId = userId;
+            this.UserId = userId;
         }
 
-        public override Guid GetUserId()
-        {
-            return userId;
-        }
+        public override Guid UserId { get; }
     }
 }
