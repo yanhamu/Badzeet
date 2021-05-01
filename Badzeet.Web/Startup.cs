@@ -15,12 +15,10 @@ namespace Badzeet.Web
     public class Startup
     {
         private readonly IConfiguration configuration;
-        private readonly IHostEnvironment environment;
 
-        public Startup(IConfiguration configuration, IHostEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.environment = hostingEnvironment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -30,7 +28,8 @@ namespace Badzeet.Web
                 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
                 .AddInMemoryClients(IdentityServerConfig.Clients(configuration))
                 .AddDeveloperSigningCredential()
-                .AddOperationalStore(options => {
+                .AddOperationalStore(options =>
+                {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(configuration.GetConnectionString("badzeetDb"));
                     options.DefaultSchema = "id4";
                 });
