@@ -1,5 +1,6 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace Badzeet.Web.Configuration
@@ -17,62 +18,45 @@ namespace Badzeet.Web.Configuration
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-                new ApiScope("api1", "My API")
+                new ApiScope("api", "Badzeet Api")
             };
 
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients(IConfiguration configuration) =>
             new List<Client>
             {
-                // machine to machine client
                 new Client
                 {
-                    ClientId = "client",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    // scopes that client has access to
-                    AllowedScopes = { "api1" }
-                },
-                
-                // interactive ASP.NET Core MVC client
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    ClientId = "postman",
+                    ClientSecrets = { new Secret(configuration["ApiClients:Postman:secret"].Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
-                    
-                    // where to redirect to after login
-                    RedirectUris = { "https://localhost:44373" },
-
-                    // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:44373" },
+                    RedirectUris = { configuration["ApiClients:Postman:redirectUri"] },
+                    PostLogoutRedirectUris = { configuration["ApiClients:Postman:postLogoutRedirectUri"] },
 
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api"
                     }
                 },
 
-                // JavaScript Client
                 new Client
                 {
-                    ClientId = "js",
-                    ClientName = "JavaScript Client",
+                    ClientId = "ng",
+                    ClientName = "Angular Client",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
 
-                    RedirectUris =           { "https://localhost:5003/callback.html" },
-                    PostLogoutRedirectUris = { "https://localhost:5003/index.html" },
-                    AllowedCorsOrigins =     { "https://localhost:5003" },
+                    RedirectUris =           { configuration["ApiClients:Angular:redirectUri"] },
+                    PostLogoutRedirectUris = { configuration["ApiClients:Angular:postLogoutRedirectUri"] },
+                    AllowedCorsOrigins =     { configuration["ApiClients:Angular:allowedCorsOrigins"] },
 
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "api"
                     }
                 }
             };

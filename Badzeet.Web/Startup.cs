@@ -3,6 +3,7 @@ using Badzeet.Web.Configuration.Filters;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,10 +15,12 @@ namespace Badzeet.Web
     public class Startup
     {
         private readonly IConfiguration configuration;
+        private readonly IHostEnvironment environment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostEnvironment hostingEnvironment)
         {
             this.configuration = configuration;
+            this.environment = hostingEnvironment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -25,16 +28,19 @@ namespace Badzeet.Web
             services.AddIdentityServer()
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-                .AddInMemoryClients(IdentityServerConfig.Clients)
-                //.AddTestUsers(TestUsers.Users)
-                .AddDeveloperSigningCredential();
+                .AddInMemoryClients(IdentityServerConfig.Clients(configuration))
+                .AddDeveloperSigningCredential()
+                .AddOperationalStore(options => {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(configuration.GetConnectionString("badzeetDb"));
+                    options.DefaultSchema = "id4";
+                });
 
             services.AddHttpContextAccessor();
             services.AddAuthentication("Cookies")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:44373";
-                    options.TokenValidationParameters = new TokenValidationParameters() { ValidateAudience = false};
+                    options.Authority = configuration["Authority:Url"];
+                    options.TokenValidationParameters = new TokenValidationParameters() { ValidateAudience = false };
 
                 })
                 .AddCookie("Cookies");
