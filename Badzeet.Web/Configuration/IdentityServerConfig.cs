@@ -47,7 +47,6 @@ namespace Badzeet.Web.Configuration
                     ClientName = "Angular Client",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
-
                     RedirectUris =           { configuration["ApiClients:Angular:redirectUri"] },
                     PostLogoutRedirectUris = { configuration["ApiClients:Angular:postLogoutRedirectUri"] },
                     AllowedCorsOrigins =     { configuration["ApiClients:Angular:allowedCorsOrigins"] },

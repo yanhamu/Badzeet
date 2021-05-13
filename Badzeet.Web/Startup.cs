@@ -23,6 +23,7 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddIdentityServer()
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
@@ -63,8 +64,15 @@ namespace Badzeet.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
+                app.UseCors(x =>
+                {
+                    x.AllowAnyOrigin();
+                    x.AllowAnyHeader();
+                    x.AllowAnyMethod();
+                });
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -79,13 +87,6 @@ namespace Badzeet.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseCors(x =>
-            {
-                x.AllowAnyOrigin();
-                x.AllowAnyHeader();
-                x.AllowAnyMethod();
-            });
 
             app.UseMiddleware<DefaultAccountMiddleware>();
 

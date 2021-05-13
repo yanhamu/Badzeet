@@ -14,9 +14,9 @@ namespace Badzeet.Web.Api
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("auth")]
-        public string Auth()
+        public object Auth()
         {
-            return "my authorized test";
+            return new { name = "random name" };
         }
     }
 }
