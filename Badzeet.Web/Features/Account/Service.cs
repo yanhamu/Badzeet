@@ -49,7 +49,6 @@ namespace Badzeet.Web.Features.Account
             {
                 new Claim(ClaimTypes.Name, credentials.Username),
                 new Claim("sub", userResponse.UserId.ToString()),
-                new Claim("rand","rand")
             };
 
             await events.RaiseAsync(new UserLoginSuccessEvent(credentials.Username, userResponse.UserId.ToString(), credentials.Username, clientId: context?.Client.ClientId));

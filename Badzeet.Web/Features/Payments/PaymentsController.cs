@@ -34,7 +34,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> New(long accountId)
+        public async Task<IActionResult> New(long accountId, Guid userId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
@@ -45,7 +45,7 @@ namespace Badzeet.Web.Features.Payments
             };
 
             model.Payment.Date = DateTime.Now;
-            model.Payment.UserId = Guid.Parse(this.User.Claims.Single(x => x.Type == "Id").Value);
+            model.Payment.UserId = userId;
             model.Payment.Type = PaymentType.Normal;
             return View(model);
         }

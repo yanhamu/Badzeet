@@ -28,16 +28,6 @@ namespace Badzeet.User.Domain
             return salt;
         }
 
-        internal static byte[] GenerateToken(int length)
-        {
-            var result = new byte[length];
-            using (var provider = new RNGCryptoServiceProvider())
-            {
-                provider.GetBytes(result);
-            }
-            return result;
-        }
-
         internal static bool Verify(string savedPasswordHash, string password)
         {
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
