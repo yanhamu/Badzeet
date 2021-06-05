@@ -1,12 +1,14 @@
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Filters;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Badzeet.Web
 {
@@ -21,9 +23,29 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            services.AddCors();
+            services.AddIdentityServer()
+                .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+                .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+                .AddInMemoryClients(IdentityServerConfig.Clients(configuration))
+                .AddDeveloperSigningCredential()
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(configuration.GetConnectionString("badzeetDb"));
+                    options.DefaultSchema = "id4";
+                });
+
             services.AddHttpContextAccessor();
+            services.AddAuthentication("Cookies")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = configuration["Authority:Url"];
+                    options.TokenValidationParameters = new TokenValidationParameters() { ValidateAudience = false };
+
+                })
+                .AddCookie("Cookies");
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddTransient<IUserAccountService, UserAccountService>();
 
@@ -42,8 +64,15 @@ namespace Badzeet.Web
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
+                app.UseCors(x =>
+                {
+                    x.AllowAnyOrigin();
+                    x.AllowAnyHeader();
+                    x.AllowAnyMethod();
+                });
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -53,8 +82,8 @@ namespace Badzeet.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseIdentityServer();
 
             app.UseAuthentication();
             app.UseAuthorization();

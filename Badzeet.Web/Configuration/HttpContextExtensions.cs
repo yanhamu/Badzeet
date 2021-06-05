@@ -13,7 +13,7 @@ namespace Badzeet.Web.Configuration
 
         public static Guid GetUserId(this HttpContext context)
         {
-            var claim = context.User.Claims.FirstOrDefault(c => c.Type == "Id");
+            var claim = context.User.Claims.FirstOrDefault(c => c.Type == "sub");
             return Guid.Parse(claim.Value);
         }
     }

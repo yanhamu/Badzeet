@@ -3,10 +3,10 @@ using System.Security.Cryptography;
 
 namespace Badzeet.User.Domain
 {
-    internal class PasswordService
+    internal static class PasswordService
     {
         private const int iterations = 10000;
-        internal string GetHashedPassword(string password)
+        internal static string GetHashedPassword(string password)
         {
             var salt = GetSalt();
             var hashBytes = new byte[36];
@@ -28,7 +28,7 @@ namespace Badzeet.User.Domain
             return salt;
         }
 
-        internal bool Verify(string savedPasswordHash, string password)
+        internal static bool Verify(string savedPasswordHash, string password)
         {
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
             byte[] salt = new byte[16];
