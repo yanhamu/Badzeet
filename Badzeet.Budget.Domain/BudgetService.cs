@@ -8,13 +8,16 @@ namespace Badzeet.Budget.Domain
     {
         private readonly IPaymentRepository transactionRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly IBudgetRepository budgetRepository;
 
         public BudgetService(
             IPaymentRepository transactionRepository,
-            IAccountRepository bookRepository)
+            IAccountRepository bookRepository,
+            IBudgetRepository budgetRepository)
         {
             this.transactionRepository = transactionRepository;
             this.accountRepository = bookRepository;
+            this.budgetRepository = budgetRepository;
         }
 
         public async Task<int> GetLatestBudgetId(long accountId)
@@ -34,11 +37,10 @@ namespace Badzeet.Budget.Domain
             return id;
         }
 
-        public async Task<DateInterval> GetMonthlyBudgetById(long accountId, int budgetId)
+        public async Task<DateInterval> GetMonthlyBudgetById(long budgetId) //TODO remove
         {
-            var account = await accountRepository.GetAccount(accountId);
-            var start = new DateTime(2000, 1, account.FirstDayOfTheBudget);
-            return new DateInterval(start, start.AddMonths(1).AddMilliseconds(-1)).AddMonth(budgetId);
+            var budget = await budgetRepository.Get(budgetId);
+            return budget.Interval;
         }
 
         private DateInterval GetBudgetInterval(byte firstDay, DateTime date)

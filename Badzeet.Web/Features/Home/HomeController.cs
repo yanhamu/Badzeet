@@ -1,16 +1,36 @@
-﻿using Badzeet.Web.Models;
+﻿using Badzeet.Web.Configuration;
+using Badzeet.Web.Features.Common;
+using Badzeet.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Home
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly BudgetNavigationService budgetNavigationService;
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public HomeController(BudgetNavigationService budgetNavigationService, IHttpContextAccessor httpContextAccessor)
         {
-            return User.Identity.IsAuthenticated
-                ? (IActionResult)RedirectToAction("Index", "Dashboard")
-                : View();
+            this.budgetNavigationService = budgetNavigationService;
+            this.httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity.IsAuthenticated == false)
+                return View();
+
+            var accountId = httpContextAccessor.HttpContext.GetAccountId();
+            var nav = await budgetNavigationService.Get(accountId);
+
+            if (nav.Current.BudgetId.HasValue)
+                return RedirectToAction("Index", "Budget", new { budgetId = nav.Current.BudgetId.Value });
+
+            return RedirectToAction("Index", "Dashboard", new { date = nav.Current.FirstBudgetDate });
         }
 
         public IActionResult Privacy()

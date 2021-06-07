@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Badzeet.Web.Features.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
@@ -9,6 +9,7 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
         {
             services.AddTransient<Features.Account.Service>();
             services.AddTransient<Features.ScheduledPayments.Service>();
+            services.AddTransient<BudgetNavigationService>();
         }
     }
 }

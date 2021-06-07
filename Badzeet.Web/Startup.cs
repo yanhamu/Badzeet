@@ -58,7 +58,7 @@ namespace Badzeet.Web
             services.AddControllersWithViews(x =>
             {
                 x.Filters.Add<AccountIdFilter>();
-                x.Filters.Add<BudgetIdFilter>();
+                x.Filters.Add<UserIdFilter>();
             });
         }
 

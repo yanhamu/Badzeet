@@ -43,6 +43,10 @@
     <None Remove="Scripts\0095_Add_Column.sql" />
     <None Remove="Scripts\0098_Drop_Column.sql" />
     <None Remove="Scripts\0100_Create_ID4.sql" />
+    <None Remove="Scripts\0105_Create_Budgets.sql" />
+    <None Remove="Scripts\0107_Create_UniqueIndex.sql" />
+    <None Remove="Scripts\0110_Create_BudgetCategories.sql" />
+    <None Remove="Scripts\0112_Migrate_Budgets.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +81,18 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0043_Insert_Categories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0107_Create_UniqueIndex.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0112_Migrate_Budgets.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0110_Create_BudgetCategories.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0105_Create_Budgets.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\0100_Create_ID4.sql">

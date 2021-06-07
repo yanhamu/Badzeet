@@ -1,5 +1,6 @@
 ﻿using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Web.Features.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,30 +16,31 @@ namespace Badzeet.Web.Features.Dashboard
         private readonly IPaymentRepository paymentsRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUserAccountRepository userBookRepository;
-        private readonly ICategoryBudgetRepository budgetRepository;
-        private readonly BudgetService budgetService;
+        private readonly BudgetNavigationService budgetNavigationService;
 
         public DashboardController(
             IPaymentRepository paymentsRepository,
             ICategoryRepository categoryRepository,
             IUserAccountRepository userBookRepository,
-            ICategoryBudgetRepository budgetRepository,
-            BudgetService budgetService)
+            BudgetNavigationService budgetNavigationService)
         {
             this.paymentsRepository = paymentsRepository;
             this.categoryRepository = categoryRepository;
             this.userBookRepository = userBookRepository;
-            this.budgetRepository = budgetRepository;
-            this.budgetService = budgetService;
+            this.budgetNavigationService = budgetNavigationService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(long accountId, int budgetId)
+        public async Task<IActionResult> Index(long accountId, DateTime? date)
         {
-            if (await budgetRepository.HasBudget(accountId, budgetId))
-                return RedirectToAction("Index", "Budget");
+            var navigationDates = await GetNavigationDates(accountId, date);
 
-            var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
+            if (navigationDates.Current.BudgetId.HasValue)
+            {
+                return RedirectToAction("Index", "Budget", new { budgetId = navigationDates.Current.BudgetId });
+            }
+
+            var interval = new DateInterval(navigationDates.Current.FirstBudgetDate, navigationDates.Current.FirstBudgetDate.AddMonths(1).AddTicks(-1));
             var allCategories = await categoryRepository.GetCategories(accountId);
             var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
             var allUsers = await userBookRepository.GetUsers(accountId);
@@ -73,12 +75,18 @@ namespace Badzeet.Web.Features.Dashboard
             }
 
             var model = new DashboardViewModel(
-                budgetId,
-                interval,
+                navigationDates,
                 categories,
                 users,
                 total);
             return View(model);
+        }
+
+        private Task<BudgetNavigationViewModel> GetNavigationDates(long accountId, DateTime? firstBudgetDay)
+        {
+            return firstBudgetDay.HasValue
+                ? budgetNavigationService.Get(accountId, firstBudgetDay.Value.Date)
+                : budgetNavigationService.Get(accountId);
         }
     }
 }

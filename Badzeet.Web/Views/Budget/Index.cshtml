@@ -6,20 +6,35 @@
 
 <div class="text-center">
     <h2>
-        @if (Model.BudgetId > 0)
-        {
-            <span>
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId - 1)">
+        <span>
+            @if (Model.BudgetNavigation.Previous.BudgetId.HasValue)
+            {
+                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Previous.BudgetId.Value)">
                     <i class="fas fa-angle-left"></i>
                 </a>
-            </span>
-        }
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="Dashboard" asp-route-date="@(Model.BudgetNavigation.Previous.FirstBudgetDate)">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            }
+        </span>
         @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
 
         <span>
-            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId + 1)">
-                <i class="fas fa-angle-right"></i>
-            </a>
+            @if (Model.BudgetNavigation.Next.BudgetId.HasValue)
+            {
+                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Next.BudgetId.Value)">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-controller="Dashboard" asp-route-date="@(Model.BudgetNavigation.Next.FirstBudgetDate)">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            }
         </span>
     </h2>
 </div>

@@ -125,7 +125,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpGet]
         public async Task<IActionResult> List(long accountId, int budgetId, [FromQuery(Name = "cid")] long[] categoryIds)
         {
-            var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(budgetId);
 
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, categoryId: categoryIds, interval: interval, type: PaymentType.Normal));
             var categories = await categoryRepository.GetCategories(accountId);

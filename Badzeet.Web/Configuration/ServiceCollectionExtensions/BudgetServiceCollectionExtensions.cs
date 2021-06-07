@@ -25,7 +25,8 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
             services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IInvitationRepository, InvitationRepository>();
-            services.AddScoped<ICategoryBudgetRepository, CategoryBudgetRepository>();
+            services.AddScoped<IBudgetCategoryRepository, BudgetCategoryRepository>();
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
 
             services.AddDbContext<BudgetDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
         }

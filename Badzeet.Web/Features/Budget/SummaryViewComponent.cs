@@ -13,26 +13,26 @@ namespace Badzeet.Web.Features.Budget
     {
         private readonly IPaymentRepository paymentsRepository;
         private readonly BudgetService budgetService;
-        private readonly ICategoryBudgetRepository budgetRepository;
+        private readonly IBudgetCategoryRepository budgetCategoryRepository;
         private readonly IUserAccountRepository userAccountRepository;
 
         public SummaryViewComponent(
             IPaymentRepository paymentsRepository,
             BudgetService budgetService,
-            ICategoryBudgetRepository budgetRepository,
+            IBudgetCategoryRepository budgetRepository,
             IUserAccountRepository userAccountRepository)
         {
             this.paymentsRepository = paymentsRepository;
             this.budgetService = budgetService;
-            this.budgetRepository = budgetRepository;
+            this.budgetCategoryRepository = budgetRepository;
             this.userAccountRepository = userAccountRepository;
         }
-        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, long budgetId)
         {
-            var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(budgetId);
             var normalPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
             var pendingPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, type: PaymentType.Pending));
-            var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
+            var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId);
             var users = await userAccountRepository.GetUsers(accountId);
 
             var model = new SummaryViewModel()

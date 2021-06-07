@@ -6,20 +6,36 @@
 
 <div class="text-center">
     <h2>
-        @if (Model.BudgetId > 0)
-        {
-            <span>
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId-1)">
+        <span>
+            @if (Model.NavigationDates.Previous.BudgetId.HasValue)
+            {
+                <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Previous.BudgetId.Value)">
                     <i class="fas fa-angle-left"></i>
                 </a>
-            </span>
-        }
+            }
+            else
+            {
+                <a asp-action="Index" asp-route-date="@(Model.NavigationDates.Previous.FirstBudgetDate)">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            }
+        </span>
+
         @Model.Interval.From.ToString("dd MMM") - @Model.Interval.To.ToString("dd MMM")
 
         <span>
-            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetId+1)">
-                <i class="fas fa-angle-right"></i>
-            </a>
+            @if (Model.NavigationDates.Next.BudgetId.HasValue)
+            {
+                <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Next.BudgetId.Value)">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            }
+            else
+            {
+                <a asp-action="Index" asp-route-date="@(Model.NavigationDates.Next.FirstBudgetDate)">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            }
         </span>
     </h2>
 </div>
@@ -73,4 +89,7 @@ else
     </tr>
 </table>
 
-<a class="form-control btn btn-primary" asp-controller="Budget" asp-action="Edit">Create budget</a>
+<form method="post" asp-action="Create">
+    <input id="from" asp-for="Interval.From" type="hidden" />
+    <input class="form-control btn btn-primary" value="Create budget" type="submit" />
+</form>

@@ -12,14 +12,14 @@ namespace Badzeet.Web.Features.Budget
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly BudgetService budgetService;
-        private readonly ICategoryBudgetRepository budgetRepository;
+        private readonly IBudgetCategoryRepository budgetRepository;
         private readonly IUserAccountRepository userAccountRepository;
         private readonly IPaymentRepository paymentsRepository;
 
         public BudgetViewComponent(IPaymentRepository paymentsRepository,
             ICategoryRepository categoryRepository,
             IUserAccountRepository userAccountRepository,
-            ICategoryBudgetRepository budgetRepository,
+            IBudgetCategoryRepository budgetRepository,
             BudgetService budgetService)
         {
             this.categoryRepository = categoryRepository;
@@ -29,14 +29,14 @@ namespace Badzeet.Web.Features.Budget
             this.paymentsRepository = paymentsRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, long budgetId)
         {
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
-            var interval = await budgetService.GetMonthlyBudgetById(accountId, budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(budgetId);
             var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
             var allUsers = await userAccountRepository.GetUsers(accountId);
-            var budgets = await budgetRepository.GetBudgets(accountId, budgetId);
+            var budgets = await budgetRepository.GetBudgetCategories(budgetId);
 
             foreach (var c in allCategories)
             {
