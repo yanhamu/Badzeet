@@ -13,28 +13,11 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">Badzeet</a>
-            <form class="ml-auto form-inline">
-                <a class="btn btn-outline-primary mr-1" asp-controller="Payments" asp-action="List">List</a>
-                <a class="btn btn-primary mr-1" asp-controller="Payments" asp-action="New">New</a>
-            </form>
+            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ccc">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse justify-content-end" id="ccc">
-                <div class="d-flex justify-content-end">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="ScheduledPayments" asp-action="List">Scheduled payments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
-                        </li>
-                    </ul>
-                    <form class="form-inline" method="post" asp-controller="Account" asp-action="Logout">
-                        <button class="btn btn-link" type="submit">Logout</button>
-                    </form>
-                </div>
-            </div>
+           
         </nav>
     </header>
     <div class="container">

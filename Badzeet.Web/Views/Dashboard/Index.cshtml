@@ -89,7 +89,7 @@ else
     </tr>
 </table>
 
-<form method="post" asp-action="Create">
-    <input id="from" asp-for="Interval.From" type="hidden" />
+<form method="post" asp-controller="Budget" asp-action="Create">
+    <input id="from" name="from" asp-for="Interval.From" type="hidden" />
     <input class="form-control btn btn-primary" value="Create budget" type="submit" />
 </form>

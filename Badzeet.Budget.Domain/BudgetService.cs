@@ -43,7 +43,7 @@ namespace Badzeet.Budget.Domain
             return budget.Interval;
         }
 
-        private DateInterval GetBudgetInterval(byte firstDay, DateTime date)
+        public DateInterval GetBudgetInterval(byte firstDay, DateTime date)
         {
             DateTime startDate;
             if (date.Day >= firstDay)

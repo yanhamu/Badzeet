@@ -18,19 +18,22 @@ namespace Badzeet.Web.Features.Payments
         private readonly IPaymentRepository paymentRepository;
         private readonly IUserAccountRepository userAccountRepository;
         private readonly BudgetService budgetService;
+        private readonly IAccountRepository accountRepository;
 
         public PaymentsController(
             PaymentsService paymentsService,
             ICategoryRepository categoryRepository,
             IUserAccountRepository userAccountRepository,
             IPaymentRepository paymentRepository,
-            BudgetService budgetService)
+            BudgetService budgetService,
+            IAccountRepository accountRepository)
         {
             this.paymentsService = paymentsService;
             this.categoryRepository = categoryRepository;
             this.paymentRepository = paymentRepository;
             this.userAccountRepository = userAccountRepository;
             this.budgetService = budgetService;
+            this.accountRepository = accountRepository;
         }
 
         [HttpGet]
@@ -116,17 +119,17 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]long id)
+        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")] long id)
         {
             await paymentsService.Remove(id);
             return RedirectToAction("List");
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long accountId, int budgetId, [FromQuery(Name = "cid")] long[] categoryIds)
+        public async Task<IActionResult> List(long accountId, [FromQuery(Name = "cid")] long[] categoryIds)
         {
-            var interval = await budgetService.GetMonthlyBudgetById(budgetId);
-
+            var account = await accountRepository.GetAccount(accountId);
+            var interval = budgetService.GetBudgetInterval(account.FirstDayOfTheBudget, DateTime.UtcNow);
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, categoryId: categoryIds, interval: interval, type: PaymentType.Normal));
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);

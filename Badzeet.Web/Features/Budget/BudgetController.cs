@@ -73,7 +73,7 @@ namespace Badzeet.Web.Features.Budget
             var firstDayOgBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
             var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget() { AccountId = account.Id, Date = firstDayOgBudget });
             await budgetRepository.Save();
-            return RedirectToAction(nameof(Edit), new { accountId = accountId, budgetId = budget.Id });
+            return RedirectToAction(nameof(Edit), new { budgetId = budget.Id });
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace Badzeet.Web.Features.Budget
 
             await budgetCategoryRepository.Save();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { budgetId = budgetId });
         }
 
         public class BudgetViewModel
