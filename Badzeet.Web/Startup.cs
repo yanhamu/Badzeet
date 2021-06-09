@@ -1,4 +1,5 @@
 using Badzeet.Web.Configuration;
+using Badzeet.Web.Configuration.Conventions;
 using Badzeet.Web.Configuration.Filters;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Builder;
@@ -57,8 +58,8 @@ namespace Badzeet.Web
 
             services.AddControllersWithViews(x =>
             {
-                x.Filters.Add<AccountIdFilter>();
-                x.Filters.Add<UserIdFilter>();
+                x.Conventions.Add(new WebControllerConventions());
+                x.Conventions.Add(new ApiControllerConventions());
             });
         }
 

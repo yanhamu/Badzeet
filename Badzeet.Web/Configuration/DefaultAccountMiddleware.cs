@@ -16,16 +16,19 @@ namespace Badzeet.Web.Configuration
         }
         public async Task InvokeAsync(HttpContext context, IUserAccountService service)
         {
-            if (context.User.Identity.IsAuthenticated == true)
+            if (context.Request.Path.StartsWithSegments(new PathString("/api")) == false)
             {
-                var userId = context.GetUserId();
+                if (context.User.Identity.IsAuthenticated == true)
+                {
+                    var userId = context.GetUserId();
 
-                var accountId = await service.GetAccountId(userId);
-                context.Items["da"] = accountId;
-                context.Items["ui"] = userId;
+                    var accountId = await service.GetAccountId(userId);
+                    context.Items["da"] = accountId;
+                    context.Items["ui"] = userId;
 
-                if (context.Request.Cookies.ContainsKey("da") == false)
-                    context.Response.Cookies.Append("da", accountId.ToString());
+                    if (context.Request.Cookies.ContainsKey("da") == false)
+                        context.Response.Cookies.Append("da", accountId.ToString());
+                }
             }
 
             await next(context);
