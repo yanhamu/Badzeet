@@ -126,11 +126,16 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long accountId, [FromQuery(Name = "cid")] long[] categoryIds)
+        public async Task<IActionResult> List(long accountId, [FromQuery(Name = "cid")] long[] categoryIds, DateTime? from, DateTime? to)
         {
             var account = await accountRepository.GetAccount(accountId);
-            var interval = budgetService.GetBudgetInterval(account.FirstDayOfTheBudget, DateTime.UtcNow);
-            var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, categoryId: categoryIds, interval: interval, type: PaymentType.Normal));
+            var interval = GetInterval(account, from, to);
+            var payments = await paymentRepository.GetPayments(new PaymentsFilter(
+                accountId,
+                categoryId: categoryIds,
+                interval: interval,
+                type: PaymentType.Normal));
+
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
 
@@ -138,10 +143,19 @@ namespace Badzeet.Web.Features.Payments
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
                 Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId, x.Type)),
-                Users = users
+                Users = users,
+                DateInterval = interval
             };
 
             return View(model);
+        }
+
+        private DateInterval GetInterval(Badzeet.Budget.Domain.Model.Account account, DateTime? from, DateTime? to)
+        {
+            if (from.HasValue == false && to.HasValue == false)
+                return budgetService.GetBudgetInterval(account.FirstDayOfTheBudget, DateTime.UtcNow);
+
+            return new DateInterval(from.Value, to.Value);
         }
 
         [HttpPost]
@@ -204,6 +218,7 @@ namespace Badzeet.Web.Features.Payments
             public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
             public IEnumerable<PaymentModel> Payments { get; set; } = new List<PaymentModel>();
             public IEnumerable<UserAccount> Users { get; set; } = new List<UserAccount>();
+            public DateInterval DateInterval { get; set; } = new DateInterval();
         }
 
         public class SplitModel

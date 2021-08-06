@@ -8,6 +8,28 @@
 }
 
 <div class="row">
+    <div class="col-12">
+        <div class="text-center">
+            <h2>
+                <span>
+                    <a asp-action="List" asp-route-from="@(Model.DateInterval.From.AddMonths(-1))" asp-route-to="@(Model.DateInterval.To.AddMonths(-1))">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </span>
+
+                @Model.DateInterval.From.ToString("dd MMM") - @Model.DateInterval.To.ToString("dd MMM")
+
+                <span>
+                    <a asp-action="List" asp-route-from="@(Model.DateInterval.From.AddMonths(1))" asp-route-to="@(Model.DateInterval.To.AddMonths(1))">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </span>
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-8">
         <h1>Payments</h1>
     </div>
