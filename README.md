@@ -1,9 +1,12 @@
 # Badzeet
+Go for it: https://badzeet.azurewebsites.net/ 
+
+## Features
 - easy expense tracking
 - shared accounts
 - budgeting
 
-## TODOs:
-- Returns
-- Budget list
-- Periodic payments
+## Roadmap
+- new Angular UI
+- API access
+- Shared account setup & account management
