@@ -58,7 +58,15 @@ namespace Badzeet.Web.Features.Budget
                 });
             }
 
-            return View(categories);
+
+
+            return View(new BudgetViewModel() { BudgetId = budgetId, Categories = categories });
+        }
+
+        public class BudgetViewModel
+        {
+            public List<BudgetCategoryViewModel> Categories { get; set; }
+            public long BudgetId { get; set; }
         }
 
         public class BudgetCategoryViewModel

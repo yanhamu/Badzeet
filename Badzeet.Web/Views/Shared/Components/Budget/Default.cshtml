@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Badzeet.Web.Features.Budget.BudgetViewComponent.BudgetCategoryViewModel>
+﻿@model Badzeet.Web.Features.Budget.BudgetViewComponent.BudgetViewModel
 <div class="card mb-4">
     <h5 class="card-header bg-primary text-white">
         Budget
@@ -11,7 +11,7 @@
                 <th>Spent</th>
                 <th>Planned</th>
             </tr>
-            @foreach (var category in Model.Where(x => (x.Budget != 0 || x.Total != 0)))
+            @foreach (var category in Model.Categories.Where(x => (x.Budget != 0 || x.Total != 0)))
             {
                 <tr data-toggle="collapse" data-target="#@category.Name">
                     <th colspan="2">
@@ -37,6 +37,6 @@
                 }
             }
         </table>
-        <a class="btn btn-primary form-control" asp-action="Edit">Edit</a>
+        <a class="btn btn-primary form-control" asp-action="Edit" asp-route-budgetId="@Model.BudgetId">Edit</a>
     </div>
 </div>
