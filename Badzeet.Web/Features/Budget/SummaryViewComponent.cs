@@ -52,9 +52,22 @@ namespace Badzeet.Web.Features.Budget
         public class SummaryViewModel
         {
             public decimal Spend { get; set; }
+            public decimal SpendPercent
+            {
+                get => Budget > 0
+                        ? Spend / Budget
+                        : 0;
+
+            }
             public decimal Budget { get; set; }
             public decimal Pending { get; set; }
             public decimal RemainingBudget { get { return Budget - Spend; } }
+            public decimal RemainingBudgetPercent
+            {
+                get => Budget > 0
+                    ? RemainingBudget / Budget
+                    : 0;
+            }
             public DateInterval BudgetInterval { get; set; }
             public bool IsOngoing { get { return DateTime.Now.Date <= BudgetInterval.To && DateTime.Now.Date >= BudgetInterval.From; } }
             public IEnumerable<UserTotal> Totals { get; set; }

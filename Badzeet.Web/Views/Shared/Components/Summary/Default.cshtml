@@ -12,7 +12,7 @@
                     Spend:
                 </td>
                 <td>
-                    @Model.Spend.ToString("F0") (@((Model.Spend / Model.Budget).ToString("P0")))
+                    @Model.Spend.ToString("F0") (@(Model.SpendPercent.ToString("P0")))
                 </td>
             </tr>
             <tr>
@@ -28,7 +28,7 @@
                     Remaining budget:
                 </td>
                 <td class="@(Model.RemainingBudget > 0?"text-success":"text-danger") ">
-                    @Model.RemainingBudget.ToString("F0") (@((Model.RemainingBudget / Model.Budget).ToString("P0")))
+                    @Model.RemainingBudget.ToString("F0") (@((Model.RemainingBudgetPercent ).ToString("P0")))
                 </td>
             </tr>
             @if (Model.Pending > 0m)

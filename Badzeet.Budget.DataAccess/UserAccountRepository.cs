@@ -36,6 +36,7 @@ namespace Badzeet.DataAccess.Budget
             return await context.Set<UserAccount>()
                 .Where(x => x.UserId == userId)
                 .Include(x => x.User)
+                .Include(x=>x.Account)
                 .ToListAsync();
         }
 
