@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Badzeet.Web.Api.Accounts
+namespace Badzeet.Web.Api
 {
     [Route("api/accounts")]
     public class AccountsController : ControllerBase
