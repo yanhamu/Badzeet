@@ -16,7 +16,7 @@ namespace Badzeet.Web.Api
 
         public async Task<object> List(long accountId, Filter filter)
         {
-            var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, interval: filter.Interval));
+            var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, filter.From, filter.To));
             return payments;
         }
     }

@@ -22,7 +22,7 @@ namespace Badzeet.Web.Features.Payments
         public async Task<IViewComponentResult> InvokeAsync(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
-            var pendingPayments = await repository.GetPayments(new PaymentsFilter(accountId, type: PaymentType.Pending));
+            var pendingPayments = await repository.GetPayments(new PaymentsFilter(accountId, null, null, null, PaymentType.Pending));
             var paymentsModel = pendingPayments.Select(x => new PendingPaymentViewModel()
             {
                 Description = x.Description,

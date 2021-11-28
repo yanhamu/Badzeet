@@ -30,8 +30,8 @@ namespace Badzeet.Web.Features.Budget
         public async Task<IViewComponentResult> InvokeAsync(long accountId, long budgetId)
         {
             var interval = await budgetService.GetMonthlyBudgetById(budgetId);
-            var normalPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
-            var pendingPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, type: PaymentType.Pending));
+            var normalPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
+            var pendingPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Pending));
             var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId);
             var users = await userAccountRepository.GetUsers(accountId);
 

@@ -56,8 +56,13 @@ namespace Badzeet.DataAccess.Budget
                 baseQuery = baseQuery.Where(x => x.UserId == filter.UserId.Value);
             if (filter.PaymentType.HasValue)
                 baseQuery = baseQuery.Where(x => x.Type == filter.PaymentType.Value);
-            if (filter.Interval.HasValue)
-                baseQuery = baseQuery.Where(x => x.Date >= filter.Interval.Value.From).Where(x => x.Date <= filter.Interval.Value.To);
+
+            if (filter.Interval.From.HasValue)
+                baseQuery = baseQuery.Where(x => x.Date >= filter.Interval.From.Value);
+
+            if (filter.Interval.To.HasValue)
+                baseQuery = baseQuery.Where(x => x.Date <= filter.Interval.To.Value);
+
             if (filter.CategoryId.Any())
                 baseQuery = baseQuery.Where(x => filter.CategoryId.Contains(x.CategoryId));
 

@@ -15,4 +15,16 @@ namespace Badzeet.Web.Configuration.Conventions
             }
         }
     }
+
+    public class AccountIdActionMethodConvention : IActionModelConvention
+    {
+        public void Apply(ActionModel action)
+        {
+            if (action.Controller.ControllerType.Namespace.Contains("Api"))
+            {
+                // TODO create filters for budgetId and accountId
+                //action.Filters.Add(new )
+            }
+        }
+    }
 }

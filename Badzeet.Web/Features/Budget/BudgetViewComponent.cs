@@ -34,7 +34,7 @@ namespace Badzeet.Web.Features.Budget
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(budgetId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval, type: PaymentType.Normal));
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
             var allUsers = await userAccountRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgetCategories(budgetId);
 

@@ -132,8 +132,10 @@ namespace Badzeet.Web.Features.Payments
             var interval = GetInterval(account, from, to);
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(
                 accountId,
-                categoryId: categoryIds,
-                interval: interval,
+                categoryIds,
+                null,
+                interval.From,
+                interval.To,
                 type: PaymentType.Normal));
 
             var categories = await categoryRepository.GetCategories(accountId);

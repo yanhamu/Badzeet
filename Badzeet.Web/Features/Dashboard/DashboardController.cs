@@ -42,7 +42,7 @@ namespace Badzeet.Web.Features.Dashboard
 
             var interval = new DateInterval(navigationDates.Current.FirstBudgetDate, navigationDates.Current.FirstBudgetDate.AddMonths(1).AddTicks(-1));
             var allCategories = await categoryRepository.GetCategories(accountId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval: interval));
+            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To));
             var allUsers = await userBookRepository.GetUsers(accountId);
 
             var categories = new List<CategoryViewModel>();

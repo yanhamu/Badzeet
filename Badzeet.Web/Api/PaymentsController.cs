@@ -1,5 +1,5 @@
-﻿using Badzeet.Budget.Domain;
-using Badzeet.Budget.Domain.Interfaces;
+﻿using Badzeet.Budget.Domain.Interfaces;
+using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace Badzeet.Web.Api
         [HttpGet("payments")]
         public async Task<IActionResult> List(long accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, null, filter.Interval, Budget.Domain.Model.PaymentType.Normal);
+            var paymentsFilter = new PaymentsFilter(accountId, null, null, filter.From, filter.To);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
@@ -32,10 +32,38 @@ namespace Badzeet.Web.Api
         public async Task<IActionResult> List(long accountId, long budgetId)
         {
             var budget = await budgetRepository.Get(budgetId);
-            var paymentsFilter = new PaymentsFilter(accountId, null, budget.Interval, Budget.Domain.Model.PaymentType.Normal);
+            var paymentsFilter = new PaymentsFilter(accountId, budget.Interval.From, budget.Interval.To, null, PaymentType.Normal);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
+        }
+
+        [HttpPost("payments")]
+        public async Task<IActionResult> Create(long accountId, [FromBody]NewPaymentDto payment)
+        {
+            var savedPayment = paymentRepository.Add(new Payment()
+            {
+                AccountId = accountId,
+                CategoryId = payment.CategoryId,
+                Amount = payment.Amount,
+                Date = payment.Date,
+                Description = payment.Description,
+                Type = payment.Type,
+                UserId = payment.UserId
+            });
+
+            await paymentRepository.Save();
+            return Ok(savedPayment);
+        }
+
+        public class NewPaymentDto
+        {
+            public DateTime Date { get; set; }
+            public string Description { get; set; }
+            public decimal Amount { get; set; }
+            public long CategoryId { get; set; }
+            public Guid UserId { get; set; }
+            public PaymentType Type { get; set; }
         }
 
         public class PaymentDto
@@ -59,12 +87,12 @@ namespace Badzeet.Web.Api
             public long CategoryId { get; set; }
             public Guid UserId { get; set; }
         }
+
+        public class Filter
+        {
+            public DateTime? From { get; set; }
+            public DateTime? To { get; set; }
+        }
     }
 
-    public class Filter
-    {
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
-        public DateInterval Interval { get => new DateInterval(From, To); }
-    }
 }
