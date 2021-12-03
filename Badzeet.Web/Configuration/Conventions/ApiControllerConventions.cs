@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Badzeet.Web.Api.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Linq;
 
 namespace Badzeet.Web.Configuration.Conventions
 {
@@ -16,14 +18,21 @@ namespace Badzeet.Web.Configuration.Conventions
         }
     }
 
-    public class AccountIdActionMethodConvention : IActionModelConvention
+    public class ApiActionMethodConvention : IActionModelConvention
     {
         public void Apply(ActionModel action)
         {
             if (action.Controller.ControllerType.Namespace.Contains("Api"))
             {
-                // TODO create filters for budgetId and accountId
-                //action.Filters.Add(new )
+                if (action.Parameters.Any(p => p.Name == "accountId"))
+                {
+                    action.Filters.Add(new AccountIdFilter());
+                }
+
+                if (action.Parameters.Any(p => p.Name == "budgetId"))
+                {
+                    action.Filters.Add(new BudgetIdFilter());
+                }
             }
         }
     }

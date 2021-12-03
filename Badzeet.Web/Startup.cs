@@ -1,6 +1,5 @@
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Conventions;
-using Badzeet.Web.Configuration.Filters;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +59,7 @@ namespace Badzeet.Web
             {
                 x.Conventions.Add(new WebControllerConventions());
                 x.Conventions.Add(new ApiControllerConventions());
+                x.Conventions.Add(new ApiActionMethodConvention());
             });
         }
 
