@@ -28,6 +28,32 @@ namespace Badzeet.Web.Api
             return Ok(result);
         }
 
+        [HttpGet("payments/{paymentId:long}")]
+        public async Task<IActionResult> Get(long accountId, long paymentId)
+        {
+            var payment = await paymentRepository.Get(paymentId);
+            return Ok(new PaymentDto(payment));
+        }
+
+
+        [HttpPut("payments/{paymentId:long}")]
+        public async Task<IActionResult> Update(long accountId, long paymentId, [FromBody] NewPaymentDto newPaymentDto)
+        {
+            var payment = await paymentRepository.Get(paymentId);
+
+            payment.Date = newPaymentDto.Date;
+            payment.Type = newPaymentDto.Type;
+            payment.CategoryId = newPaymentDto.CategoryId;
+            payment.Amount = newPaymentDto.Amount;
+            payment.CategoryId = newPaymentDto.CategoryId;
+            payment.UserId = newPaymentDto.UserId;
+            payment.Description = newPaymentDto.Description;
+
+            await paymentRepository.Save();
+
+            return Ok(new PaymentDto(payment));
+        }
+
         [HttpGet("budgets/{budgetId:long}/payments")]
         public async Task<IActionResult> List(long accountId, long budgetId)
         {
@@ -39,7 +65,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpPost("payments")]
-        public async Task<IActionResult> Create(long accountId, [FromBody]NewPaymentDto payment)
+        public async Task<IActionResult> Create(long accountId, [FromBody] NewPaymentDto payment)
         {
             var savedPayment = paymentRepository.Add(new Payment()
             {
@@ -77,6 +103,7 @@ namespace Badzeet.Web.Api
                 this.CategoryId = payment.CategoryId;
                 this.UserId = payment.UserId;
                 this.Amount = payment.Amount;
+                this.Type = payment.Type;
             }
 
             public long Id { get; set; }
@@ -84,6 +111,7 @@ namespace Badzeet.Web.Api
             public DateTime Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
+            public PaymentType Type { get; set; }
             public long CategoryId { get; set; }
             public Guid UserId { get; set; }
         }

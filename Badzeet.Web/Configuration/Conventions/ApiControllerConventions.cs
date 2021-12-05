@@ -33,6 +33,11 @@ namespace Badzeet.Web.Configuration.Conventions
                 {
                     action.Filters.Add(new BudgetIdFilter());
                 }
+
+                if (action.Parameters.Any(p => p.Name == "paymentId"))
+                {
+                    action.Filters.Add(new PaymentIdFilter());
+                }
             }
         }
     }
