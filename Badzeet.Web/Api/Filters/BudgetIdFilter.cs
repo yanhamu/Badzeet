@@ -21,14 +21,19 @@ namespace Badzeet.Web.Api.Filters
             if (accounts.Any() == false)
             {
                 context.Result = new StatusCodeResult(403);
-                return;
             }
-
-            var budget = await budgetRepository.Get(budgetId, accounts.First().AccountId);
-
-            if (budget == null)
+            else
             {
-                context.Result = new StatusCodeResult(404);
+                var budget = await budgetRepository.Get(budgetId, accounts.First().AccountId);
+
+                if (budget == null)
+                {
+                    context.Result = new StatusCodeResult(404);
+                }
+                else
+                {
+                    await next();
+                }
             }
         }
     }

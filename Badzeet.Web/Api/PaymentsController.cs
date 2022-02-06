@@ -122,5 +122,4 @@ namespace Badzeet.Web.Api
             public PaymentType Type { get; set; }
         }
     }
-
 }

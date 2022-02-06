@@ -17,9 +17,20 @@ namespace Badzeet.Budget.Domain.Interfaces
 
     public class PaymentsFilter
     {
-        public PaymentsFilter(long accountId, DateTime? from, DateTime? to, Guid? userId = null, PaymentType? type = null) : this(accountId, Array.Empty<long>(), userId, from, to, type) { }
+        public PaymentsFilter(
+            long accountId,
+            DateTime? from,
+            DateTime? to,
+            Guid? userId = null,
+            PaymentType? type = null) : this(accountId, Array.Empty<long>(), userId, from, to, type) { }
 
-        public PaymentsFilter(long accountId, long[] categoryId = default, Guid? userId = null, DateTime? from = null, DateTime? to = null, PaymentType? type = null)
+        public PaymentsFilter(
+            long accountId,
+            long[] categoryId = default,
+            Guid? userId = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            PaymentType? type = null)
         {
             AccountId = accountId;
             UserId = userId;

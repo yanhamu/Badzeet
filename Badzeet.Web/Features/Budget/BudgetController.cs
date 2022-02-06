@@ -82,7 +82,7 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets) //TODO remove accountId i guess
+        public async Task<IActionResult> Edit(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
         {
             var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
 
