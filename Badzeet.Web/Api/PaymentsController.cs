@@ -22,7 +22,7 @@ namespace Badzeet.Web.Api
         [HttpGet("payments")]
         public async Task<IActionResult> List(long accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, null, null, filter.From, filter.To);
+            var paymentsFilter = new PaymentsFilter(accountId, null, null, filter.From, filter.To, filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
@@ -34,7 +34,6 @@ namespace Badzeet.Web.Api
             var payment = await paymentRepository.Get(paymentId);
             return Ok(new PaymentDto(payment));
         }
-
 
         [HttpPut("payments/{paymentId:long}")]
         public async Task<IActionResult> Update(long accountId, long paymentId, [FromBody] NewPaymentDto newPaymentDto)
@@ -54,10 +53,10 @@ namespace Badzeet.Web.Api
             return Ok(new PaymentDto(payment));
         }
 
-        [HttpGet("budgets/{budgetId:long}/payments")]
-        public async Task<IActionResult> List(long accountId, long budgetId)
+        [HttpGet("budgets/{budgetId:int}/payments")]
+        public async Task<IActionResult> List(long accountId, int budgetId)
         {
-            var budget = await budgetRepository.Get(budgetId);
+            var budget = await budgetRepository.Get(budgetId, accountId);
             var paymentsFilter = new PaymentsFilter(accountId, budget.Interval.From, budget.Interval.To, null, PaymentType.Normal);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
@@ -120,6 +119,7 @@ namespace Badzeet.Web.Api
         {
             public DateTime? From { get; set; }
             public DateTime? To { get; set; }
+            public PaymentType Type { get; set; }
         }
     }
 

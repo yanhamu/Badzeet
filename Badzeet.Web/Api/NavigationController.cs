@@ -28,21 +28,21 @@ namespace Badzeet.Web.Api
 
             var budgetDateBoundary = now.AddDays(-now.Day + 1).AddDays(firstDay - 1);
             if (budgetDateBoundary >= now)
-                return new NavigationResponse(budgetDateBoundary.AddMonths(-1), budgetDateBoundary.AddDays(-1), budget?.Id);
+                return new NavigationResponse(budgetDateBoundary.AddMonths(-1), budgetDateBoundary.AddDays(-1), budget?.BudgetId);
 
-            return new NavigationResponse(budgetDateBoundary, budgetDateBoundary.AddMonths(1).AddDays(-1), budget?.Id);
+            return new NavigationResponse(budgetDateBoundary, budgetDateBoundary.AddMonths(1).AddDays(-1), budget?.BudgetId);
         }
 
         public class NavigationResponse
         {
-            public NavigationResponse(DateTime from, DateTime to, long? budgetId = null)
+            public NavigationResponse(DateTime from, DateTime to, int? budgetId = null)
             {
                 BudgetId = budgetId;
                 From = from;
                 To = to;
             }
 
-            public long? BudgetId { get; set; }
+            public int? BudgetId { get; set; }
             public DateTime From { get; set; }
             public DateTime To { get; set; }
         }

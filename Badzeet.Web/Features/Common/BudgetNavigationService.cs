@@ -30,17 +30,17 @@ namespace Badzeet.Web.Features.Common
             {
                 Current = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == current)?.Id,
+                    BudgetId = budgets.SingleOrDefault(x => x.Date == current)?.BudgetId,
                     FirstBudgetDate = current
                 },
                 Next = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == next)?.Id,
+                    BudgetId = budgets.SingleOrDefault(x => x.Date == next)?.BudgetId,
                     FirstBudgetDate = next
                 },
                 Previous = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == previous)?.Id,
+                    BudgetId = budgets.SingleOrDefault(x => x.Date == previous)?.BudgetId,
                     FirstBudgetDate = previous
                 }
             };

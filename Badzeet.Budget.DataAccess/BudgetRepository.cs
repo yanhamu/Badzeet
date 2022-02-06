@@ -1,6 +1,5 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,9 +21,9 @@ namespace Badzeet.Budget.DataAccess
             return saved.Entity;
         }
 
-        public async ValueTask<Domain.Model.Budget> Get(long budgetId)
+        public async ValueTask<Domain.Model.Budget> Get(int budgetId, long accountId)
         {
-            return await context.Set<Domain.Model.Budget>().FindAsync(budgetId);
+            return await context.Set<Domain.Model.Budget>().FindAsync(budgetId, accountId);
         }
 
         public async Task<List<Domain.Model.Budget>> List(long accountId, Filter filter)

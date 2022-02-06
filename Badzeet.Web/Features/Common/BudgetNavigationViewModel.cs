@@ -12,6 +12,6 @@ namespace Badzeet.Web.Features.Common
     public class BudgetNavigationItemViewModel
     {
         public DateTime FirstBudgetDate { get; set; }
-        public long? BudgetId { get; set; }
+        public int? BudgetId { get; set; }
     }
 }

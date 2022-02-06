@@ -38,9 +38,9 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(long accountId, long budgetId)
+        public async Task<IActionResult> Index(long accountId, int budgetId)
         {
-            var budget = await budgetRepository.Get(budgetId);
+            var budget = await budgetRepository.Get(budgetId, accountId);
             var navigation = await budgetNavigation.Get(accountId, budget.Date);
 
             return View(new BudgetViewModel(navigation));
@@ -71,9 +71,10 @@ namespace Badzeet.Web.Features.Budget
         {
             var account = await accountRepository.GetAccount(accountId);
             var firstDayOgBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
-            var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget() { AccountId = account.Id, Date = firstDayOgBudget });
+            var budgetId = int.Parse(from.ToString("yyyyMM"));
+            var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget() { AccountId = account.Id, BudgetId = budgetId, Date = firstDayOgBudget });
             await budgetRepository.Save();
-            return RedirectToAction(nameof(Edit), new { budgetId = budget.Id });
+            return RedirectToAction(nameof(Edit), new { budgetId = budget.BudgetId });
         }
 
         [HttpPost]
@@ -85,7 +86,7 @@ namespace Badzeet.Web.Features.Budget
                 t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
 
             foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
-                budgetCategoryRepository.AddBudget(new BudgetCategory() { BudgetId = budgetId, Amount = b.Amount, CategoryId = b.CategoryId });
+                budgetCategoryRepository.AddBudget(new BudgetCategory() { BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId });
 
             await budgetCategoryRepository.Save();
 
@@ -94,7 +95,7 @@ namespace Badzeet.Web.Features.Budget
 
         public class BudgetViewModel
         {
-            public long BudgetId { get => BudgetNavigation.Current.BudgetId.Value; }
+            public int BudgetId { get => BudgetNavigation.Current.BudgetId.Value; }
             public DateInterval BudgetInterval { get => new DateInterval(BudgetNavigation.Current.FirstBudgetDate, BudgetNavigation.Current.FirstBudgetDate.AddMonths(1).AddTicks(-1)); }
             public BudgetNavigationViewModel BudgetNavigation { get; set; }
             public BudgetViewModel(BudgetNavigationViewModel budgetNavigation)

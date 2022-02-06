@@ -12,29 +12,23 @@ namespace Badzeet.Web.Api.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var userId = new Guid(context.HttpContext.User.Claims.Single(x => x.Type == "sub").Value);
-            var budgetId = (long)context.ActionArguments["budgetId"];
+            var budgetId = (int)context.ActionArguments["budgetId"];
 
             var userAccountRepository = (IUserAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IUserAccountRepository));
             var budgetRepository = (IBudgetRepository)context.HttpContext.RequestServices.GetService(typeof(IBudgetRepository));
+            var accounts = await userAccountRepository.GetUserAccounts(userId);
 
-            var budget = await budgetRepository.Get(budgetId);
+            if (accounts.Any() == false)
+            {
+                context.Result = new StatusCodeResult(403);
+                return;
+            }
+
+            var budget = await budgetRepository.Get(budgetId, accounts.First().AccountId);
 
             if (budget == null)
             {
                 context.Result = new StatusCodeResult(404);
-            }
-            else
-            {
-                var accounts = await userAccountRepository.GetUserAccounts(userId);
-                if (accounts.Any(a => a.AccountId == budget.AccountId))
-                {
-                    await next();
-
-                }
-                else
-                {
-                    context.Result = new StatusCodeResult(403);
-                }
             }
         }
     }

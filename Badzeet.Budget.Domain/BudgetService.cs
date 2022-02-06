@@ -37,9 +37,9 @@ namespace Badzeet.Budget.Domain
             return id;
         }
 
-        public async Task<DateInterval> GetMonthlyBudgetById(long budgetId) //TODO remove
+        public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, long accountId) //TODO remove
         {
-            var budget = await budgetRepository.Get(budgetId);
+            var budget = await budgetRepository.Get(budgetId, accountId);
             return budget.Interval;
         }
 

@@ -29,11 +29,11 @@ namespace Badzeet.Web.Features.Budget
             this.paymentsRepository = paymentsRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(long accountId, long budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
-            var interval = await budgetService.GetMonthlyBudgetById(budgetId);
+            var interval = await budgetService.GetMonthlyBudgetById(budgetId, accountId);
             var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
             var allUsers = await userAccountRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgetCategories(budgetId);

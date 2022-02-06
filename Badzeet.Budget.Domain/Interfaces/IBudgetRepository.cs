@@ -9,7 +9,7 @@ namespace Badzeet.Budget.Domain.Interfaces
         Model.Budget Create(Model.Budget budget);
         Task<List<Model.Budget>> List(long accountId, Filter filter);
         Task Save();
-        ValueTask<Model.Budget> Get(long budgetId);
+        ValueTask<Model.Budget> Get(int budgetId, long accountId);
     }
 
     public class Filter

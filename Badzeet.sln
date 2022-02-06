@@ -13,11 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Budget.Domain", "Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Database.Migrator", "Badzeet.Database.Migrator\Badzeet.Database.Migrator.csproj", "{F558ECA3-6A55-4014-8CDE-DFA38B7C3120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.User.Domain", "Badzeet.User.Domain\Badzeet.User.Domain.csproj", "{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.User.Domain", "Badzeet.User.Domain\Badzeet.User.Domain.csproj", "{1AF2D6E8-4C69-49E8-A887-E9E81D3E0656}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Scheduler.DataAccess", "Badzeet.Scheduler.DataAccess\Badzeet.Scheduler.DataAccess.csproj", "{1B69719A-C292-4FCB-8276-428A4843E66D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Scheduler.DataAccess", "Badzeet.Scheduler.DataAccess\Badzeet.Scheduler.DataAccess.csproj", "{1B69719A-C292-4FCB-8276-428A4843E66D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Integration.Events", "Badzeet.Integration.Events\Badzeet.Integration.Events.csproj", "{BE907D29-D566-485F-9C08-B71DB5B011C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Integration.Events", "Badzeet.Integration.Events\Badzeet.Integration.Events.csproj", "{BE907D29-D566-485F-9C08-B71DB5B011C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CA12EF54-3736-4B51-85EA-582C0A466F3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Budget.Domain.Tests", "Badzeet.Budget.Domain.Tests\Badzeet.Budget.Domain.Tests.csproj", "{E58468C7-2546-4D59-A6A0-1001C54B100C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,9 +61,16 @@ Global
 		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE907D29-D566-485F-9C08-B71DB5B011C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E58468C7-2546-4D59-A6A0-1001C54B100C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E58468C7-2546-4D59-A6A0-1001C54B100C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E58468C7-2546-4D59-A6A0-1001C54B100C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E58468C7-2546-4D59-A6A0-1001C54B100C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E58468C7-2546-4D59-A6A0-1001C54B100C} = {CA12EF54-3736-4B51-85EA-582C0A466F3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0BCBBD27-E549-411B-A18C-3D9EAC513B74}
