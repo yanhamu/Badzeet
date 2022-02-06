@@ -7,34 +7,17 @@
 <div class="text-center">
     <h2>
         <span>
-            @if (Model.BudgetNavigation.Previous.BudgetId.HasValue)
-            {
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Previous.BudgetId.Value)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            }
-            else
-            {
-                <a asp-action="Index" asp-controller="Dashboard" asp-route-date="@(Model.BudgetNavigation.Previous.FirstBudgetDate)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            }
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Previous.BudgetId)">
+                <i class="fas fa-angle-left"></i>
+            </a>
         </span>
         @Model.BudgetInterval.From.ToString("dd MMM") - @Model.BudgetInterval.To.ToString("dd MMM")
 
         <span>
-            @if (Model.BudgetNavigation.Next.BudgetId.HasValue)
-            {
-                <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Next.BudgetId.Value)">
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            }
-            else
-            {
-                <a asp-action="Index" asp-controller="Dashboard" asp-route-date="@(Model.BudgetNavigation.Next.FirstBudgetDate)">
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            }
+
+            <a asp-action="Index" asp-route-budgetId="@(Model.BudgetNavigation.Next.BudgetId)">
+                <i class="fas fa-angle-right"></i>
+            </a>
         </span>
     </h2>
 </div>

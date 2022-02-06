@@ -7,35 +7,17 @@
 <div class="text-center">
     <h2>
         <span>
-            @if (Model.NavigationDates.Previous.BudgetId.HasValue)
-            {
-                <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Previous.BudgetId.Value)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            }
-            else
-            {
-                <a asp-action="Index" asp-route-date="@(Model.NavigationDates.Previous.FirstBudgetDate)">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            }
+            <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Previous.BudgetId)">
+                <i class="fas fa-angle-left"></i>
+            </a>
         </span>
 
         @Model.Interval.From.ToString("dd MMM") - @Model.Interval.To.ToString("dd MMM")
 
         <span>
-            @if (Model.NavigationDates.Next.BudgetId.HasValue)
-            {
-                <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Next.BudgetId.Value)">
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            }
-            else
-            {
-                <a asp-action="Index" asp-route-date="@(Model.NavigationDates.Next.FirstBudgetDate)">
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            }
+            <a asp-action="Index" asp-controller="Budget" asp-route-budgetId="@(Model.NavigationDates.Next.BudgetId)">
+                <i class="fas fa-angle-right"></i>
+            </a>
         </span>
     </h2>
 </div>

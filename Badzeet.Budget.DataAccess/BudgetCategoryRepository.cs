@@ -24,11 +24,12 @@ namespace Badzeet.DataAccess.Budget
                 .Add(categoryBudget);
         }
 
-        public Task<List<BudgetCategory>> GetBudgetCategories(long budgetId)
+        public Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, long accountId)
         {
             return dbContext
                 .Set<BudgetCategory>()
                 .Where(x => x.BudgetId == budgetId)
+                .Where(x => x.AccountId == accountId)
                 .ToListAsync();
         }
 

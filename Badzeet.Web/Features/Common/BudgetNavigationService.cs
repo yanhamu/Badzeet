@@ -1,6 +1,6 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using System;
-using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Features.Common
@@ -18,31 +18,38 @@ namespace Badzeet.Web.Features.Common
             this.accountRepository = accountRepository;
         }
 
-        public async Task<BudgetNavigationViewModel> Get(long accountId, DateTime date)
+        public async Task<BudgetNavigationViewModel> Get(long accountId, int budgetId)
         {
-            var previous = date.AddMonths(-1);
-            var current = date;
-            var next = date.AddMonths(1);
+            var account = await accountRepository.GetAccount(accountId);
+            var budget = await budgetRepository.Get(budgetId, accountId);
+            var budgetIdString = budgetId.ToString() + account.FirstDayOfTheBudget.ToString("D2");
+            var date = DateTime.ParseExact(budgetIdString, "yyyyMMdd", CultureInfo.InvariantCulture);
+            var previousDate = date.AddMonths(-1);
+            var currentDate = date;
+            var nextDate = date.AddMonths(1);
 
-            var budgets = await budgetRepository.List(accountId, new Filter() { From = previous, To = next });
+            var previousId = int.Parse(previousDate.ToString("yyyyMM"));
+            var currentId = budgetId;
+            var nextId = int.Parse(nextDate.ToString("yyyyMM"));
 
             return new BudgetNavigationViewModel()
             {
                 Current = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == current)?.BudgetId,
-                    FirstBudgetDate = current
+                    BudgetId = currentId,
+                    FirstBudgetDate = currentDate
                 },
                 Next = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == next)?.BudgetId,
-                    FirstBudgetDate = next
+                    BudgetId = nextId,
+                    FirstBudgetDate = nextDate
                 },
                 Previous = new BudgetNavigationItemViewModel()
                 {
-                    BudgetId = budgets.SingleOrDefault(x => x.Date == previous)?.BudgetId,
-                    FirstBudgetDate = previous
-                }
+                    BudgetId = previousId,
+                    FirstBudgetDate = previousDate
+                },
+                HasBudget = budget != null
             };
         }
 
@@ -52,10 +59,12 @@ namespace Badzeet.Web.Features.Common
             var now = DateTime.UtcNow;
 
             var date = new DateTime(now.Year, now.Month, account.FirstDayOfTheBudget);
+            var budgetId = int.Parse(date.ToString("yyyyMM"));
             if (now >= date)
-                return await Get(accountId, date);
+                return await Get(accountId, budgetId);
 
-            return await Get(accountId, date.AddMonths(-1));
+            var previousBudgetId = int.Parse(date.AddMonths(-1).ToString("yyyyMM"));
+            return await Get(accountId, previousBudgetId);
         }
     }
 }

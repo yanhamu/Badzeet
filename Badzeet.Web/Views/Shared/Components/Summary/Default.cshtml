@@ -37,10 +37,13 @@
                     <td>Pending payments</td>
                     <td>@Model.Pending.ToString("F0")</td>
                 </tr>
-                <tr>
-                    <td>Remainging inc. pending</td>
-                    <td>@((Model.RemainingBudget - Model.Pending).ToString("F0")) (@(((Model.RemainingBudget - Model.Pending )/ Model.Budget).ToString("P0")))</td>
-                </tr>
+                @if (Model.Budget > 0m)
+                {
+                    <tr>
+                        <td>Remainging inc. pending</td>
+                        <td>@((Model.RemainingBudget - Model.Pending).ToString("F0")) (@(((Model.RemainingBudget - Model.Pending )/ Model.Budget).ToString("P0")))</td>
+                    </tr>
+                }
             }
             @if (Model.IsOngoing)
             {

@@ -27,10 +27,7 @@ namespace Badzeet.Web.Features.Home
             var accountId = httpContextAccessor.HttpContext.GetAccountId();
             var nav = await budgetNavigationService.Get(accountId);
 
-            if (nav.Current.BudgetId.HasValue)
-                return RedirectToAction("Index", "Budget", new { budgetId = nav.Current.BudgetId.Value });
-
-            return RedirectToAction("Index", "Dashboard", new { date = nav.Current.FirstBudgetDate });
+            return RedirectToAction("Index", "Budget", new { budgetId = nav.Current.BudgetId });
         }
 
         public IActionResult Privacy()

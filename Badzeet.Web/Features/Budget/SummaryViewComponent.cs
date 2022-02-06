@@ -32,7 +32,7 @@ namespace Badzeet.Web.Features.Budget
             var interval = await budgetService.GetMonthlyBudgetById(budgetId, accountId);
             var normalPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
             var pendingPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Pending));
-            var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId);
+            var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
             var users = await userAccountRepository.GetUsers(accountId);
 
             var model = new SummaryViewModel()

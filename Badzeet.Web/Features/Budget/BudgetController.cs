@@ -41,16 +41,20 @@ namespace Badzeet.Web.Features.Budget
         public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
-            var navigation = await budgetNavigation.Get(accountId, budget.Date);
+            if (budget == null)
+            {
+                return RedirectToAction("Index", "Dashboard", new { accountId = accountId, budgetId = budgetId });
+            }
+            var navigation = await budgetNavigation.Get(accountId, budgetId);
 
             return View(new BudgetViewModel(navigation));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long accountId, long budgetId)
+        public async Task<IActionResult> Edit(long accountId, int budgetId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
-            var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId);
+            var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
 
             var categoryBudgetModels = new List<CategoryBudgetViewModel>();
             foreach (var category in categories)
@@ -80,7 +84,7 @@ namespace Badzeet.Web.Features.Budget
         [HttpPost]
         public async Task<IActionResult> Edit(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets) //TODO remove accountId i guess
         {
-            var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId);
+            var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
 
             foreach (var t in tracked)
                 t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
@@ -95,7 +99,7 @@ namespace Badzeet.Web.Features.Budget
 
         public class BudgetViewModel
         {
-            public int BudgetId { get => BudgetNavigation.Current.BudgetId.Value; }
+            public int BudgetId { get => BudgetNavigation.Current.BudgetId; }
             public DateInterval BudgetInterval { get => new DateInterval(BudgetNavigation.Current.FirstBudgetDate, BudgetNavigation.Current.FirstBudgetDate.AddMonths(1).AddTicks(-1)); }
             public BudgetNavigationViewModel BudgetNavigation { get; set; }
             public BudgetViewModel(BudgetNavigationViewModel budgetNavigation)
