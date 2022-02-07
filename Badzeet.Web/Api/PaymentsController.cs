@@ -53,16 +53,6 @@ namespace Badzeet.Web.Api
             return Ok(new PaymentDto(payment));
         }
 
-        [HttpGet("budgets/{budgetId:int}/payments")]
-        public async Task<IActionResult> List(long accountId, int budgetId)
-        {
-            var budget = await budgetRepository.Get(budgetId, accountId);
-            var paymentsFilter = new PaymentsFilter(accountId, budget.Interval.From, budget.Interval.To, null, PaymentType.Normal);
-            var payments = await paymentRepository.GetPayments(paymentsFilter);
-            var result = payments.Select(p => new PaymentDto(p));
-            return Ok(result);
-        }
-
         [HttpPost("payments")]
         public async Task<IActionResult> Create(long accountId, [FromBody] NewPaymentDto payment)
         {

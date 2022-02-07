@@ -29,6 +29,9 @@ namespace Badzeet.Budget.DataAccess
         public async Task<List<Domain.Model.Budget>> List(long accountId, Filter filter)
         {
             var query = context.Set<Domain.Model.Budget>().AsQueryable();
+
+            query = query.Where(x => x.AccountId == accountId);
+
             if (filter?.From != null)
                 query = query.Where(x => x.Date >= filter.From.Value);
 
