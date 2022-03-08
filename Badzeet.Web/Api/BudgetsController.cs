@@ -1,6 +1,7 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,13 +13,16 @@ namespace Badzeet.Web.Api
     {
         private readonly IBudgetRepository budgetRepository;
         private readonly IAccountRepository accountRepository;
+        private readonly IBudgetCategoryRepository budgetCategoryRepository;
 
         public BudgetsController(
             IBudgetRepository budgetRepository,
-            IAccountRepository accountRepository)
+            IAccountRepository accountRepository,
+            IBudgetCategoryRepository budgetCategoryRepository)
         {
             this.budgetRepository = budgetRepository;
             this.accountRepository = accountRepository;
+            this.budgetCategoryRepository = budgetCategoryRepository;
         }
 
         [HttpGet]
@@ -49,12 +53,25 @@ namespace Badzeet.Web.Api
             var startDate = GetStartDate(budgetId, account.FirstDayOfTheBudget);
             var endDate = GetLastDate(budgetId, account.FirstDayOfTheBudget);
 
+            var budgetCategories = await GetBudgetCategories(budgetId, account.Id);
+
             return Ok(new BudgetDto()
             {
                 AccountId = account.Id,
                 BudgetId = budgetId,
                 From = startDate,
-                To = endDate
+                To = endDate,
+                BudgetCategories = budgetCategories.ToList()
+            });
+        }
+
+        private async Task<IEnumerable<BudgetCategoryDto>> GetBudgetCategories(int budgetId, long accountId)
+        {
+            var budgetCategories = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
+            return budgetCategories.Select(x => new BudgetCategoryDto()
+            {
+                CategoryId = x.CategoryId,
+                Amount = x.Amount
             });
         }
 
@@ -75,6 +92,13 @@ namespace Badzeet.Web.Api
             public int BudgetId { get; set; }
             public DateTime From { get; set; }
             public DateTime To { get; set; }
+            public List<BudgetCategoryDto> BudgetCategories { get; set; } = new List<BudgetCategoryDto>();
+        }
+
+        public class BudgetCategoryDto
+        {
+            public long CategoryId { get; internal set; }
+            public decimal Amount { get; internal set; }
         }
     }
 }
