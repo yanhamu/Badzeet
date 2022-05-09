@@ -54,6 +54,7 @@ namespace Badzeet.DataAccess.Budget
 
             if (filter.UserId.HasValue)
                 baseQuery = baseQuery.Where(x => x.UserId == filter.UserId.Value);
+
             if (filter.PaymentType.HasValue)
                 baseQuery = baseQuery.Where(x => x.Type == filter.PaymentType.Value);
 
