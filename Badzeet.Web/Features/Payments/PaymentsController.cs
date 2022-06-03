@@ -154,7 +154,7 @@ namespace Badzeet.Web.Features.Payments
 
         private DateInterval GetInterval(Badzeet.Budget.Domain.Model.Account account, DateTime? from, DateTime? to)
         {
-            if (from.HasValue == false && to.HasValue == false)
+            if (from.HasValue == false || to.HasValue == false)
                 return budgetService.GetBudgetInterval(account.FirstDayOfTheBudget, DateTime.UtcNow);
 
             return new DateInterval(from.Value, to.Value);

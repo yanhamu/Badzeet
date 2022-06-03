@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Badzeet.Web
@@ -24,7 +25,10 @@ namespace Badzeet.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddIdentityServer()
+            services.AddIdentityServer(c =>
+                {
+                    c.Authentication.CookieLifetime = TimeSpan.FromDays(3);
+                })
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
                 .AddInMemoryClients(IdentityServerConfig.Clients(configuration))
@@ -33,6 +37,7 @@ namespace Badzeet.Web
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(configuration.GetConnectionString("badzeetDb"));
                     options.DefaultSchema = "id4";
+                    options.TokenCleanupInterval = 7200;
                 });
 
             services.AddHttpContextAccessor();
