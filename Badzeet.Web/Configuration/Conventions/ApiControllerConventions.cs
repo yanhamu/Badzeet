@@ -10,7 +10,7 @@ namespace Badzeet.Web.Configuration.Conventions
     {
         public void Apply(ControllerModel controller)
         {
-            if (controller.ControllerType.Namespace.Contains("Api"))
+            if (controller.ControllerType.Namespace!.Contains("Api"))
             {
                 var policy = new AuthorizationPolicyBuilder("Bearer").RequireAuthenticatedUser().Build();
                 controller.Filters.Add(new AuthorizeFilter(policy));
@@ -22,7 +22,7 @@ namespace Badzeet.Web.Configuration.Conventions
     {
         public void Apply(ActionModel action)
         {
-            if (action.Controller.ControllerType.Namespace.Contains("Api"))
+            if (action.Controller.ControllerType.Namespace!.Contains("Api"))
             {
                 if (action.Parameters.Any(p => p.Name == "accountId"))
                 {

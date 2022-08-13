@@ -17,7 +17,7 @@ namespace Badzeet.DataAccess.Budget
             this.context = context;
         }
 
-        public Task<Payment> Get(long id)
+        public Task<Payment?> Get(long id)
         {
             return context.Set<Payment>().SingleOrDefaultAsync(x => x.Id == id);
         }
@@ -34,7 +34,7 @@ namespace Badzeet.DataAccess.Budget
             return payment;
         }
 
-        public Task<Payment> GetLastPayment(long accountId)
+        public Task<Payment?> GetLastPayment(long accountId)
         {
             return context
                 .Set<Payment>()

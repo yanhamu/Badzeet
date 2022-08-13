@@ -18,7 +18,7 @@ namespace Badzeet.Web.Configuration
         {
             if (context.Request.Path.StartsWithSegments(new PathString("/api")) == false)
             {
-                if (context.User.Identity.IsAuthenticated == true)
+                if (context.User.Identity!.IsAuthenticated == true)
                 {
                     var userId = context.GetUserId();
 

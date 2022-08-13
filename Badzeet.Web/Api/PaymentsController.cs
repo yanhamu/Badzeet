@@ -22,7 +22,7 @@ namespace Badzeet.Web.Api
         [HttpGet("payments")]
         public async Task<IActionResult> List(long accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, null, null, filter.From, filter.To, filter.Type);
+            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<long>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
@@ -40,7 +40,7 @@ namespace Badzeet.Web.Api
         {
             var payment = await paymentRepository.Get(paymentId);
 
-            payment.Date = newPaymentDto.Date;
+            payment.Date = newPaymentDto.Date.ToDateTime();
             payment.Type = newPaymentDto.Type;
             payment.CategoryId = newPaymentDto.CategoryId;
             payment.Amount = newPaymentDto.Amount;
@@ -61,7 +61,7 @@ namespace Badzeet.Web.Api
                 AccountId = accountId,
                 CategoryId = payment.CategoryId,
                 Amount = payment.Amount,
-                Date = payment.Date,
+                Date = payment.Date.ToDateTime(),
                 Description = payment.Description,
                 Type = payment.Type,
                 UserId = payment.UserId
@@ -73,7 +73,7 @@ namespace Badzeet.Web.Api
 
         public class NewPaymentDto
         {
-            public DateTime Date { get; set; }
+            public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
             public long CategoryId { get; set; }
@@ -87,7 +87,7 @@ namespace Badzeet.Web.Api
             {
                 this.Id = payment.Id;
                 this.AccountId = payment.AccountId;
-                this.Date = payment.Date;
+                this.Date = payment.Date.ToDateOnly();
                 this.Description = payment.Description;
                 this.CategoryId = payment.CategoryId;
                 this.UserId = payment.UserId;
@@ -97,7 +97,7 @@ namespace Badzeet.Web.Api
 
             public long Id { get; set; }
             public long AccountId { get; set; }
-            public DateTime Date { get; set; }
+            public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
             public PaymentType Type { get; set; }
@@ -107,8 +107,8 @@ namespace Badzeet.Web.Api
 
         public class Filter
         {
-            public DateTime? From { get; set; }
-            public DateTime? To { get; set; }
+            public DateOnly? From { get; set; }
+            public DateOnly? To { get; set; }
             public PaymentType Type { get; set; }
         }
     }

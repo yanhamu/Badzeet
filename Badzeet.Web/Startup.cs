@@ -59,18 +59,21 @@ namespace Badzeet.Web
             services.RegisterSchedulerDependencies(configuration);
             services.RegisterIntegrationHandlers();
             services.RegisterServiceDependencies();
-
             services.AddControllersWithViews(x =>
             {
                 x.Conventions.Add(new WebControllerConventions());
                 x.Conventions.Add(new ApiControllerConventions());
                 x.Conventions.Add(new ApiActionMethodConvention());
+            }).AddJsonOptions(x =>
+            {
+                x.UseDateOnlyTimeOnlyStringConverters();
             });
+
+            services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseCors(x =>
