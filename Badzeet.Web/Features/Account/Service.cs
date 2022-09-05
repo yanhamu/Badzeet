@@ -1,8 +1,5 @@
 ﻿using Badzeet.Budget.Domain;
 using Badzeet.User.Domain;
-using IdentityServer4;
-using IdentityServer4.Events;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -18,30 +15,22 @@ namespace Badzeet.Web.Features.Account
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IUserService userService;
         private readonly RegistrationService registrationService;
-        private readonly IEventService events;
-        private readonly IIdentityServerInteractionService interaction;
 
         public Service(
             IHttpContextAccessor contextAccessor,
             IUserService userService,
-            RegistrationService registrationService,
-            IEventService events,
-            IIdentityServerInteractionService interaction)
+            RegistrationService registrationService)
         {
             this.contextAccessor = contextAccessor;
             this.userService = userService;
             this.registrationService = registrationService;
-            this.events = events;
-            this.interaction = interaction;
         }
 
         public async Task<bool> Login(UserCredentialsModel credentials, string returnUrl)
         {
-            var context = await interaction.GetAuthorizationContextAsync(returnUrl);
             var userResponse = await userService.Check(credentials.Username, credentials.Password);
             if (userResponse.IsSuccessful == false)
             {
-                await events.RaiseAsync(new UserLoginFailureEvent(credentials.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 return false;
             }
 
@@ -51,20 +40,11 @@ namespace Badzeet.Web.Features.Account
                 new Claim("sub", userResponse.UserId.ToString()),
             };
 
-            await events.RaiseAsync(new UserLoginSuccessEvent(credentials.Username, userResponse.UserId.ToString(), credentials.Username, clientId: context?.Client.ClientId));
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
 
-            var isuser = new IdentityServerUser(userResponse.UserId.ToString())
-            {
-                DisplayName = credentials.Username,
-                AdditionalClaims = claims
-            };
-            
-            await contextAccessor.HttpContext.SignInAsync(isuser);
-
-            //await contextAccessor.HttpContext.SignInAsync(
-            //    CookieAuthenticationDefaults.AuthenticationScheme,
-            //    new ClaimsPrincipal(claimsIdentity),
-            //    authProperties);
+            await contextAccessor.HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                claimsPrincipal);
 
             return true;
         }

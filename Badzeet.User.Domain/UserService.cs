@@ -19,7 +19,7 @@ namespace Badzeet.User.Domain
                 return UserLoginResponse.CreateFailed();
 
             return PasswordService.Verify(userDto.Password, password)
-                ? (UserLoginResponse)UserLoginResponse.CreateSuccessful(userDto.Id)
+                ? UserLoginResponse.CreateSuccessful(userDto.Id)
                 : UserLoginResponse.CreateFailed();
         }
 
