@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -25,30 +24,8 @@ namespace Badzeet.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddIdentityServer(c =>
-                {
-                    c.Authentication.CookieLifetime = TimeSpan.FromDays(3);
-                })
-                .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
-                .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-                .AddInMemoryClients(IdentityServerConfig.Clients(configuration))
-                .AddDeveloperSigningCredential()
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(configuration.GetConnectionString("badzeetDb"));
-                    options.DefaultSchema = "id4";
-                    options.TokenCleanupInterval = 7200;
-                });
-
             services.AddHttpContextAccessor();
-            services.AddAuthentication("Cookies")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = configuration["Authority:Url"];
-                    options.TokenValidationParameters = new TokenValidationParameters() { ValidateAudience = false };
-
-                })
-                .AddCookie("Cookies");
+            services.AddAuthentication("Cookies").AddCookie("Cookies");
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -92,8 +69,6 @@ namespace Badzeet.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseIdentityServer();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
