@@ -17,7 +17,7 @@ namespace Badzeet.Budget.Domain
             this.repository = repository;
         }
 
-        public Task<Payment> GetPayment(long id)
+        public Task<Payment?> GetPayment(Guid id)
         {
             return repository.Get(id);
         }
@@ -28,7 +28,7 @@ namespace Badzeet.Budget.Domain
             return repository.Save();
         }
 
-        public async Task Remove(long id)
+        public async Task Remove(Guid id)
         {
             await repository.Remove(id);
             await repository.Save();
@@ -46,7 +46,7 @@ namespace Badzeet.Budget.Domain
             await repository.Save();
         }
 
-        public async Task Transform(long id)
+        public async Task Transform(Guid id)
         {
             var scheduledPayment = await repository.Get(id);
             scheduledPayment.Date = DateTime.UtcNow;
@@ -56,7 +56,7 @@ namespace Badzeet.Budget.Domain
 
         public async Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            repository.Add(new Payment(default, request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
+            repository.Add(new Payment(Guid.NewGuid(), request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
             await repository.Save();
             return Unit.Value;
         }

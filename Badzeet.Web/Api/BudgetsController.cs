@@ -97,7 +97,7 @@ namespace Badzeet.Web.Api
 
         public class BudgetCategoryDto
         {
-            public long CategoryId { get; internal set; }
+            public Guid CategoryId { get; internal set; }
             public decimal Amount { get; internal set; }
         }
     }

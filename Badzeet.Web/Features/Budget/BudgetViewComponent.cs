@@ -34,13 +34,13 @@ namespace Badzeet.Web.Features.Budget
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
             var interval = await budgetService.GetMonthlyBudgetById(budgetId, accountId);
-            var transactions = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
+            var payments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));
             var allUsers = await userAccountRepository.GetUsers(accountId);
             var budgets = await budgetRepository.GetBudgetCategories(budgetId, accountId);
 
             foreach (var c in allCategories)
             {
-                var categoryTransactions = transactions.Where(x => x.CategoryId == c.Id);
+                var categoryTransactions = payments.Where(x => x.CategoryId == c.Id);
                 var budget = budgets.SingleOrDefault(x => x.CategoryId == c.Id);
                 var users = new List<CategoryUserViewModel>();
                 foreach (var u in allUsers)

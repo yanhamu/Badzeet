@@ -2,6 +2,7 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,24 +18,26 @@ namespace Badzeet.DataAccess.Budget
             this.dbContext = dbContext;
         }
 
-        public Task Create(long accountId, string name, int order)
+        public Task Create(Guid id, long accountId, string name, int order)
         {
-            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = accountId, Order = order });
+            _ = dbContext.Set<Category>().Add(new Category() { Id = id, Name = name, AccountId = accountId, Order = order });
             return dbContext.SaveChangesAsync();
         }
 
-        public async Task<Category> Remove(long categoryId)
+        public async Task<Category?> Remove(Guid categoryId)
         {
             var category = await Get(categoryId);
+            if (category == null)
+                return null;
+
             dbContext.Remove(category);
             await dbContext.SaveChangesAsync();
             return category;
         }
 
-        public async Task<Category> Get(long categoryId)
+        public async Task<Category?> Get(Guid categoryId)
         {
-            var category = await dbContext.Set<Category>().FindAsync(categoryId);
-            return category;
+            return await dbContext.Set<Category>().FindAsync(categoryId);
         }
 
         public Task<List<Category>> GetCategories(long accountId)

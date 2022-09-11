@@ -40,7 +40,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long id, long accountId)
+        public async Task<IActionResult> Edit(Guid id, long accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -101,7 +101,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]long id)
+        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]Guid id)
         {
             await paymentRepository.Remove(id);
             await paymentRepository.SaveAll();
@@ -161,13 +161,13 @@ namespace Badzeet.Web.Features.ScheduledPayments
 
         public class CategoryViewModel
         {
-            public CategoryViewModel(long id, string name)
+            public CategoryViewModel(Guid id, string name)
             {
                 Id = id;
                 Name = name;
             }
 
-            public long Id { get; set; }
+            public Guid Id { get; set; }
             public string Name { get; set; }
         }
 

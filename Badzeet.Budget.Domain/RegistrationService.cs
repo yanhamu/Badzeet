@@ -10,7 +10,7 @@ namespace Badzeet.Budget.Domain
         private readonly IUserRepository userRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IInvitationRepository invitationRepository;
-        private readonly IAccountRepository bookRepository;
+        private readonly IAccountRepository accountRepository;
 
         public RegistrationService(
             IUserAccountRepository userBookRepository,
@@ -19,7 +19,7 @@ namespace Badzeet.Budget.Domain
             IUserRepository userRepository,
             ICategoryRepository categoryRepository)
         {
-            this.bookRepository = bookRepository;
+            this.accountRepository = bookRepository;
             this.invitationRepository = invitationRepository;
             this.userBookRepository = userBookRepository;
             this.userRepository = userRepository;
@@ -40,9 +40,9 @@ namespace Badzeet.Budget.Domain
             }
             else
             {
-                var book = await bookRepository.CreateAccount(1);
+                var book = await accountRepository.CreateAccount(1);
                 _ = await userBookRepository.Create(userId, book.Id);
-                await categoryRepository.Create(book.Id, "unspecified", 1000);
+                await categoryRepository.Create(Guid.NewGuid(), book.Id, "unspecified", 1000);
             }
         }
     }

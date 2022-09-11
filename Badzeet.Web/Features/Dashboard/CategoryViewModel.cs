@@ -6,7 +6,7 @@ namespace Badzeet.Web.Features.Dashboard
     public class CategoryViewModel
     {
         public CategoryViewModel(
-            long id,
+            Guid id,
             string name,
             IDictionary<Guid, decimal> perUserSum,
             decimal sum)
@@ -17,7 +17,7 @@ namespace Badzeet.Web.Features.Dashboard
             Sum = sum;
         }
 
-        public long Id { get; }
+        public Guid Id { get; }
         public string Name { get; }
 
         public decimal Sum { get; }

@@ -1,8 +1,10 @@
-﻿namespace Badzeet.Budget.Domain.Model
+﻿using System;
+
+namespace Badzeet.Budget.Domain.Model
 {
     public class Category
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public long AccountId { get; set; }
         public Account Account { get; set; }
         public string Name { get; set; }

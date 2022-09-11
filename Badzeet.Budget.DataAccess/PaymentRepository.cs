@@ -2,6 +2,7 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Badzeet.DataAccess.Budget
             this.context = context;
         }
 
-        public Task<Payment?> Get(long id)
+        public Task<Payment?> Get(Guid id)
         {
             return context.Set<Payment>().SingleOrDefaultAsync(x => x.Id == id);
         }
@@ -27,9 +28,12 @@ namespace Badzeet.DataAccess.Budget
             return context.Set<Payment>().Add(payment).Entity;
         }
 
-        public async Task<Payment> Remove(long id)
+        public async Task<Payment?> Remove(Guid id)
         {
             var payment = await context.Set<Payment>().FindAsync(id);
+            if (payment == null)
+                return default;
+
             context.Set<Payment>().Remove(payment);
             return payment;
         }

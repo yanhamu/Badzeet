@@ -1,6 +1,7 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(long id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             var category = await categoryRepository.Get(id);
             var model = new CategoryViewModel() { Id = category.Id, Name = category.Name, Order = category.Order };
@@ -53,12 +54,12 @@ namespace Badzeet.Web.Features.Categories
         [HttpPost]
         public async Task<IActionResult> New(long accountId, CategoryViewModel model)
         {
-            await categoryRepository.Create(accountId, model.Name, model.Order);
+            await categoryRepository.Create(Guid.NewGuid(), accountId, model.Name, model.Order);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove(long Id)
+        public async Task<IActionResult> Remove(Guid Id)
         {
             await categoryRepository.Remove(Id);
             return RedirectToAction(nameof(Index));
@@ -71,7 +72,7 @@ namespace Badzeet.Web.Features.Categories
 
         public class CategoryViewModel
         {
-            public long Id { get; set; }
+            public Guid Id { get; set; }
             public string Name { get; set; }
             public int Order { get; set; }
         }

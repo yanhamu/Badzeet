@@ -29,7 +29,7 @@ namespace Badzeet.Scheduler.DataAccess
                 .ToListAsync();
         }
 
-        public async Task<Payment> Get(long id)
+        public async Task<Payment?> Get(Guid id)
         {
             return await context.Set<Payment>().FindAsync(id);
         }
@@ -41,10 +41,11 @@ namespace Badzeet.Scheduler.DataAccess
                 .ToListAsync();
         }
 
-        public async Task Remove(long id)
+        public async Task Remove(Guid id)
         {
             var payment = await context.Set<Payment>().FindAsync(id);
-            context.Set<Payment>().Remove(payment);
+            if (payment != null)
+                context.Set<Payment>().Remove(payment);
         }
 
         public Task<int> SaveAll()

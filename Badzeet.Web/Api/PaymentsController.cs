@@ -22,21 +22,21 @@ namespace Badzeet.Web.Api
         [HttpGet("payments")]
         public async Task<IActionResult> List(long accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<long>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
+            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<Guid>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
         }
 
         [HttpGet("payments/{paymentId:long}")]
-        public async Task<IActionResult> Get(long accountId, long paymentId)
+        public async Task<IActionResult> Get(long accountId, Guid paymentId)
         {
             var payment = await paymentRepository.Get(paymentId);
             return Ok(new PaymentDto(payment));
         }
 
         [HttpPut("payments/{paymentId:long}")]
-        public async Task<IActionResult> Update(long accountId, long paymentId, [FromBody] NewPaymentDto newPaymentDto)
+        public async Task<IActionResult> Update(long accountId, Guid paymentId, [FromBody] NewPaymentDto newPaymentDto)
         {
             var payment = await paymentRepository.Get(paymentId);
 
@@ -76,7 +76,7 @@ namespace Badzeet.Web.Api
             public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
-            public long CategoryId { get; set; }
+            public Guid CategoryId { get; set; }
             public Guid UserId { get; set; }
             public PaymentType Type { get; set; }
         }
@@ -95,13 +95,13 @@ namespace Badzeet.Web.Api
                 this.Type = payment.Type;
             }
 
-            public long Id { get; set; }
+            public Guid Id { get; set; }
             public long AccountId { get; set; }
             public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
             public PaymentType Type { get; set; }
-            public long CategoryId { get; set; }
+            public Guid CategoryId { get; set; }
             public Guid UserId { get; set; }
         }
 

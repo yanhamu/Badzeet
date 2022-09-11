@@ -1,5 +1,6 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace Badzeet.Web.Api
 
         public class CategoryDto
         {
-            public long Id { get; set; }
+            public Guid Id { get; set; }
             public long AccountId { get; set; }
             public string Name { get; set; }
             public int Order { get; set; }

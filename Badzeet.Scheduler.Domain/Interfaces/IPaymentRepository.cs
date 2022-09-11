@@ -11,7 +11,7 @@ namespace Badzeet.Scheduler.Domain.Interfaces
         Task<int> SaveAll();
         Task<IEnumerable<Payment>> GetPayments(long accountId);
         void Add(Payment payment);
-        Task<Payment> Get(long id);
-        Task Remove(long id);
+        Task<Payment?> Get(Guid id);
+        Task Remove(Guid id);
     }
 }

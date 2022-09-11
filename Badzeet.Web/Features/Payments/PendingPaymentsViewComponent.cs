@@ -51,13 +51,13 @@ namespace Badzeet.Web.Features.Payments
 
         public class PendingPaymentViewModel
         {
-            public long Id { get; set; }
+            public Guid Id { get; set; }
             public DateTime Date { get; set; }
-            public string Description { get; set; }
+            public string Description { get; set; } = string.Empty;
             public decimal Amount { get; set; }
-            public long CategoryId { get; set; }
-            public string CategoryName { get; set; }
-            public string Owner { get; set; }
+            public Guid CategoryId { get; set; }
+            public string CategoryName { get; set; } = string.Empty;
+            public string Owner { get; set; } = string.Empty;
             public Guid OwnerId { get; set; }
         }
     }
