@@ -96,13 +96,13 @@ namespace Badzeet.Web.Features.Payments
         [HttpGet]
         public async Task<IActionResult> Split(Guid id, Guid accountId)
         {
-            var transaction = await paymentsService.GetPayment(id);
+            var payment = await paymentRepository.Get(id);
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payment = new PaymentModel(transaction),
+                Payment = new PaymentModel(payment),
                 Users = users
             };
             return View(model);
@@ -111,10 +111,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> Split(SplitModel model)
         {
-            var payment = await paymentsService.GetPayment(model.OldPaymentId);
-            payment.Amount = model.OldAmount;
-            var newPayment = new Payment(Guid.NewGuid(), payment.Date, model.Description, model.NewAmount, model.CategoryId, model.OwnerId, PaymentType.Normal, payment.AccountId);
-            await paymentsService.Add(newPayment);
+            await paymentsService.Split(model.OldPaymentId, model.OldAmount, model.Description, model.NewAmount, model.CategoryId, model.OwnerId);
             return RedirectToAction("List");
         }
 

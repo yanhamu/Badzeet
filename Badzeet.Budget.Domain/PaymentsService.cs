@@ -60,5 +60,14 @@ namespace Badzeet.Budget.Domain
             await repository.Save();
             return Unit.Value;
         }
+
+        public async Task Split(Guid oldPaymentId, decimal oldAmount, string description, decimal newAmount, Guid categoryId, Guid ownerId)
+        {
+            var payment = await repository.Get(oldPaymentId);
+            payment.Amount = oldAmount;
+            var newPayment = new Payment(Guid.NewGuid(), payment.Date, description, newAmount, categoryId, ownerId, PaymentType.Normal, payment.AccountId);
+            repository.Add(newPayment);
+            await repository.Save();
+        }
     }
 }
