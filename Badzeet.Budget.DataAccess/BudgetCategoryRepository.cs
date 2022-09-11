@@ -2,6 +2,7 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Badzeet.DataAccess.Budget
                 .Add(categoryBudget);
         }
 
-        public Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, long accountId)
+        public Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, Guid accountId)
         {
             return dbContext
                 .Set<BudgetCategory>()

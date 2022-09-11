@@ -37,7 +37,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> New(long accountId, Guid userId)
+        public async Task<IActionResult> New(Guid accountId, Guid userId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
@@ -54,7 +54,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpPost]
-        public async Task<IActionResult> New(long accountId, PaymentViewModel model)
+        public async Task<IActionResult> New(Guid accountId, PaymentViewModel model)
         {
             await paymentsService.Add(new Payment(Guid.NewGuid(), model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.CategoryId, model.Payment.UserId, model.Payment.Type, accountId));
 
@@ -62,7 +62,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id, long accountId)
+        public async Task<IActionResult> Edit(Guid id, Guid accountId)
         {
             var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(accountId);
@@ -78,7 +78,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(long accountId, PaymentViewModel model)
+        public async Task<IActionResult> Edit(Guid accountId, PaymentViewModel model)
         {
             await paymentsService.Save(new Payment(
                 model.Payment.Id,
@@ -94,7 +94,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Split(Guid id, long accountId)
+        public async Task<IActionResult> Split(Guid id, Guid accountId)
         {
             var transaction = await paymentsService.GetPayment(id);
             var categories = await categoryRepository.GetCategories(accountId);
@@ -126,7 +126,7 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long accountId, [FromQuery(Name = "cid")] Guid[] categoryIds, DateTime? from, DateTime? to)
+        public async Task<IActionResult> List(Guid accountId, [FromQuery(Name = "cid")] Guid[] categoryIds, DateTime? from, DateTime? to)
         {
             var account = await accountRepository.GetAccount(accountId);
             var interval = GetInterval(account, from, to);

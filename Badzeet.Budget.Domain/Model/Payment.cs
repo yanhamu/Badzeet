@@ -6,7 +6,7 @@ namespace Badzeet.Budget.Domain.Model
     {
         public Payment() { }
 
-        public Payment(Guid id, DateTime date, string description, decimal amount, Guid categoryId, Guid userId, PaymentType paymentType, long accountId)
+        public Payment(Guid id, DateTime date, string description, decimal amount, Guid categoryId, Guid userId, PaymentType paymentType, Guid accountId)
         {
             Id = id;
             AccountId = accountId;
@@ -19,7 +19,7 @@ namespace Badzeet.Budget.Domain.Model
         }
 
         public Guid Id { get; set; }
-        public long AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public Account Account { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }

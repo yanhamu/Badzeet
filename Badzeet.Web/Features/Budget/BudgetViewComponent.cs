@@ -2,6 +2,7 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Badzeet.Web.Features.Budget
             this.paymentsRepository = paymentsRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(Guid accountId, int budgetId)
         {
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();

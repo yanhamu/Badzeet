@@ -24,7 +24,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet("summary")]
-        public async Task<IActionResult> Get(long accountId, int budgetId)
+        public async Task<IActionResult> Get(Guid accountId, int budgetId)
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
             var interval = budget.Interval;

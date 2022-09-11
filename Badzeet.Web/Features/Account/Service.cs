@@ -49,14 +49,14 @@ namespace Badzeet.Web.Features.Account
             return true;
         }
 
-        public async Task<bool> Register(UserCredentialsModel credentials, Guid? invitationId)
+        public async Task<bool> Register(UserCredentialsModel credentials)
         {
             if (await userService.CheckAvailability(credentials.Username) == false)
                 return false;
 
             var userId = await userService.RegisterUser(credentials.Username, credentials.Password);
 
-            await registrationService.Register(userId, credentials.Username, invitationId);
+            await registrationService.Register(userId, credentials.Username);
             return true;
         }
 

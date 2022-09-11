@@ -11,21 +11,21 @@ namespace Badzeet.Budget.Domain.Interfaces
         Payment Add(Payment transaction);
         Task<Payment?> Remove(Guid id);
         Task<IEnumerable<Payment>> GetPayments(PaymentsFilter filter);
-        Task<Payment?> GetLastPayment(long accountId);
+        Task<Payment?> GetLastPayment(Guid accountId);
         Task Save();
     }
 
     public class PaymentsFilter
     {
         public PaymentsFilter(
-            long accountId,
+            Guid accountId,
             DateTime? from,
             DateTime? to,
             Guid? userId = null,
             PaymentType? type = null) : this(accountId, Array.Empty<Guid>(), userId, from, to, type) { }
 
         public PaymentsFilter(
-            long accountId,
+            Guid accountId,
             Guid[] categoryId,
             Guid? userId = null,
             DateTime? from = null,
@@ -39,7 +39,7 @@ namespace Badzeet.Budget.Domain.Interfaces
             CategoryId = categoryId;
         }
 
-        public long AccountId { get; }
+        public Guid AccountId { get; }
         public Guid? UserId { get; }
         public OpenDateInterval Interval { get; }
         public PaymentType? PaymentType { get; }

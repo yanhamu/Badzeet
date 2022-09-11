@@ -38,7 +38,7 @@ namespace Badzeet.DataAccess.Budget
             return payment;
         }
 
-        public Task<Payment?> GetLastPayment(long accountId)
+        public Task<Payment?> GetLastPayment(Guid accountId)
         {
             return context
                 .Set<Payment>()

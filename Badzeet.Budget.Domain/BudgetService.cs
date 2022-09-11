@@ -20,7 +20,7 @@ namespace Badzeet.Budget.Domain
             this.budgetRepository = budgetRepository;
         }
 
-        public async Task<int> GetLatestBudgetId(long accountId)
+        public async Task<int> GetLatestBudgetId(Guid accountId)
         {
             var account = await accountRepository.GetAccount(accountId);
             var lastTransaction = await transactionRepository.GetLastPayment(accountId);
@@ -37,7 +37,7 @@ namespace Badzeet.Budget.Domain
             return id;
         }
 
-        public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, long accountId) //TODO remove
+        public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, Guid accountId) //TODO remove
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
             return budget.Interval;

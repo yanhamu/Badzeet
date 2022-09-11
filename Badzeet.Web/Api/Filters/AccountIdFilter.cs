@@ -11,7 +11,7 @@ namespace Badzeet.Web.Api.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var accountId = (long)context.ActionArguments["accountId"];
+            var accountId = (Guid)context.ActionArguments["accountId"];
             var repository = (IUserAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IUserAccountRepository));
 
             var userId = new Guid(context.HttpContext.User.Claims.Single(x => x.Type == "sub").Value);

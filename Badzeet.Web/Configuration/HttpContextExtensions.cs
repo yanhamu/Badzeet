@@ -6,9 +6,9 @@ namespace Badzeet.Web.Configuration
 {
     public static class HttpContextExtensions
     {
-        public static long GetAccountId(this HttpContext context)
+        public static Guid GetAccountId(this HttpContext context)
         {
-            return long.Parse(context.Items["da"].ToString());
+            return Guid.Parse(context.Items["da"].ToString());
         }
 
         public static Guid GetUserId(this HttpContext context)

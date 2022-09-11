@@ -15,7 +15,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Payment>> List(long accountId)
+        public async Task<IEnumerable<Payment>> List(Guid accountId)
         {
             return await repository.GetPayments(accountId);
         }

@@ -1,6 +1,7 @@
 ﻿using Badzeet.Budget.DataAccess;
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
+using System;
 using System.Threading.Tasks;
 
 namespace Badzeet.DataAccess.Budget
@@ -24,7 +25,7 @@ namespace Badzeet.DataAccess.Budget
             return bookEntity.Entity;
         }
 
-        public async Task<Account> GetAccount(long accountId)
+        public async Task<Account?> GetAccount(Guid accountId)
         {
             return await dbContext
                 .Set<Account>()

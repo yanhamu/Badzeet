@@ -5,7 +5,7 @@ namespace Badzeet.Scheduler.Domain.Model
     public class Payment
     {
         public Guid Id { get; set; }
-        public long AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public decimal Amount { get; set; }
         public string Description { get; set; } = default!;
         public Guid CategoryId { get; set; }

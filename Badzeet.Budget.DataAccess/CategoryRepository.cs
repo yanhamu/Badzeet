@@ -18,7 +18,7 @@ namespace Badzeet.DataAccess.Budget
             this.dbContext = dbContext;
         }
 
-        public Task Create(Guid id, long accountId, string name, int order)
+        public Task Create(Guid id, Guid accountId, string name, int order)
         {
             _ = dbContext.Set<Category>().Add(new Category() { Id = id, Name = name, AccountId = accountId, Order = order });
             return dbContext.SaveChangesAsync();
@@ -40,7 +40,7 @@ namespace Badzeet.DataAccess.Budget
             return await dbContext.Set<Category>().FindAsync(categoryId);
         }
 
-        public Task<List<Category>> GetCategories(long accountId)
+        public Task<List<Category>> GetCategories(Guid accountId)
         {
             return dbContext.Set<Category>()
                 .Where(x => x.AccountId == accountId)

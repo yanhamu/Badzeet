@@ -18,7 +18,7 @@ namespace Badzeet.Web.Features.Common
             this.accountRepository = accountRepository;
         }
 
-        public async Task<BudgetNavigationViewModel> Get(long accountId, int budgetId)
+        public async Task<BudgetNavigationViewModel> Get(Guid accountId, int budgetId)
         {
             var account = await accountRepository.GetAccount(accountId);
             var budget = await budgetRepository.Get(budgetId, accountId);
@@ -53,7 +53,7 @@ namespace Badzeet.Web.Features.Common
             };
         }
 
-        public async Task<BudgetNavigationViewModel> Get(long accountId)
+        public async Task<BudgetNavigationViewModel> Get(Guid accountId)
         {
             var account = await accountRepository.GetAccount(accountId);
             var now = DateTime.UtcNow;

@@ -31,7 +31,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(long accountId)
+        public async Task<IActionResult> List(Guid accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -40,7 +40,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id, long accountId)
+        public async Task<IActionResult> Edit(Guid id, Guid accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -71,7 +71,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> New(long accountId)
+        public async Task<IActionResult> New(Guid accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -79,7 +79,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpPost]
-        public async Task<IActionResult> New(long accountId, MonthlyPaymentViewModel model)
+        public async Task<IActionResult> New(Guid accountId, MonthlyPaymentViewModel model)
         {
             var metadata = GetSettings(model);
             var scheduledAt = CalculateFirstScheduledDate(metadata);

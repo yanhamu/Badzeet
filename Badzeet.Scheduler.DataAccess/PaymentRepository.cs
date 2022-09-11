@@ -34,7 +34,7 @@ namespace Badzeet.Scheduler.DataAccess
             return await context.Set<Payment>().FindAsync(id);
         }
 
-        public async Task<IEnumerable<Payment>> GetPayments(long accountId)
+        public async Task<IEnumerable<Payment>> GetPayments(Guid accountId)
         {
             return await context.Set<Payment>()
                 .Where(x => x.AccountId == accountId)

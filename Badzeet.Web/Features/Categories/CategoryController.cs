@@ -19,7 +19,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(long accountId)
+        public async Task<IActionResult> Index(Guid accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Order = x.Order }).ToList();
@@ -36,7 +36,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(long accountId, CategoryViewModel model)
+        public async Task<IActionResult> Edit(Guid accountId, CategoryViewModel model)
         {
             var category = await categoryRepository.Get(model.Id);
             category.Name = model.Name;
@@ -52,7 +52,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpPost]
-        public async Task<IActionResult> New(long accountId, CategoryViewModel model)
+        public async Task<IActionResult> New(Guid accountId, CategoryViewModel model)
         {
             await categoryRepository.Create(Guid.NewGuid(), accountId, model.Name, model.Order);
             return RedirectToAction(nameof(Index));

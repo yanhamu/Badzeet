@@ -20,7 +20,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet("payments")]
-        public async Task<IActionResult> List(long accountId, Filter filter)
+        public async Task<IActionResult> List(Guid accountId, Filter filter)
         {
             var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<Guid>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
@@ -54,7 +54,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpPost("payments")]
-        public async Task<IActionResult> Create(long accountId, [FromBody] NewPaymentDto payment)
+        public async Task<IActionResult> Create(Guid accountId, [FromBody] NewPaymentDto payment)
         {
             var savedPayment = paymentRepository.Add(new Payment()
             {
@@ -96,7 +96,7 @@ namespace Badzeet.Web.Api
             }
 
             public Guid Id { get; set; }
-            public long AccountId { get; set; }
+            public Guid AccountId { get; set; }
             public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }

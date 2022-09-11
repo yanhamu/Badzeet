@@ -1,5 +1,6 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Badzeet.Web.Api
@@ -14,7 +15,7 @@ namespace Badzeet.Web.Api
             this.paymentRepository = paymentRepository;
         }
 
-        public async Task<object> List(long accountId, Filter filter)
+        public async Task<object> List(Guid accountId, Filter filter)
         {
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(accountId, filter.From, filter.To));
             return payments;

@@ -5,7 +5,7 @@ namespace Badzeet.Integration.Events
 {
     public class NewScheduledPaymentRequest : IRequest
     {
-        public NewScheduledPaymentRequest(long accountId, DateTime date, decimal amount, string description, Guid categoryId, Guid ownerId)
+        public NewScheduledPaymentRequest(Guid accountId, DateTime date, decimal amount, string description, Guid categoryId, Guid ownerId)
         {
             AccountId = accountId;
             Date = date;
@@ -15,7 +15,7 @@ namespace Badzeet.Integration.Events
             OwnerId = ownerId;
         }
 
-        public long AccountId { get; }
+        public Guid AccountId { get; }
         public DateTime Date { get; }
         public decimal Amount { get; }
         public string Description { get; }

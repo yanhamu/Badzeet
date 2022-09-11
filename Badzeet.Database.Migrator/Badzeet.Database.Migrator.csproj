@@ -58,6 +58,7 @@
 		<None Remove="Scripts\0125_Migration_Part3.sql" />
 		<None Remove="Scripts\0125_Migration_Part4.sql" />
 		<None Remove="Scripts\0125_Migration_Part5.sql" />
+		<None Remove="Scripts\0125_Migration_Part6.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -96,6 +97,9 @@
 		</EmbeddedResource>
 		<EmbeddedResource Include="Scripts\0107_Create_UniqueIndex.sql">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Scripts\0125_Migration_Part6.sql">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 		<EmbeddedResource Include="Scripts\0125_Migration_Part5.sql">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>

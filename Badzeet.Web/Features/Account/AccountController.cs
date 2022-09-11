@@ -28,9 +28,9 @@ namespace Badzeet.Web.Features.Account
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserCredentialsModel credentials, Guid? invitationId)
+        public async Task<IActionResult> Register(UserCredentialsModel credentials)
         {
-            var registrationResult = await service.Register(credentials, invitationId);
+            var registrationResult = await service.Register(credentials);
             return LocalRedirect("/");
         }
 
