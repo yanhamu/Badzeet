@@ -8,7 +8,7 @@ namespace Badzeet.Budget.DataAccess.Maps
         public void Configure(EntityTypeBuilder<Domain.Model.Budget> builder)
         {
             builder.ToTable("budgets");
-            builder.HasKey(x => new { x.BudgetId, x.AccountId }); // TODO this shouldn't be PK
+            builder.HasKey(x => new { x.Id });
             builder.Property(x => x.BudgetId).HasColumnName("budget_id");
             builder.Property(x => x.AccountId).HasColumnName("account_id");
             builder.Property(x => x.Date).HasColumnName("date");
