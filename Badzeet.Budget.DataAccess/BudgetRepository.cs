@@ -24,7 +24,7 @@ namespace Badzeet.Budget.DataAccess
 
         public async ValueTask<Domain.Model.Budget?> Get(int budgetId, Guid accountId)
         {
-            return await context.Set<Domain.Model.Budget>().FindAsync(budgetId, accountId);
+            return await context.Set<Domain.Model.Budget>().SingleOrDefaultAsync(x => x.BudgetId == budgetId && x.AccountId == accountId);
         }
 
         public async Task<List<Domain.Model.Budget>> List(Guid accountId, Filter filter)

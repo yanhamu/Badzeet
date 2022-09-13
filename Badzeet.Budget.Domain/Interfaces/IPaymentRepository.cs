@@ -22,11 +22,11 @@ namespace Badzeet.Budget.Domain.Interfaces
             DateTime? from,
             DateTime? to,
             Guid? userId = null,
-            PaymentType? type = null) : this(accountId, Array.Empty<Guid>(), userId, from, to, type) { }
+            PaymentType? type = null) : this(accountId, Array.Empty<string>(), userId, from, to, type) { }
 
         public PaymentsFilter(
             Guid accountId,
-            Guid[] categoryId,
+            string[] categories,
             Guid? userId = null,
             DateTime? from = null,
             DateTime? to = null,
@@ -36,13 +36,13 @@ namespace Badzeet.Budget.Domain.Interfaces
             UserId = userId;
             Interval = new OpenDateInterval(from, to);
             PaymentType = type;
-            CategoryId = categoryId;
+            Categories = categories;
         }
 
         public Guid AccountId { get; }
         public Guid? UserId { get; }
         public OpenDateInterval Interval { get; }
         public PaymentType? PaymentType { get; }
-        public Guid[] CategoryId { get; set; }
+        public string[] Categories { get; set; } = Array.Empty<string>();
     }
 }

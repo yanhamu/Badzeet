@@ -4,6 +4,7 @@ namespace Badzeet.Budget.Domain.Model
 {
     public class Budget
     {
+        public Guid Id { get; set; }
         public int BudgetId { get; set; }
         public Guid AccountId { get; set; }
         public Account Account { get; set; }

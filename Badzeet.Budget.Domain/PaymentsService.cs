@@ -11,10 +11,12 @@ namespace Badzeet.Budget.Domain
     public class PaymentsService : IRequestHandler<NewScheduledPaymentRequest>
     {
         private readonly IPaymentRepository repository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public PaymentsService(IPaymentRepository repository)
+        public PaymentsService(IPaymentRepository repository, ICategoryRepository categoryRepository)
         {
             this.repository = repository;
+            this.categoryRepository = categoryRepository;
         }
 
         public Task<Payment?> GetPayment(Guid id)
@@ -40,7 +42,7 @@ namespace Badzeet.Budget.Domain
             tracked.Date = payment.Date;
             tracked.Description = payment.Description;
             tracked.Amount = payment.Amount;
-            tracked.CategoryId = payment.CategoryId;
+            tracked.Category = payment.Category;
             tracked.UserId = payment.UserId;
             tracked.Type = payment.Type;
             await repository.Save();
@@ -56,16 +58,17 @@ namespace Badzeet.Budget.Domain
 
         public async Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
-            repository.Add(new Payment(Guid.NewGuid(), request.Date, request.Description, request.Amount, request.CategoryId, request.OwnerId, PaymentType.Pending, request.AccountId));
+            var category = await categoryRepository.Get(request.CategoryId);
+            repository.Add(new Payment(Guid.NewGuid(), request.Date, request.Description, request.Amount, category.Name, request.OwnerId, PaymentType.Pending, request.AccountId));
             await repository.Save();
             return Unit.Value;
         }
 
-        public async Task Split(Guid oldPaymentId, decimal oldAmount, string description, decimal newAmount, Guid categoryId, Guid ownerId)
+        public async Task Split(Guid oldPaymentId, decimal oldAmount, string description, decimal newAmount, string category, Guid ownerId)
         {
             var payment = await repository.Get(oldPaymentId);
             payment.Amount = oldAmount;
-            var newPayment = new Payment(Guid.NewGuid(), payment.Date, description, newAmount, categoryId, ownerId, PaymentType.Normal, payment.AccountId);
+            var newPayment = new Payment(Guid.NewGuid(), payment.Date, description, newAmount, category, ownerId, PaymentType.Normal, payment.AccountId);
             repository.Add(newPayment);
             await repository.Save();
         }

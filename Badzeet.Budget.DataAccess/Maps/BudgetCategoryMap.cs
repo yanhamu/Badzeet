@@ -11,6 +11,7 @@ namespace Badzeet.Budget.DataAccess.Maps
             builder.ToTable("budget_categories");
             builder.HasKey(x => new { x.BudgetId, x.AccountId, x.CategoryId });
 
+            builder.Property(x => x.Id).HasColumnName("id"); // TODO this is actually PK
             builder.Property(x => x.BudgetId).HasColumnName("budget_id");
             builder.Property(x => x.AccountId).HasColumnName("account_id");
             builder.Property(x => x.CategoryId).HasColumnName("category_id");

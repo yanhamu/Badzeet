@@ -68,8 +68,8 @@ namespace Badzeet.DataAccess.Budget
             if (filter.Interval.To.HasValue)
                 baseQuery = baseQuery.Where(x => x.Date <= filter.Interval.To.Value);
 
-            if (filter.CategoryId.Any())
-                baseQuery = baseQuery.Where(x => filter.CategoryId.Contains(x.CategoryId));
+            if (filter.Categories.Any())
+                baseQuery = baseQuery.Where(x => filter.Categories.Contains(x.Category));
 
             return await baseQuery.OrderByDescending(x => x.Date).ToListAsync();
         }

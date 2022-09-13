@@ -11,25 +11,21 @@ namespace Badzeet.Web.Features.Payments
     public class PendingPaymentsViewComponent : ViewComponent
     {
         private readonly IPaymentRepository repository;
-        private readonly ICategoryRepository categoryRepository;
 
-        public PendingPaymentsViewComponent(IPaymentRepository repository, ICategoryRepository categoryRepository)
+        public PendingPaymentsViewComponent(IPaymentRepository repository)
         {
             this.repository = repository;
-            this.categoryRepository = categoryRepository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(Guid accountId)
         {
-            var categories = await categoryRepository.GetCategories(accountId);
             var pendingPayments = await repository.GetPayments(new PaymentsFilter(accountId, null, null, null, PaymentType.Pending));
             var paymentsModel = pendingPayments.Select(x => new PendingPaymentViewModel()
             {
                 Description = x.Description,
                 Id = x.Id,
                 Amount = x.Amount,
-                CategoryId = x.CategoryId,
-                CategoryName = categories.Single(c => c.Id == x.CategoryId).Name,
+                CategoryName = x.Category,
                 OwnerId = x.UserId,
                 Date = x.Date,
                 Owner = x.User.Nickname

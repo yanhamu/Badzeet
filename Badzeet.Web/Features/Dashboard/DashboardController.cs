@@ -54,7 +54,7 @@ namespace Badzeet.Web.Features.Dashboard
 
             foreach (var category in allCategories)
             {
-                var categoryTransactions = transactions.Where(x => x.CategoryId == category.Id).ToArray();
+                var categoryTransactions = transactions.Where(x => x.Category == category.Name).ToArray();
                 var totalSum = 0m;
                 var perUserSum = new Dictionary<Guid, decimal>();
                 foreach (var user in allUsers)

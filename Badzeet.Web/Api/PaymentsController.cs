@@ -11,18 +11,16 @@ namespace Badzeet.Web.Api
     public class PaymentsController : ControllerBase
     {
         private readonly IPaymentRepository paymentRepository;
-        private readonly IBudgetRepository budgetRepository;
 
-        public PaymentsController(IPaymentRepository paymentRepository, IBudgetRepository budgetRepository)
+        public PaymentsController(IPaymentRepository paymentRepository)
         {
             this.paymentRepository = paymentRepository;
-            this.budgetRepository = budgetRepository;
         }
 
         [HttpGet("payments")]
         public async Task<IActionResult> List(Guid accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<Guid>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
+            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<string>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
@@ -42,9 +40,8 @@ namespace Badzeet.Web.Api
 
             payment.Date = newPaymentDto.Date.ToDateTime();
             payment.Type = newPaymentDto.Type;
-            payment.CategoryId = newPaymentDto.CategoryId;
+            payment.Category = newPaymentDto.Category;
             payment.Amount = newPaymentDto.Amount;
-            payment.CategoryId = newPaymentDto.CategoryId;
             payment.UserId = newPaymentDto.UserId;
             payment.Description = newPaymentDto.Description;
 
@@ -59,7 +56,7 @@ namespace Badzeet.Web.Api
             var savedPayment = paymentRepository.Add(new Payment()
             {
                 AccountId = accountId,
-                CategoryId = payment.CategoryId,
+                Category = payment.Category,
                 Amount = payment.Amount,
                 Date = payment.Date.ToDateTime(),
                 Description = payment.Description,
@@ -74,9 +71,9 @@ namespace Badzeet.Web.Api
         public class NewPaymentDto
         {
             public DateOnly Date { get; set; }
-            public string Description { get; set; }
+            public string Description { get; set; } = default!;
             public decimal Amount { get; set; }
-            public Guid CategoryId { get; set; }
+            public string Category { get; set; } = default!;
             public Guid UserId { get; set; }
             public PaymentType Type { get; set; }
         }
@@ -89,7 +86,7 @@ namespace Badzeet.Web.Api
                 this.AccountId = payment.AccountId;
                 this.Date = payment.Date.ToDateOnly();
                 this.Description = payment.Description;
-                this.CategoryId = payment.CategoryId;
+                this.Category = payment.Category;
                 this.UserId = payment.UserId;
                 this.Amount = payment.Amount;
                 this.Type = payment.Type;
@@ -101,7 +98,7 @@ namespace Badzeet.Web.Api
             public string Description { get; set; }
             public decimal Amount { get; set; }
             public PaymentType Type { get; set; }
-            public Guid CategoryId { get; set; }
+            public string Category { get; set; }
             public Guid UserId { get; set; }
         }
 

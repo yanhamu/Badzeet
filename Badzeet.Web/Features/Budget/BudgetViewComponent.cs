@@ -41,7 +41,7 @@ namespace Badzeet.Web.Features.Budget
 
             foreach (var c in allCategories)
             {
-                var categoryTransactions = payments.Where(x => x.CategoryId == c.Id);
+                var categoryTransactions = payments.Where(x => x.Category == c.Name);
                 var budget = budgets.SingleOrDefault(x => x.CategoryId == c.Id);
                 var users = new List<CategoryUserViewModel>();
                 foreach (var u in allUsers)

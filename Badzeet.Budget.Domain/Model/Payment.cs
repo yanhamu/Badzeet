@@ -6,11 +6,11 @@ namespace Badzeet.Budget.Domain.Model
     {
         public Payment() { }
 
-        public Payment(Guid id, DateTime date, string description, decimal amount, Guid categoryId, Guid userId, PaymentType paymentType, Guid accountId)
+        public Payment(Guid id, DateTime date, string description, decimal amount, string category, Guid userId, PaymentType paymentType, Guid accountId)
         {
             Id = id;
             AccountId = accountId;
-            CategoryId = categoryId;
+            Category = category;
             UserId = userId;
             Date = date;
             Description = description;
@@ -24,11 +24,10 @@ namespace Badzeet.Budget.Domain.Model
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
-        public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
         public PaymentType Type { get; set; }
+        public string Category { get; set; }
     }
 
     public enum PaymentType : byte

@@ -76,7 +76,7 @@ namespace Badzeet.Web.Features.Budget
             var account = await accountRepository.GetAccount(accountId);
             var firstDayOgBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
             var budgetId = int.Parse(from.ToString("yyyyMM"));
-            var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget() { AccountId = account.Id, BudgetId = budgetId, Date = firstDayOgBudget });
+            var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget() { Id = Guid.NewGuid(), AccountId = account.Id, BudgetId = budgetId, Date = firstDayOgBudget });
             await budgetRepository.Save();
             return RedirectToAction(nameof(Edit), new { budgetId = budget.BudgetId });
         }
@@ -90,7 +90,7 @@ namespace Badzeet.Web.Features.Budget
                 t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
 
             foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
-                budgetCategoryRepository.AddBudget(new BudgetCategory() { BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId });
+                budgetCategoryRepository.AddBudget(new BudgetCategory() { Id = Guid.NewGuid(), BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId });
 
             await budgetCategoryRepository.Save();
 

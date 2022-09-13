@@ -56,7 +56,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> New(Guid accountId, PaymentViewModel model)
         {
-            await paymentsService.Add(new Payment(Guid.NewGuid(), model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.CategoryId, model.Payment.UserId, model.Payment.Type, accountId));
+            await paymentsService.Add(new Payment(Guid.NewGuid(), model.Payment.Date, model.Payment.Description, model.Payment.Amount, model.Payment.Category, model.Payment.UserId, model.Payment.Type, accountId));
 
             return RedirectToAction("List");
         }
@@ -85,7 +85,7 @@ namespace Badzeet.Web.Features.Payments
                 model.Payment.Date,
                 model.Payment.Description,
                 model.Payment.Amount,
-                model.Payment.CategoryId,
+                model.Payment.Category,
                 model.Payment.UserId,
                 model.Payment.Type,
                 accountId));
@@ -111,7 +111,7 @@ namespace Badzeet.Web.Features.Payments
         [HttpPost]
         public async Task<IActionResult> Split(SplitModel model)
         {
-            await paymentsService.Split(model.OldPaymentId, model.OldAmount, model.Description, model.NewAmount, model.CategoryId, model.OwnerId);
+            await paymentsService.Split(model.OldPaymentId, model.OldAmount, model.Description, model.NewAmount, model.Category, model.OwnerId);
             return RedirectToAction("List");
         }
 
@@ -123,25 +123,25 @@ namespace Badzeet.Web.Features.Payments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(Guid accountId, [FromQuery(Name = "cid")] Guid[] categoryIds, DateTime? from, DateTime? to)
+        public async Task<IActionResult> List(Guid accountId, [FromQuery(Name = "cid")] string[] categories, DateTime? from, DateTime? to)
         {
             var account = await accountRepository.GetAccount(accountId);
             var interval = GetInterval(account, from, to);
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(
                 accountId,
-                categoryIds,
+                categories ?? Array.Empty<string>(),
                 null,
                 interval.From,
                 interval.To,
                 type: PaymentType.Normal));
 
-            var categories = await categoryRepository.GetCategories(accountId);
+            var c = await categoryRepository.GetCategories(accountId);
             var users = await userAccountRepository.GetUsers(accountId);
 
             var model = new PaymentsViewModel()
             {
-                Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId, x.Type)),
+                Categories = c.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
+                Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.Category, x.UserId, x.Type)),
                 Users = users,
                 DateInterval = interval
             };
@@ -181,13 +181,13 @@ namespace Badzeet.Web.Features.Payments
         {
             public PaymentModel() { }
 
-            public PaymentModel(Guid id, DateTime date, string description, decimal amount, Guid categoryId, Guid userId, PaymentType type)
+            public PaymentModel(Guid id, DateTime date, string description, decimal amount, string category, Guid userId, PaymentType type)
             {
                 Id = id;
                 Date = date;
                 Description = description;
                 Amount = amount;
-                this.CategoryId = categoryId;
+                this.Category = category;
                 this.UserId = userId;
                 this.Type = type;
             }
@@ -198,7 +198,7 @@ namespace Badzeet.Web.Features.Payments
                 this.Date = payment.Date;
                 this.Description = payment.Description;
                 this.Amount = payment.Amount;
-                this.CategoryId = payment.CategoryId;
+                this.Category = payment.Category;
                 this.UserId = payment.UserId;
                 this.Type = payment.Type;
             }
@@ -207,7 +207,7 @@ namespace Badzeet.Web.Features.Payments
             public DateTime Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
-            public Guid CategoryId { get; set; }
+            public string Category { get; set; }
             public Guid UserId { get; set; }
             public PaymentType Type { get; set; }
         }
@@ -225,7 +225,7 @@ namespace Badzeet.Web.Features.Payments
             public Guid OldPaymentId { get; set; }
             public decimal OldAmount { get; set; }
             public decimal NewAmount { get; set; }
-            public Guid CategoryId { get; set; }
+            public string Category { get; set; }
             public Guid OwnerId { get; set; }
             public string Description { get; set; } = string.Empty;
         }
