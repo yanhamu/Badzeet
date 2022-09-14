@@ -39,3 +39,4 @@ msbuild.wrn
 PublishProfiles/
 appsettings.Production.json
 tempkey.jwk
+Badzeet.Web/Properties/ServiceDependencies/

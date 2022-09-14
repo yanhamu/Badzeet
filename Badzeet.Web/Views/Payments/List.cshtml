@@ -44,7 +44,7 @@
         @foreach (var category in categories)
         {
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="cid-@category.Key" name="c-filter">
+                <input type="checkbox" class="form-check-input" id="cid-@category.Value" name="c-filter">
                 <label class="form-check-label" for="exampleCheck1">@category.Value</label>
             </div>
         }
