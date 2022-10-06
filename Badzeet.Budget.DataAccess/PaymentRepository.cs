@@ -18,7 +18,7 @@ namespace Badzeet.DataAccess.Budget
             this.context = context;
         }
 
-        public Task<Payment?> Get(Guid id)
+        public Task<Payment?> Get(long id)
         {
             return context.Set<Payment>().SingleOrDefaultAsync(x => x.Id == id);
         }
@@ -28,7 +28,7 @@ namespace Badzeet.DataAccess.Budget
             return context.Set<Payment>().Add(payment).Entity;
         }
 
-        public async Task<Payment?> Remove(Guid id)
+        public async Task<Payment?> Remove(long id)
         {
             var payment = await context.Set<Payment>().FindAsync(id);
             if (payment == null)
@@ -38,7 +38,7 @@ namespace Badzeet.DataAccess.Budget
             return payment;
         }
 
-        public Task<Payment?> GetLastPayment(Guid accountId)
+        public Task<Payment?> GetLastPayment(long accountId)
         {
             return context
                 .Set<Payment>()
@@ -68,8 +68,8 @@ namespace Badzeet.DataAccess.Budget
             if (filter.Interval.To.HasValue)
                 baseQuery = baseQuery.Where(x => x.Date <= filter.Interval.To.Value);
 
-            if (filter.CategoryId.Any())
-                baseQuery = baseQuery.Where(x => filter.CategoryId.Contains(x.CategoryId));
+            if (filter.CategoryIds.Any())
+                baseQuery = baseQuery.Where(x => filter.CategoryIds.Contains(x.CategoryId));
 
             return await baseQuery.OrderByDescending(x => x.Date).ToListAsync();
         }

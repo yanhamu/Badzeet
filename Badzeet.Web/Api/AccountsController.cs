@@ -33,7 +33,7 @@ namespace Badzeet.Web.Api
 
         public class AccountDto
         {
-            public Guid Id { get; set; }
+            public long Id { get; set; }
             public int FirstDayOfTheBudget { get; set; }
             public DateTime CreatedAt { get; set; }
         }

@@ -31,7 +31,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(Guid accountId)
+        public async Task<IActionResult> List(long accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -40,7 +40,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id, Guid accountId)
+        public async Task<IActionResult> Edit(long id, long accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -71,7 +71,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpGet]
-        public async Task<IActionResult> New(Guid accountId)
+        public async Task<IActionResult> New(long accountId)
         {
             var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
             var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
@@ -79,7 +79,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpPost]
-        public async Task<IActionResult> New(Guid accountId, MonthlyPaymentViewModel model)
+        public async Task<IActionResult> New(long accountId, MonthlyPaymentViewModel model)
         {
             var metadata = GetSettings(model);
             var scheduledAt = CalculateFirstScheduledDate(metadata);
@@ -101,7 +101,7 @@ namespace Badzeet.Web.Features.ScheduledPayments
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]Guid id)
+        public async Task<IActionResult> Remove([FromForm(Name = "Payment.Id")]long id)
         {
             await paymentRepository.Remove(id);
             await paymentRepository.SaveAll();
@@ -161,13 +161,13 @@ namespace Badzeet.Web.Features.ScheduledPayments
 
         public class CategoryViewModel
         {
-            public CategoryViewModel(Guid id, string name)
+            public CategoryViewModel(long id, string name)
             {
                 Id = id;
                 Name = name;
             }
 
-            public Guid Id { get; set; }
+            public long Id { get; set; }
             public string Name { get; set; }
         }
 

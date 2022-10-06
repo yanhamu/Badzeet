@@ -26,7 +26,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(Guid accountId)
+        public async Task<IActionResult> Get(long accountId)
         {
             var account = await accountRepository.GetAccount(accountId);
             var budgets = await budgetRepository.List(accountId, new Filter());
@@ -43,7 +43,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet("{budgetId:int}")]
-        public async Task<IActionResult> Get(Guid accountId, int budgetId)
+        public async Task<IActionResult> Get(long accountId, int budgetId)
         {
             var account = await accountRepository.GetAccount(accountId);
             var budget = await budgetRepository.Get(budgetId, accountId);
@@ -65,7 +65,7 @@ namespace Badzeet.Web.Api
             });
         }
 
-        private async Task<IEnumerable<BudgetCategoryDto>> GetBudgetCategories(int budgetId, Guid accountId)
+        private async Task<IEnumerable<BudgetCategoryDto>> GetBudgetCategories(int budgetId, long accountId)
         {
             var budgetCategories = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
             return budgetCategories.Select(x => new BudgetCategoryDto()
@@ -88,7 +88,7 @@ namespace Badzeet.Web.Api
 
         public class BudgetDto
         {
-            public Guid AccountId { get; set; }
+            public long AccountId { get; set; }
             public int BudgetId { get; set; }
             public DateTime From { get; set; }
             public DateTime To { get; set; }
@@ -97,7 +97,7 @@ namespace Badzeet.Web.Api
 
         public class BudgetCategoryDto
         {
-            public Guid CategoryId { get; internal set; }
+            public long CategoryId { get; internal set; }
             public decimal Amount { get; internal set; }
         }
     }

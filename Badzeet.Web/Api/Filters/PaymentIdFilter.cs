@@ -11,7 +11,7 @@ namespace Badzeet.Web.Api.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var paymentId = (Guid)context.ActionArguments["paymentId"];
+            var paymentId = (long)context.ActionArguments["paymentId"];
             var userAccountRepository = (IUserAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IUserAccountRepository));
             var paymentRepository = (IPaymentRepository)context.HttpContext.RequestServices.GetService(typeof(IPaymentRepository));
 

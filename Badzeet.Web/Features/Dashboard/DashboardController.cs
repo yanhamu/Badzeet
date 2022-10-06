@@ -34,7 +34,7 @@ namespace Badzeet.Web.Features.Dashboard
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(Guid accountId, int budgetId)
+        public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
             if (budget != null)

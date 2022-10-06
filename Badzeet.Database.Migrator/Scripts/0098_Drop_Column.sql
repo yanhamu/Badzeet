@@ -1,1 +1,0 @@
-﻿alter table budget.user_accounts drop column [balance]

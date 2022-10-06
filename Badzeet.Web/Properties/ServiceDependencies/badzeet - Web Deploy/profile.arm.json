@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "metadata": {
-    "_dependencyType": "appService.linux"
+    "_dependencyType": "compute.appService.linux"
   },
   "parameters": {
     "resourceGroupName": {
@@ -92,9 +92,7 @@
                   "dependsOn": [
                     "[concat('Microsoft.Web/Sites/', parameters('resourceName'))]"
                   ],
-                  "properties": {
-                    "WEBSITE_WEBDEPLOY_USE_SCM": "false"
-                  }
+                  "properties": {}
                 }
               ]
             },

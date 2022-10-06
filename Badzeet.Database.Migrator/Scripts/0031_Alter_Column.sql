@@ -1,1 +1,0 @@
-﻿EXEC sp_rename 'book.transactions.account_id', 'book_id', 'COLUMN';  

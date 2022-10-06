@@ -17,7 +17,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(Guid accountId)
+        public async Task<IActionResult> List(long accountId)
         {
             var userAccounts = await userAccountRepository.GetUsers(accountId);
             return Ok(userAccounts.Select(x => new UserAccountDto(x.UserId, x.User.Nickname)));

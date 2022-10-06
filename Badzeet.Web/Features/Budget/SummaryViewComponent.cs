@@ -27,7 +27,7 @@ namespace Badzeet.Web.Features.Budget
             this.budgetCategoryRepository = budgetRepository;
             this.userAccountRepository = userAccountRepository;
         }
-        public async Task<IViewComponentResult> InvokeAsync(Guid accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
             var interval = await budgetService.GetMonthlyBudgetById(budgetId, accountId);
             var normalPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Normal));

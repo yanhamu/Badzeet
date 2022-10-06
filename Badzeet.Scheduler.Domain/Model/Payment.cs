@@ -4,11 +4,11 @@ namespace Badzeet.Scheduler.Domain.Model
 {
     public class Payment
     {
-        public Guid Id { get; set; }
-        public Guid AccountId { get; set; }
+        public long Id { get; set; }
+        public long AccountId { get; set; }
         public decimal Amount { get; set; }
         public string Description { get; set; } = default!;
-        public Guid CategoryId { get; set; }
+        public long CategoryId { get; set; }
         public Guid OwnerId { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime ScheduledAt { get; set; }

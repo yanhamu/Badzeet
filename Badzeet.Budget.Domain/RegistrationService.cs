@@ -6,7 +6,7 @@ namespace Badzeet.Budget.Domain
 {
     public class RegistrationService
     {
-        private readonly IUserAccountRepository userBookRepository;
+        private readonly IUserAccountRepository userAccountRepository;
         private readonly IUserRepository userRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IAccountRepository accountRepository;
@@ -18,7 +18,7 @@ namespace Badzeet.Budget.Domain
             ICategoryRepository categoryRepository)
         {
             this.accountRepository = bookRepository;
-            this.userBookRepository = userBookRepository;
+            this.userAccountRepository = userBookRepository;
             this.userRepository = userRepository;
             this.categoryRepository = categoryRepository;
         }
@@ -29,8 +29,8 @@ namespace Badzeet.Budget.Domain
 
            
                 var account = await accountRepository.CreateAccount(1);
-                _ = await userBookRepository.Create(userId, account.Id);
-                await categoryRepository.Create(Guid.NewGuid(), account.Id, "unspecified", 1000);
+                _ = await userAccountRepository.Create(userId, account.Id);
+                await categoryRepository.Create(account.Id, "unspecified", 1000);
             
         }
     }

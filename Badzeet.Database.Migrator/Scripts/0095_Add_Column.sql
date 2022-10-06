@@ -1,1 +1,0 @@
-﻿alter table budget.user_accounts add [balance] decimal(10,2) null

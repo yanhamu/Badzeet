@@ -22,12 +22,12 @@ namespace Badzeet.Budget.DataAccess
             return saved.Entity;
         }
 
-        public async ValueTask<Domain.Model.Budget?> Get(int budgetId, Guid accountId)
+        public async ValueTask<Domain.Model.Budget?> Get(int budgetId, long accountId)
         {
-            return await context.Set<Domain.Model.Budget>().FindAsync(budgetId, accountId);
+            return await context.Set<Domain.Model.Budget>().SingleOrDefaultAsync(x => x.BudgetId == budgetId && x.AccountId == accountId);
         }
 
-        public async Task<List<Domain.Model.Budget>> List(Guid accountId, Filter filter)
+        public async Task<List<Domain.Model.Budget>> List(long accountId, Filter filter)
         {
             var query = context.Set<Domain.Model.Budget>().AsQueryable();
 

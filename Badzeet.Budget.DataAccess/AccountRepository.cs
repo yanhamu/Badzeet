@@ -25,7 +25,7 @@ namespace Badzeet.DataAccess.Budget
             return bookEntity.Entity;
         }
 
-        public async Task<Account?> GetAccount(Guid accountId)
+        public async Task<Account?> GetAccount(long accountId)
         {
             return await dbContext
                 .Set<Account>()

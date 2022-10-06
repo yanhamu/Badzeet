@@ -37,7 +37,7 @@ namespace Badzeet.Web.Configuration
 
     public interface IUserAccountService
     {
-        public Task<Guid> GetAccountId(Guid userId);
+        public Task<long> GetAccountId(Guid userId);
     }
 
     public class UserAccountService : IUserAccountService
@@ -49,7 +49,7 @@ namespace Badzeet.Web.Configuration
             this.userBookRepository = userBookRepository;
         }
 
-        public async Task<Guid> GetAccountId(Guid userId)
+        public async Task<long> GetAccountId(Guid userId)
         {
             return (await userBookRepository.GetUserAccounts(userId)).First().AccountId;
         }

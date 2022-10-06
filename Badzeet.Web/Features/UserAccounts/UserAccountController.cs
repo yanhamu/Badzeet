@@ -16,7 +16,7 @@ namespace Badzeet.Web.Features.UserAccounts
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid userId, Guid accountId)
+        public async Task<IActionResult> Edit(Guid userId, long accountId)
         {
             var accounts = await userAccountRepository.GetUserAccounts(userId);
             var a = accounts.Where(x => x.AccountId == accountId)
@@ -30,7 +30,7 @@ namespace Badzeet.Web.Features.UserAccounts
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid userId, Guid accountId, object temporary)
+        public async Task<IActionResult> Edit(Guid userId, long accountId, object temporary)
         {
             var accounts = await userAccountRepository.GetUserAccounts(userId);
             var a = accounts.Where(x => x.AccountId == accountId).Single();

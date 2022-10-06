@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CA12EF54
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Budget.Domain.Tests", "Badzeet.Budget.Domain.Tests\Badzeet.Budget.Domain.Tests.csproj", "{E58468C7-2546-4D59-A6A0-1001C54B100C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badzeet.Scheduler.Domain.Tests", "Badzeet.Scheduler.Domain.Tests\Badzeet.Scheduler.Domain.Tests.csproj", "{E4D7D2D2-F0FE-46D8-BAF3-D8916C7974FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badzeet.Scheduler.Domain.Tests", "Badzeet.Scheduler.Domain.Tests\Badzeet.Scheduler.Domain.Tests.csproj", "{E4D7D2D2-F0FE-46D8-BAF3-D8916C7974FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

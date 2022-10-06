@@ -30,7 +30,7 @@ namespace Badzeet.Web.Features.Budget
             this.paymentsRepository = paymentsRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Guid accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();

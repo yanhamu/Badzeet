@@ -7,9 +7,9 @@ namespace Badzeet.Budget.Domain.Interfaces
     public interface IBudgetRepository
     {
         Model.Budget Create(Model.Budget budget);
-        Task<List<Model.Budget>> List(Guid accountId, Filter filter);
+        Task<List<Model.Budget>> List(long accountId, Filter filter);
         Task Save();
-        ValueTask<Model.Budget?> Get(int budgetId, Guid accountId);
+        ValueTask<Model.Budget?> Get(int budgetId, long accountId);
     }
 
     public class Filter

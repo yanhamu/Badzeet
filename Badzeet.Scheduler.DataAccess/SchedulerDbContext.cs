@@ -9,17 +9,15 @@ namespace Badzeet.Scheduler.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("scheduler");
-
             var log = modelBuilder.Entity<Log>();
-            log.ToTable("logs");
+            log.ToTable("sch_logs");
             log.HasKey(x => x.Id);
             log.Property(x => x.StartedAt).HasColumnName("started_at");
             log.Property(x => x.FinishedAt).HasColumnName("finished_at");
             log.Property(x => x.RowsProcessed).HasColumnName("processed_rows");
 
             var payment = modelBuilder.Entity<Payment>();
-            payment.ToTable("payments");
+            payment.ToTable("sch_payments");
             payment.HasKey(x => x.Id);
             payment.Property(x => x.AccountId).HasColumnName("account_id");
             payment.Property(x => x.Amount).HasColumnName("amount");
@@ -29,7 +27,7 @@ namespace Badzeet.Scheduler.DataAccess
             payment.Property(x => x.UpdatedAt).HasColumnName("updated_at");
             payment.Property(x => x.ScheduledAt).HasColumnName("scheduled_at");
             payment.Property(x => x.SchedulingType).HasColumnName("scheduling_type");
-            payment.Property(x => x.Metadata).HasColumnName("scheduling_metadata");
+            payment.Property(x => x.Metadata).HasColumnName("metadata");
         }
     }
 }

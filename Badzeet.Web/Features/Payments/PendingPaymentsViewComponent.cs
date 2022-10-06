@@ -13,23 +13,25 @@ namespace Badzeet.Web.Features.Payments
         private readonly IPaymentRepository repository;
         private readonly ICategoryRepository categoryRepository;
 
-        public PendingPaymentsViewComponent(IPaymentRepository repository, ICategoryRepository categoryRepository)
+        public PendingPaymentsViewComponent(IPaymentRepository repository,
+            ICategoryRepository categoryRepository)
         {
             this.repository = repository;
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Guid accountId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId)
         {
-            var categories = await categoryRepository.GetCategories(accountId);
             var pendingPayments = await repository.GetPayments(new PaymentsFilter(accountId, null, null, null, PaymentType.Pending));
+            var categories = await categoryRepository.GetCategories(accountId);
+            var cMap = categories.ToDictionary(k => k.Id, v => v.Name);
             var paymentsModel = pendingPayments.Select(x => new PendingPaymentViewModel()
             {
                 Description = x.Description,
                 Id = x.Id,
                 Amount = x.Amount,
+                CategoryName = cMap[x.CategoryId],
                 CategoryId = x.CategoryId,
-                CategoryName = categories.Single(c => c.Id == x.CategoryId).Name,
                 OwnerId = x.UserId,
                 Date = x.Date,
                 Owner = x.User.Nickname
@@ -51,11 +53,11 @@ namespace Badzeet.Web.Features.Payments
 
         public class PendingPaymentViewModel
         {
-            public Guid Id { get; set; }
+            public long Id { get; set; }
             public DateTime Date { get; set; }
             public string Description { get; set; } = string.Empty;
             public decimal Amount { get; set; }
-            public Guid CategoryId { get; set; }
+            public long CategoryId { get; set; }
             public string CategoryName { get; set; } = string.Empty;
             public string Owner { get; set; } = string.Empty;
             public Guid OwnerId { get; set; }

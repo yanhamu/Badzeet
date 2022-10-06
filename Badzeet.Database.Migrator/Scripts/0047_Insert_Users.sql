@@ -1,2 +1,0 @@
-﻿insert into users.users values('B5E257DA-D809-4C30-865A-76C1E3059B0A','alice','6ln5X1Y6BTT6xnNcYNahhuGzziIyTzxlEJeno3H+5w4pw/MY')
-insert into book.user_books values('1B96B553-7ACE-4EF4-85C7-5F0EA7E020A6',1,'bob'),('B5E257DA-D809-4C30-865A-76C1E3059B0A',1,'alice')

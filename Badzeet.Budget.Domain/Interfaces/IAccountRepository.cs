@@ -6,7 +6,7 @@ namespace Badzeet.Budget.Domain.Interfaces
 {
     public interface IAccountRepository
     {
-        Task<Account?> GetAccount(Guid accountId);
+        Task<Account?> GetAccount(long accountId);
         Task<Account> CreateAccount(byte firstDayOfBudget);
     }
 }
