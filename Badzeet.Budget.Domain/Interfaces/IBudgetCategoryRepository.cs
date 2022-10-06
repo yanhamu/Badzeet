@@ -7,7 +7,7 @@ namespace Badzeet.Budget.Domain.Interfaces
 {
     public interface IBudgetCategoryRepository
     {
-        Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, Guid accountId);
+        Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, long accountId);
         void AddBudget(BudgetCategory categoryBudget);
         Task Save();
     }

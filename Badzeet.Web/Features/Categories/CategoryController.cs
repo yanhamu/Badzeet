@@ -1,7 +1,6 @@
 ﻿using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(Guid accountId)
+        public async Task<IActionResult> Index(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Order = x.Order }).ToList();
@@ -28,7 +27,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(long id)
         {
             var category = await categoryRepository.Get(id);
             var model = new CategoryViewModel() { Id = category.Id, Name = category.Name, Order = category.Order };
@@ -36,7 +35,7 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid accountId, CategoryViewModel model)
+        public async Task<IActionResult> Edit(long accountId, CategoryViewModel model)
         {
             var category = await categoryRepository.Get(model.Id);
             category.Name = model.Name;
@@ -52,14 +51,14 @@ namespace Badzeet.Web.Features.Categories
         }
 
         [HttpPost]
-        public async Task<IActionResult> New(Guid accountId, CategoryViewModel model)
+        public async Task<IActionResult> New(long accountId, CategoryViewModel model)
         {
-            await categoryRepository.Create(Guid.NewGuid(), accountId, model.Name, model.Order);
+            await categoryRepository.Create(accountId, model.Name, model.Order);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove(Guid Id)
+        public async Task<IActionResult> Remove(long Id)
         {
             await categoryRepository.Remove(Id);
             return RedirectToAction(nameof(Index));
@@ -72,7 +71,7 @@ namespace Badzeet.Web.Features.Categories
 
         public class CategoryViewModel
         {
-            public Guid Id { get; set; }
+            public long Id { get; set; }
             public string Name { get; set; }
             public int Order { get; set; }
         }

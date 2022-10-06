@@ -38,7 +38,7 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(Guid accountId, int budgetId)
+        public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
             if (budget == null)
@@ -51,7 +51,7 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid accountId, int budgetId)
+        public async Task<IActionResult> Edit(long accountId, int budgetId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
@@ -71,7 +71,7 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Guid accountId, DateTime from)
+        public async Task<IActionResult> Create(long accountId, DateTime from)
         {
             var account = await accountRepository.GetAccount(accountId);
             var firstDayOgBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
@@ -82,7 +82,7 @@ namespace Badzeet.Web.Features.Budget
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
+        public async Task<IActionResult> Edit(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
         {
             var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
 

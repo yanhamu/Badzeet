@@ -1,1 +1,0 @@
-﻿create unique index ix_unq on budget.budgets(account_id, [date] desc)

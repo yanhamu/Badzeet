@@ -18,7 +18,7 @@ namespace Badzeet.DataAccess.Budget
             this.context = context;
         }
 
-        public async Task<UserAccount> Create(Guid userId, Guid accountId)
+        public async Task<UserAccount> Create(Guid userId, long accountId)
         {
             var userAccount = new UserAccount()
             {
@@ -40,7 +40,7 @@ namespace Badzeet.DataAccess.Budget
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<UserAccount>> GetUsers(Guid accountId)
+        public async Task<IEnumerable<UserAccount>> GetUsers(long accountId)
         {
             return await context
                 .Set<UserAccount>()

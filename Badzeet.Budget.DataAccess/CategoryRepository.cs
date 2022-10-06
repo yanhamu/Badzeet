@@ -18,13 +18,13 @@ namespace Badzeet.DataAccess.Budget
             this.dbContext = dbContext;
         }
 
-        public Task Create(Guid id, Guid accountId, string name, int order)
+        public Task Create(long accountId, string name, int order)
         {
-            _ = dbContext.Set<Category>().Add(new Category() { Id = id, Name = name, AccountId = accountId, Order = order });
+            _ = dbContext.Set<Category>().Add(new Category() {Name = name, AccountId = accountId, Order = order });
             return dbContext.SaveChangesAsync();
         }
 
-        public async Task<Category?> Remove(Guid categoryId)
+        public async Task<Category?> Remove(long categoryId)
         {
             var category = await Get(categoryId);
             if (category == null)
@@ -35,12 +35,12 @@ namespace Badzeet.DataAccess.Budget
             return category;
         }
 
-        public async Task<Category?> Get(Guid categoryId)
+        public async Task<Category?> Get(long categoryId)
         {
             return await dbContext.Set<Category>().FindAsync(categoryId);
         }
 
-        public Task<List<Category>> GetCategories(Guid accountId)
+        public Task<List<Category>> GetCategories(long accountId)
         {
             return dbContext.Set<Category>()
                 .Where(x => x.AccountId == accountId)

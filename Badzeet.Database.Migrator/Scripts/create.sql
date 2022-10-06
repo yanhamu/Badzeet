@@ -44,7 +44,7 @@ create table budget_categories(
 );
 
 create table payments(
-	id int primary key,
+	id integer primary key autoincrement,
 	account_id integer not null,
 	category_id integer not null,
 	[date] date not null,
@@ -87,4 +87,11 @@ create table u_users(
 	id uniqueidentifier primary key,
 	username nvarchar(100) not null,
 	password nvarchar(200) not null
+);
+
+create table sch_logs(
+	id integer primary key autoincrement,
+	started_at datetime,
+	finished_at datetime,
+	processed_rows int
 );

@@ -18,29 +18,29 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet("payments")]
-        public async Task<IActionResult> List(Guid accountId, Filter filter)
+        public async Task<IActionResult> List(long accountId, Filter filter)
         {
-            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<string>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
+            var paymentsFilter = new PaymentsFilter(accountId, Array.Empty<long>(), null, filter.From.ToDateTime(), filter.To.ToDateTime(), filter.Type);
             var payments = await paymentRepository.GetPayments(paymentsFilter);
             var result = payments.Select(p => new PaymentDto(p));
             return Ok(result);
         }
 
         [HttpGet("payments/{paymentId:long}")]
-        public async Task<IActionResult> Get(long accountId, Guid paymentId)
+        public async Task<IActionResult> Get(long accountId, long paymentId)
         {
             var payment = await paymentRepository.Get(paymentId);
             return Ok(new PaymentDto(payment));
         }
 
         [HttpPut("payments/{paymentId:long}")]
-        public async Task<IActionResult> Update(long accountId, Guid paymentId, [FromBody] NewPaymentDto newPaymentDto)
+        public async Task<IActionResult> Update(long accountId, long paymentId, [FromBody] NewPaymentDto newPaymentDto)
         {
             var payment = await paymentRepository.Get(paymentId);
 
             payment.Date = newPaymentDto.Date.ToDateTime();
             payment.Type = newPaymentDto.Type;
-            payment.Category = newPaymentDto.Category;
+            payment.CategoryId = newPaymentDto.CategoryId;
             payment.Amount = newPaymentDto.Amount;
             payment.UserId = newPaymentDto.UserId;
             payment.Description = newPaymentDto.Description;
@@ -51,12 +51,12 @@ namespace Badzeet.Web.Api
         }
 
         [HttpPost("payments")]
-        public async Task<IActionResult> Create(Guid accountId, [FromBody] NewPaymentDto payment)
+        public async Task<IActionResult> Create(long accountId, [FromBody] NewPaymentDto payment)
         {
             var savedPayment = paymentRepository.Add(new Payment()
             {
                 AccountId = accountId,
-                Category = payment.Category,
+                CategoryId = payment.CategoryId,
                 Amount = payment.Amount,
                 Date = payment.Date.ToDateTime(),
                 Description = payment.Description,
@@ -73,7 +73,7 @@ namespace Badzeet.Web.Api
             public DateOnly Date { get; set; }
             public string Description { get; set; } = default!;
             public decimal Amount { get; set; }
-            public string Category { get; set; } = default!;
+            public long CategoryId { get; set; }
             public Guid UserId { get; set; }
             public PaymentType Type { get; set; }
         }
@@ -86,19 +86,19 @@ namespace Badzeet.Web.Api
                 this.AccountId = payment.AccountId;
                 this.Date = payment.Date.ToDateOnly();
                 this.Description = payment.Description;
-                this.Category = payment.Category;
+                this.CategoryId = payment.CategoryId;
                 this.UserId = payment.UserId;
                 this.Amount = payment.Amount;
                 this.Type = payment.Type;
             }
 
-            public Guid Id { get; set; }
-            public Guid AccountId { get; set; }
+            public long Id { get; set; }
+            public long AccountId { get; set; }
             public DateOnly Date { get; set; }
             public string Description { get; set; }
             public decimal Amount { get; set; }
             public PaymentType Type { get; set; }
-            public string Category { get; set; }
+            public long CategoryId { get; set; }
             public Guid UserId { get; set; }
         }
 

@@ -1,14 +1,14 @@
+using Badzeet.User.Domain;
 using Badzeet.Web.Configuration;
 using Badzeet.Web.Configuration.Conventions;
 using Badzeet.Web.Configuration.ServiceCollectionExtensions;
+using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Badzeet.Web
 {
@@ -23,12 +23,10 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            SqlMapper.AddTypeHandler(new SqliteGuidTypeHandler());
             services.AddCors();
             services.AddHttpContextAccessor();
             services.AddAuthentication("Cookies").AddCookie("Cookies");
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             services.AddTransient<IUserAccountService, UserAccountService>();
 
             services.RegisterBudgetDependencies(configuration);

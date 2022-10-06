@@ -25,7 +25,7 @@ namespace Badzeet.DataAccess.Budget
                 .Add(categoryBudget);
         }
 
-        public Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, Guid accountId)
+        public Task<List<BudgetCategory>> GetBudgetCategories(int budgetId, long accountId)
         {
             return dbContext
                 .Set<BudgetCategory>()

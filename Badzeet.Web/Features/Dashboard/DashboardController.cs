@@ -34,7 +34,7 @@ namespace Badzeet.Web.Features.Dashboard
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(Guid accountId, int budgetId)
+        public async Task<IActionResult> Index(long accountId, int budgetId)
         {
             var budget = await budgetRepository.Get(budgetId, accountId);
             if (budget != null)
@@ -54,7 +54,7 @@ namespace Badzeet.Web.Features.Dashboard
 
             foreach (var category in allCategories)
             {
-                var categoryTransactions = transactions.Where(x => x.Category == category.Name).ToArray();
+                var categoryTransactions = transactions.Where(x => x.CategoryId == category.Id).ToArray();
                 var totalSum = 0m;
                 var perUserSum = new Dictionary<Guid, decimal>();
                 foreach (var user in allUsers)

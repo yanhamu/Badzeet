@@ -15,14 +15,14 @@ namespace Badzeet.User.Domain
 
         internal async Task<UserDto> GetUser(string username)
         {
-            var sql = "select id, username, password from users.users where username = @username";
+            var sql = "select id, username, password from u_users where username = @username";
             var userDto = await connection.QuerySingleOrDefaultAsync<UserDto>(sql, new { username });
             return userDto;
         }
 
         internal async Task CreateUser(UserDto userDto)
         {
-            var sql = @"insert into users.users values (@id, @username, @password)";
+            var sql = @"insert into u_users values (@id, @username, @password)";
             await connection.ExecuteAsync(sql, new { id = userDto.Id, username = userDto.Username, password = userDto.Password });
         }
     }

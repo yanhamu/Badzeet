@@ -17,7 +17,7 @@ namespace Badzeet.Web.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> List(Guid accountId)
+        public async Task<IActionResult> List(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
             return Ok(categories.Select(x => new CategoryDto(x)));
@@ -25,8 +25,8 @@ namespace Badzeet.Web.Api
 
         public class CategoryDto
         {
-            public Guid Id { get; set; }
-            public Guid AccountId { get; set; }
+            public long Id { get; set; }
+            public long AccountId { get; set; }
             public string Name { get; set; }
             public int Order { get; set; }
 

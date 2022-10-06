@@ -2,7 +2,7 @@
 using Badzeet.Budget.Domain;
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.DataAccess.Budget;
-using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,12 +22,12 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserAccountRepository, UserAccountRepository>();
-            services.AddScoped<IDbConnection>(x => new SqlConnection(configuration.GetConnectionString("badzeetDb")));
+            services.AddScoped<IDbConnection>(x => new SqliteConnection(configuration.GetConnectionString("badzeetDb")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBudgetCategoryRepository, BudgetCategoryRepository>();
             services.AddScoped<IBudgetRepository, BudgetRepository>();
 
-            services.AddDbContext<BudgetDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
+            services.AddDbContext<BudgetDbContext>(options => { options.UseSqlite(configuration.GetConnectionString("badzeetDb")); });
         }
     }
 }

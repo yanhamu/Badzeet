@@ -30,7 +30,7 @@ namespace Badzeet.Web.Features.Budget
             this.paymentsRepository = paymentsRepository;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(Guid accountId, int budgetId)
+        public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
             var allCategories = await categoryRepository.GetCategories(accountId);
             var categories = new List<BudgetCategoryViewModel>();
@@ -41,7 +41,7 @@ namespace Badzeet.Web.Features.Budget
 
             foreach (var c in allCategories)
             {
-                var categoryTransactions = payments.Where(x => x.Category == c.Name);
+                var categoryTransactions = payments.Where(x => x.CategoryId == c.Id);
                 var budget = budgets.SingleOrDefault(x => x.CategoryId == c.Id);
                 var users = new List<CategoryUserViewModel>();
                 foreach (var u in allUsers)

@@ -15,7 +15,7 @@ namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
         {
             services.AddHostedService<PaymentsSchedulerHostedService>();
             services.AddTransient<PaymentScheduler>();
-            services.AddDbContext<SchedulerDbContext>(options => { options.UseSqlServer(configuration.GetConnectionString("badzeetDb")); });
+            services.AddDbContext<SchedulerDbContext>(options => { options.UseSqlite(configuration.GetConnectionString("badzeetDb")); });
 
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<ILogRepository, LogRepository>();

@@ -1,4 +1,5 @@
 ﻿drop table u_users;
+drop table sch_logs;
 drop table sch_payments;
 drop table scheduled_payments;
 drop table payments;

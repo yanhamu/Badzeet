@@ -1,1 +1,0 @@
-﻿alter table scheduler.payments drop column [date]

@@ -12,7 +12,8 @@ namespace Badzeet.Budget.DataAccess.Maps
             builder.HasKey(x => x.Id);
             builder.Property(x => x.AccountId).HasColumnName("account_id");
             builder.HasOne(x => x.Account).WithMany().HasForeignKey(x => x.AccountId);
-            builder.Property(x => x.Category).HasColumnName("category");
+            builder.Property(x => x.CategoryId).HasColumnName("category_id");
+            builder.HasOne(x=>x.Category).WithMany().HasForeignKey(x => x.CategoryId);
             builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
             builder.Property(x => x.UserId).HasColumnName("owner_id");
             builder.Property(x => x.Type).HasColumnName("type");

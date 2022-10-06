@@ -6,11 +6,10 @@ namespace Badzeet.Budget.Domain.Model
     {
         public Payment() { }
 
-        public Payment(Guid id, DateTime date, string description, decimal amount, string category, Guid userId, PaymentType paymentType, Guid accountId)
+        public Payment(DateTime date, string description, decimal amount, long categoryId, Guid userId, PaymentType paymentType, long accountId)
         {
-            Id = id;
             AccountId = accountId;
-            Category = category;
+            CategoryId = categoryId;
             UserId = userId;
             Date = date;
             Description = description;
@@ -18,16 +17,22 @@ namespace Badzeet.Budget.Domain.Model
             Type = paymentType;
         }
 
-        public Guid Id { get; set; }
-        public Guid AccountId { get; set; }
+        public Payment(long id, DateTime date, string description, decimal amount, long categoryId, Guid userId, PaymentType paymentType, long accountId) : this(date, description, amount, categoryId, userId, paymentType, accountId)
+        {
+            Id = id;
+        }
+
+        public long Id { get; set; }
+        public long AccountId { get; set; }
         public Account Account { get; set; }
+        public long CategoryId { get; set; }
+        public Category Category { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
         public PaymentType Type { get; set; }
-        public string Category { get; set; }
     }
 
     public enum PaymentType : byte

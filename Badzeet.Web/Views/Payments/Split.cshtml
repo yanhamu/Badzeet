@@ -38,9 +38,9 @@
     </div>
 
     <div class="form-group row">
-        <label asp-for="Payment.Category" class="col-3 col-sm-2 col-form-label">Category</label>
+        <label asp-for="Payment.CategoryId" class="col-3 col-sm-2 col-form-label">Category</label>
         <div class="col-9 col-sm-10">
-            <input type="text" disabled class="form-control" value="@Model.Categories.Single(x=>x.Name == Model.Payment.Category).Name" />
+            <input type="text" disabled class="form-control" value="@Model.Categories.Single(x=>x.Id == Model.Payment.CategoryId).Name" />
         </div>
     </div>
 
@@ -62,12 +62,12 @@
             </div>
 
             <div class="form-group row">
-                <label asp-for="Payment.Category" class="col-4 col-sm-2 col-form-label">Category</label>
+                <label asp-for="Payment.CategoryId" class="col-4 col-sm-2 col-form-label">Category</label>
                 <div class="col-8 col-sm-10">
                     <select class="custom-select" name="CategoryId">
                         @foreach (var cat in Model.Categories)
                         {
-                            <!option value="@cat.Name" @(Model.Payment.Category == cat.Name ? "selected" : "")>@cat.Name</!option>
+                            <!option value="@cat.Name" @(Model.Payment.CategoryId == cat.Id ? "selected" : "")>@cat.Name</!option>
                         }
                     </select>
                 </div>

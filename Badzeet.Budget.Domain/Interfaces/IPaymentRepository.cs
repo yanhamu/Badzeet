@@ -7,26 +7,26 @@ namespace Badzeet.Budget.Domain.Interfaces
 {
     public interface IPaymentRepository
     {
-        Task<Payment?> Get(Guid id);
+        Task<Payment?> Get(long id);
         Payment Add(Payment transaction);
-        Task<Payment?> Remove(Guid id);
+        Task<Payment?> Remove(long id);
         Task<IEnumerable<Payment>> GetPayments(PaymentsFilter filter);
-        Task<Payment?> GetLastPayment(Guid accountId);
+        Task<Payment?> GetLastPayment(long accountId);
         Task Save();
     }
 
     public class PaymentsFilter
     {
         public PaymentsFilter(
-            Guid accountId,
+            long accountId,
             DateTime? from,
             DateTime? to,
             Guid? userId = null,
-            PaymentType? type = null) : this(accountId, Array.Empty<string>(), userId, from, to, type) { }
+            PaymentType? type = null) : this(accountId, Array.Empty<long>(), userId, from, to, type) { }
 
         public PaymentsFilter(
-            Guid accountId,
-            string[] categories,
+            long accountId,
+            long[] categoryIds,
             Guid? userId = null,
             DateTime? from = null,
             DateTime? to = null,
@@ -36,13 +36,13 @@ namespace Badzeet.Budget.Domain.Interfaces
             UserId = userId;
             Interval = new OpenDateInterval(from, to);
             PaymentType = type;
-            Categories = categories;
+            CategoryIds = categoryIds;
         }
 
-        public Guid AccountId { get; }
+        public long AccountId { get; }
         public Guid? UserId { get; }
         public OpenDateInterval Interval { get; }
         public PaymentType? PaymentType { get; }
-        public string[] Categories { get; set; } = Array.Empty<string>();
+        public long[] CategoryIds { get; set; } = Array.Empty<long>();
     }
 }
