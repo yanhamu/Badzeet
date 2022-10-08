@@ -41,3 +41,4 @@ appsettings.Production.json
 tempkey.jwk
 Badzeet.Web/Properties/ServiceDependencies/
 data.db
+publish.bat
