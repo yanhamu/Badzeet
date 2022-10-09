@@ -21,7 +21,7 @@ namespace Badzeet.Web.Features.Categories
         public async Task<IActionResult> Index(long accountId)
         {
             var categories = await categoryRepository.GetCategories(accountId);
-            var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Order = x.Order }).ToList();
+            var c = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name, Order = x.Order, InSummary = x.DisplayInSummary }).ToList();
             var model = new CategoryListViewModel() { Categories = c };
             return View(model);
         }
@@ -30,7 +30,7 @@ namespace Badzeet.Web.Features.Categories
         public async Task<IActionResult> Edit(long id)
         {
             var category = await categoryRepository.Get(id);
-            var model = new CategoryViewModel() { Id = category.Id, Name = category.Name, Order = category.Order };
+            var model = new CategoryViewModel() { Id = category.Id, Name = category.Name, Order = category.Order, InSummary = category.DisplayInSummary };
             return View(model);
         }
 
@@ -40,6 +40,7 @@ namespace Badzeet.Web.Features.Categories
             var category = await categoryRepository.Get(model.Id);
             category.Name = model.Name;
             category.Order = model.Order;
+            category.DisplayInSummary = model.InSummary;
             await categoryRepository.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -66,14 +67,15 @@ namespace Badzeet.Web.Features.Categories
 
         public class CategoryListViewModel
         {
-            public List<CategoryViewModel> Categories { get; set; }
+            public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
         }
 
         public class CategoryViewModel
         {
             public long Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = default!;
             public int Order { get; set; }
+            public bool InSummary { get; set; }
         }
     }
 }
