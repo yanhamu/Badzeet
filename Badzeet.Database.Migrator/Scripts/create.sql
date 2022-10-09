@@ -30,6 +30,7 @@ create table categories(
 	account_id integer not null,
 	name nvarchar(100) not null,
 	[order] int not null,
+	in_summary tinyint not null default(true),
 	foreign key (account_id) references accounts(id)
 );
 

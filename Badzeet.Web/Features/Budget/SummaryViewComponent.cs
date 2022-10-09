@@ -15,17 +15,20 @@ namespace Badzeet.Web.Features.Budget
         private readonly BudgetService budgetService;
         private readonly IBudgetCategoryRepository budgetCategoryRepository;
         private readonly IUserAccountRepository userAccountRepository;
+        private readonly ICategoryRepository categoryRepository;
 
         public SummaryViewComponent(
             IPaymentRepository paymentsRepository,
             BudgetService budgetService,
             IBudgetCategoryRepository budgetRepository,
-            IUserAccountRepository userAccountRepository)
+            IUserAccountRepository userAccountRepository,
+            ICategoryRepository categoryRepository)
         {
             this.paymentsRepository = paymentsRepository;
             this.budgetService = budgetService;
             this.budgetCategoryRepository = budgetRepository;
             this.userAccountRepository = userAccountRepository;
+            this.categoryRepository = categoryRepository;
         }
         public async Task<IViewComponentResult> InvokeAsync(long accountId, int budgetId)
         {
@@ -34,14 +37,16 @@ namespace Badzeet.Web.Features.Budget
             var pendingPayments = await paymentsRepository.GetPayments(new PaymentsFilter(accountId, interval.From, interval.To, type: PaymentType.Pending));
             var budgets = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
             var users = await userAccountRepository.GetUsers(accountId);
+            var categories = await categoryRepository.GetCategories(accountId);
+            var inSummary = categories.Where(c => c.DisplayInSummary).Select(x => x.Id).ToList();
 
             var model = new SummaryViewModel()
             {
-                Spend = normalPayments.Sum(x => x.Amount),
-                Budget = budgets.Sum(x => x.Amount),
+                Spend = normalPayments.Where(p => inSummary.Contains(p.CategoryId)).Sum(x => x.Amount),
+                Budget = budgets.Where(b => inSummary.Contains(b.CategoryId)).Sum(x => x.Amount),
                 BudgetInterval = interval,
-                Pending = pendingPayments.Sum(x => x.Amount),
-                Totals = normalPayments
+                Pending = pendingPayments.Where(p => inSummary.Contains(p.CategoryId)).Sum(x => x.Amount),
+                Totals = normalPayments.Where(p => inSummary.Contains(p.CategoryId))
                 .GroupBy(x => new { x.UserId, users.Single(u => u.UserId == x.UserId).User.Nickname })
                 .Select(x => new UserTotal(x.Key.UserId, x.Key.Nickname, x.Sum(y => y.Amount)))
             };
