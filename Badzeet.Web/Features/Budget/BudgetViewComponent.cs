@@ -2,7 +2,6 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,7 +54,8 @@ namespace Badzeet.Web.Features.Budget
                     Name = c.Name,
                     Total = categoryTransactions.Sum(t => t.Amount),
                     Users = users.ToArray(),
-                    Budget = budget?.Amount ?? 0
+                    Budget = budget?.Amount ?? 0,
+                    Id = c.Id
                 });
             }
 
@@ -72,10 +72,11 @@ namespace Badzeet.Web.Features.Budget
 
         public class BudgetCategoryViewModel
         {
-            public string Name { get; set; }
+            public string Name { get; set; } = default!;
             public decimal Total { get; set; }
             public decimal Budget { get; set; }
             public CategoryUserViewModel[] Users { get; set; }
+            public long Id { get; set; }
         }
     }
 }

@@ -15,7 +15,7 @@
             {
                 <tr data-toggle="collapse" data-target="#@category.Name">
                     <th colspan="2">
-                        @category.Name
+                        <a class="btn btn-link" href="/Payments/List?cid=@category.Id">@category.Name</a>
                     </th>
                     <th>@category.Total.ToString("F0")</th>
                     <th>@category.Budget.ToString("F0")</th>
@@ -25,9 +25,6 @@
                 {
                     <tr id="@category.Name" class="collapse">
                         <td></td>
-                        <td>
-                            @u.Name
-                        </td>
                         <td>
                             @u.Total.ToString("F0")
                         </td>
