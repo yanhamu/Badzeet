@@ -67,7 +67,7 @@
                     <select class="custom-select" name="CategoryId">
                         @foreach (var cat in Model.Categories)
                         {
-                            <!option value="@cat.Name" @(Model.Payment.CategoryId == cat.Id ? "selected" : "")>@cat.Name</!option>
+                            <!option value="@cat.Id" @(Model.Payment.CategoryId == cat.Id ? "selected" : "")>@cat.Name</!option>
                         }
                     </select>
                 </div>
