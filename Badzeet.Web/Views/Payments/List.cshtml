@@ -4,7 +4,7 @@
     ViewData["Title"] = "Payments";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
-    var date = DateTime.MinValue;
+    var date = string.Empty;
 }
 
 <div class="row">
@@ -55,11 +55,12 @@
 <table class="table table-sm">
     @foreach (var t in Model.Payments)
     {
-        @if (date != t.Date)
+        var tDate = t.Date.ToString("dd.MMM yyyy");
+        @if (date != tDate)
         {
-            date = t.Date;
+            date = tDate;
             <tr>
-                <th colspan="6">@t.Date.ToString("dd.MMM yyyy")</th>
+                <th colspan="6">@tDate</th>
             </tr>
         }
         <tr>

@@ -1,5 +1,5 @@
 # Badzeet
-Go for it: https://badzeet.azurewebsites.net
+Go for it: http://badzeet.com
 
 ## Features
 - easy expense tracking
