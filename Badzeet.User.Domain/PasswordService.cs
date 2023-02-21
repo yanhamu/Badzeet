@@ -8,7 +8,7 @@ namespace Badzeet.User.Domain
         private const int iterations = 10000;
         internal static string GetHashedPassword(string password)
         {
-            var salt = GetSalt();
+            var salt = RandomNumberGenerator.GetBytes(16);
             var hashBytes = new byte[36];
             using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations))
             {
@@ -18,14 +18,6 @@ namespace Badzeet.User.Domain
             }
 
             return Convert.ToBase64String(hashBytes);
-        }
-
-        internal static byte[] GetSalt()
-        {
-            var salt = new byte[16];
-            using (var cryptoServiceProvider = new RNGCryptoServiceProvider())
-                cryptoServiceProvider.GetBytes(salt);
-            return salt;
         }
 
         internal static bool Verify(string savedPasswordHash, string password)

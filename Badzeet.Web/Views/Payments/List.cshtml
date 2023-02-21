@@ -12,7 +12,9 @@
         <div class="text-center">
             <h2>
                 <span>
-                    <a asp-action="List" asp-route-from="@(Model.DateInterval.From.AddMonths(-1))" asp-route-to="@(Model.DateInterval.To.AddMonths(-1))">
+                    <a asp-action="List" 
+                        asp-route-from="@(Model.DateInterval.From.AddMonths(-1).ToString("yyyy-MM-dd"))" 
+                        asp-route-to="@(Model.DateInterval.To.AddMonths(-1).ToString("yyyy-MM-dd"))">
                         <i class="fas fa-angle-left"></i>
                     </a>
                 </span>
@@ -20,7 +22,9 @@
                 @Model.DateInterval.From.ToString("dd MMM") - @Model.DateInterval.To.ToString("dd MMM")
 
                 <span>
-                    <a asp-action="List" asp-route-from="@(Model.DateInterval.From.AddMonths(1))" asp-route-to="@(Model.DateInterval.To.AddMonths(1))">
+                    <a asp-action="List" 
+                        asp-route-from="@(Model.DateInterval.From.AddMonths(1).ToString("yyyy-MM-dd"))" 
+                        asp-route-to="@(Model.DateInterval.To.AddMonths(1).ToString("yyyy-MM-dd"))">
                         <i class="fas fa-angle-right"></i>
                     </a>
                 </span>
@@ -97,11 +101,13 @@
                     }
                 });
 
+                var finalUrl = '?from=@(Model.DateInterval.From.ToString("yyyy-MM-dd"))&to=@(Model.DateInterval.To.ToString("yyyy-MM-dd"))';
+
                 if (ids.length != 0) {
                     var url = 'cid=' + ids.join('&cid=');
-                    window.location.href = window.location.href.replace(window.location.search, '') + '?' + url;
+                    window.location.href = window.location.href.replace(window.location.search, '') + finalUrl + '&' + url;
                 } else {
-                    window.location.href = window.location.href.replace(window.location.search, '');
+                    window.location.href = window.location.href.replace(window.location.search, '') + finalUrl;
                 }
             };
         };

@@ -15,7 +15,7 @@
             {
                 <tr data-toggle="collapse" data-target="#@category.Name">
                     <th colspan="2">
-                        <a class="btn btn-link" href="/Payments/List?cid=@category.Id">@category.Name</a>
+                        <a class="btn btn-link" href="/Payments/List?cid=@(category.Id)&from=@Model.Interval.From.ToString("yyyy-MM-dd")&to=@Model.Interval.To.ToString("yyyy-MM-dd")">@category.Name</a>
                     </th>
                     <th>@category.Total.ToString("F0")</th>
                     <th>@category.Budget.ToString("F0")</th>
