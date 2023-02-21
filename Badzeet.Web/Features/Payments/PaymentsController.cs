@@ -70,7 +70,7 @@ namespace Badzeet.Web.Features.Payments
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payment = new PaymentModel(transaction),
+                Payment = new PaymentModel(transaction!),
                 Users = users
             };
 
@@ -102,7 +102,7 @@ namespace Badzeet.Web.Features.Payments
             var model = new PaymentViewModel()
             {
                 Categories = categories.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
-                Payment = new PaymentModel(payment),
+                Payment = new PaymentModel(payment!),
                 Users = users
             };
             return View(model);
@@ -126,7 +126,7 @@ namespace Badzeet.Web.Features.Payments
         public async Task<IActionResult> List(long accountId, [FromQuery(Name = "cid")] long[] categoryIds, DateTime? from, DateTime? to)
         {
             var account = await accountRepository.GetAccount(accountId);
-            var interval = GetInterval(account, from, to);
+            var interval = GetInterval(account!, from, to);
             var payments = await paymentRepository.GetPayments(new PaymentsFilter(
                 accountId,
                 categoryIds ?? Array.Empty<long>(),
@@ -143,7 +143,8 @@ namespace Badzeet.Web.Features.Payments
                 Categories = c.Select(x => new CategoryViewModel() { Id = x.Id, Name = x.Name }).ToList(),
                 Payments = payments.Select(x => new PaymentModel(x.Id, x.Date, x.Description, x.Amount, x.CategoryId, x.UserId, x.Type)),
                 Users = users,
-                DateInterval = interval
+                DateInterval = interval,
+                CategoryIds = categoryIds ?? Array.Empty<long>()
             };
 
             return View(model);
@@ -205,7 +206,7 @@ namespace Badzeet.Web.Features.Payments
 
             public long Id { get; set; }
             public DateTime Date { get; set; }
-            public string Description { get; set; }
+            public string Description { get; set; } = string.Empty;
             public decimal Amount { get; set; }
             public long CategoryId { get; set; }
             public Guid UserId { get; set; }
@@ -218,6 +219,7 @@ namespace Badzeet.Web.Features.Payments
             public IEnumerable<PaymentModel> Payments { get; set; } = new List<PaymentModel>();
             public IEnumerable<UserAccount> Users { get; set; } = new List<UserAccount>();
             public DateInterval DateInterval { get; set; } = new DateInterval();
+            public long[] CategoryIds = Array.Empty<long>();
         }
 
         public class SplitModel
