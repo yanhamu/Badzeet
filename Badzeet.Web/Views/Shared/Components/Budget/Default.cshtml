@@ -7,33 +7,40 @@
         <table class="table table-sm">
             <tr>
                 <th colspan="2"></th>
-
-                <th>Spent</th>
-                <th>Planned</th>
+                <th class="text-right">Spent</th>
+                <th class="text-right">Planned</th>
+                <th class="d-sm-none d-md-block text-right">Variance</th>
             </tr>
             @foreach (var category in Model.Categories.Where(x => (x.Budget != 0 || x.Total != 0)))
             {
                 <tr data-toggle="collapse" data-target="#@category.Name">
                     <th colspan="2">
-                        <a class="btn btn-link" href="/Payments/List?cid=@(category.Id)&from=@Model.Interval.From.ToString("yyyy-MM-dd")&to=@Model.Interval.To.ToString("yyyy-MM-dd")">@category.Name</a>
+                        <a href="/Payments/List?cid=@(category.Id)&from=@Model.Interval.From.ToString("yyyy-MM-dd")&to=@Model.Interval.To.ToString("yyyy-MM-dd")">
+                            @category.Name
+                        </a>
                     </th>
-                    <th>@category.Total.ToString("F0")</th>
-                    <th>@category.Budget.ToString("F0")</th>
+                    <th class="text-right">@category.Total.ToString("F0")</th>
+                    <th class="text-right">@category.Budget.ToString("F0")</th>
+                    <th class="d-sm-none d-md-block text-right">@((category.Total - category.Budget).ToString("F0"))</th>
                 </tr>
 
                 @foreach (var u in category.Users)
                 {
                     <tr id="@category.Name" class="collapse">
-                        <td></td>
                         <td>
+                        </td>
+                        <td>@u.Name</td>
+                        <td class="text-right">
                             @u.Total.ToString("F0")
                         </td>
                         <td>
+                        </td>
+                        <td class="d-sm-none d-md-block">
                         </td>
                     </tr>
                 }
             }
         </table>
-        <a class="btn btn-primary form-control" asp-action="Edit" asp-route-budgetId="@Model.BudgetId">Edit</a>
+        <a class="btn btn-primary form-control" asp-controller="Budget" asp-action="Edit" asp-route-budgetId="@Model.BudgetId">Edit</a>
     </div>
 </div>
