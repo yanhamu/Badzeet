@@ -21,7 +21,7 @@
                     </th>
                     <th class="text-right">@category.Total.ToString("F0")</th>
                     <th class="text-right">@category.Budget.ToString("F0")</th>
-                    <th class="d-sm-none d-md-block text-right">@((category.Total - category.Budget).ToString("F0"))</th>
+                    <th class="d-sm-none d-md-block text-right">@((category.Budget - category.Total).ToString("F0"))</th>
                 </tr>
 
                 @foreach (var u in category.Users)

@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<UserSecretsId>0111a49d-ef3d-4f2e-8410-204687340cc5</UserSecretsId>
 		<Nullable>enable</Nullable>
+		<PublishSingleFile>true</PublishSingleFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Remove="bundleconfig.json" />
