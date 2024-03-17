@@ -2,7 +2,6 @@
 using Badzeet.Budget.Domain.Interfaces;
 using Badzeet.Budget.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace Badzeet.DataAccess.Budget
 
         public Task Create(long accountId, string name, int order)
         {
-            _ = dbContext.Set<Category>().Add(new Category() {Name = name, AccountId = accountId, Order = order });
+            _ = dbContext.Set<Category>().Add(new Category() { Name = name, AccountId = accountId, Order = order });
             return dbContext.SaveChangesAsync();
         }
 

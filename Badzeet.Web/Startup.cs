@@ -34,6 +34,7 @@ namespace Badzeet.Web
             services.RegisterSchedulerDependencies(configuration);
             services.RegisterIntegrationHandlers();
             services.RegisterServiceDependencies();
+            services.RegisterBadzeetBot(configuration);
             services.AddControllersWithViews(x =>
             {
                 x.Conventions.Add(new WebControllerConventions());

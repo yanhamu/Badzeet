@@ -12,10 +12,8 @@
                     Spend:
                 </td>
                 <td class="text-left">
-                    @Model.Spend.ToString("F0")
+                    @Model.Spend.ToString("F0") (@(Model.SpendPercent.ToString("P0")))
                 </td>
-                <td class="text-left">(@(Model.SpendPercent.ToString("P0")))</td>
-                <td></td>
             </tr>
             <tr>
                 <td class="text-right">
@@ -24,34 +22,26 @@
                 <td>
                     @Model.Budget.ToString("F0")
                 </td>
-                <td></td>
-                <td></td>
             </tr>
             <tr>
                 <td class="text-right">
                     Remaining budget:
                 </td>
                 <td class="@(Model.RemainingBudget > 0 ? "text-success" : "text-danger") ">
-                    @Model.RemainingBudget.ToString("F0")
+                    @Model.RemainingBudget.ToString("F0") (@Model.RemainingBudgetPercent.ToString("P0"))
                 </td>
-                <td class="text-left">(@Model.RemainingBudgetPercent.ToString("P0"))</td>
-                <td></td>
             </tr>
             @if (Model.Pending > 0m)
             {
                 <tr>
                     <td class="text-right">Pending payments</td>
                     <td>@Model.Pending.ToString("F0")</td>
-                    <td></td>
-                    <td></td>
                 </tr>
                 @if (Model.Budget > 0m)
                 {
                     <tr>
                         <td class="text-right">Remainging inc. pending</td>
-                        <td>@((Model.RemainingBudget - Model.Pending).ToString("F0")) </td>
-                        <td>(@(((Model.RemainingBudget - Model.Pending) / Model.Budget).ToString("P0")))</td>
-                        <td></td>
+                        <td>@((Model.RemainingBudget - Model.Pending).ToString("F0")) (@(((Model.RemainingBudget - Model.Pending) / Model.Budget).ToString("P0")))</td>
                     </tr>
                 }
             }
@@ -69,33 +59,25 @@
 
                         @((int)Math.Ceiling(remaining)) (@((remaining / total).ToString("P0")))
                     </td>
-                    <td></td>
-                    <td></td>
                 </tr>
                 @if (remaining != 0)
                 {
                     <tr>
                         <td class="text-right">Remaining daily average</td>
                         <td>@(((double)Model.RemainingBudget / (remaining)).ToString("F0"))</td>
-                        <td></td>
-                        <td></td>
                     </tr>
                 }
             }
 
             <tr>
                 <th class="text-right col-6">Spend per user</th>
-                <td class="col-1"></td>
-                <td class="col-1"></td>
-                <td class="col-4"></td>
+                <td class="col-6"></td>
             </tr>
             @foreach (var u in Model.Totals)
             {
                 <tr>
                     <td class="text-right">@u.Username</td>
                     <td>@u.Total.ToString("F0")</td>
-                    <td></td>
-                    <td></td>
                 </tr>
             }
         </table>
