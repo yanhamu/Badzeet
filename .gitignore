@@ -40,6 +40,6 @@ PublishProfiles/
 appsettings.Production.json
 tempkey.jwk
 Badzeet.Web/Properties/ServiceDependencies/
-Badzeet.Web/appsettings.Development.json
+*appsettings.Development.json
 data.db
 publish.bat
