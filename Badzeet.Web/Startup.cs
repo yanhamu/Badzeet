@@ -23,6 +23,8 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var features = configuration.GetSection("FeaturesConfig").Get<FeaturesConfig>();
+
             SqlMapper.AddTypeHandler(new SqliteGuidTypeHandler());
             services.AddCors();
             services.AddHttpContextAccessor();
@@ -34,16 +36,14 @@ namespace Badzeet.Web
             services.RegisterSchedulerDependencies(configuration);
             services.RegisterIntegrationHandlers();
             services.RegisterServiceDependencies();
-            services.RegisterBadzeetBot(configuration);
+            if (features.BadzeetBot)
+                services.RegisterBadzeetBot(configuration);
             services.AddControllersWithViews(x =>
             {
                 x.Conventions.Add(new WebControllerConventions());
                 x.Conventions.Add(new ApiControllerConventions());
                 x.Conventions.Add(new ApiActionMethodConvention());
-            }).AddJsonOptions(x =>
-            {
-                x.UseDateOnlyTimeOnlyStringConverters();
-            });
+            }).AddJsonOptions(x => { x.UseDateOnlyTimeOnlyStringConverters(); });
 
             services.AddControllers(options => options.UseDateOnlyTimeOnlyStringConverters());
         }
@@ -65,6 +65,7 @@ namespace Badzeet.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
