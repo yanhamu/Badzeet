@@ -56,12 +56,11 @@ namespace Badzeet.Budget.Domain
             await this.repository.Save();
         }
 
-        public async Task<Unit> Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
+        public async Task Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)
         {
             var category = await categoryRepository.Get(request.CategoryId);
             repository.Add(new Payment(request.Date, request.Description, request.Amount, category.Id, request.OwnerId, PaymentType.Pending, request.AccountId));
             await repository.Save();
-            return Unit.Value;
         }
 
         public async Task Split(long oldPaymentId, decimal oldAmount, string description, decimal newAmount, long categoryId, Guid ownerId)
