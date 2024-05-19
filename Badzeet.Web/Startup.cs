@@ -23,7 +23,7 @@ namespace Badzeet.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var features = configuration.GetSection("FeaturesConfig").Get<FeaturesConfig>();
+            var features = configuration.GetSection("FeaturesConfig").Get<FeaturesConfig>() ?? throw new ArgumentException("FeaturesConfig not present");
 
             SqlMapper.AddTypeHandler(new SqliteGuidTypeHandler());
             services.AddCors();

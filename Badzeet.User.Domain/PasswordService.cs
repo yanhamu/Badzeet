@@ -10,7 +10,7 @@ namespace Badzeet.User.Domain
         {
             var salt = RandomNumberGenerator.GetBytes(16);
             var hashBytes = new byte[36];
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations))
+            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA1))
             {
                 var hash = pbkdf2.GetBytes(20);
                 Array.Copy(salt, 0, hashBytes, 0, 16);
@@ -25,7 +25,7 @@ namespace Badzeet.User.Domain
             byte[] hashBytes = Convert.FromBase64String(savedPasswordHash);
             byte[] salt = new byte[16];
             Array.Copy(hashBytes, 0, salt, 0, 16);
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA1);
             byte[] hash = pbkdf2.GetBytes(20);
 
             for (int i = 0; i < 20; i++)

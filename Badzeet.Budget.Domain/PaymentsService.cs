@@ -8,17 +8,9 @@ using System.Threading.Tasks;
 
 namespace Badzeet.Budget.Domain
 {
-    public class PaymentsService : IRequestHandler<NewScheduledPaymentRequest>
+    public class PaymentsService(IPaymentRepository repository, ICategoryRepository categoryRepository)
+        : IRequestHandler<NewScheduledPaymentRequest>
     {
-        private readonly IPaymentRepository repository;
-        private readonly ICategoryRepository categoryRepository;
-
-        public PaymentsService(IPaymentRepository repository, ICategoryRepository categoryRepository)
-        {
-            this.repository = repository;
-            this.categoryRepository = categoryRepository;
-        }
-
         public Task<Payment?> GetPayment(long id)
         {
             return repository.Get(id);
@@ -53,7 +45,7 @@ namespace Badzeet.Budget.Domain
             var scheduledPayment = await repository.Get(id);
             scheduledPayment.Date = DateTime.UtcNow;
             scheduledPayment.Type = PaymentType.Normal;
-            await this.repository.Save();
+            await repository.Save();
         }
 
         public async Task Handle(NewScheduledPaymentRequest request, CancellationToken cancellationToken)

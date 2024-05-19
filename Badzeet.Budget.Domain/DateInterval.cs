@@ -15,10 +15,5 @@ namespace Badzeet.Budget.Domain
             From = from;
             To = to;
         }
-
-        public DateInterval AddMonth(int months)
-        {
-            return new DateInterval(From.AddMonths(months), To.AddMonths(months));
-        }
     }
 }
