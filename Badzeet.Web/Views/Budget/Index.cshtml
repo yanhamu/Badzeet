@@ -24,6 +24,6 @@
     </h2>
 </div>
 
-@await Component.InvokeAsync<SummaryViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId })
-@await Component.InvokeAsync<PendingPaymentsViewComponent>(new { UserId = Context.Items["ui"], accountId = Context.Items["da"] })
-@await Component.InvokeAsync<BudgetViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId })
+@(await Component.InvokeAsync<SummaryViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId }))
+@(await Component.InvokeAsync<PendingPaymentsViewComponent>(new { UserId = Context.Items["ui"], accountId = Context.Items["da"] }))
+@(await Component.InvokeAsync<BudgetViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId }))
