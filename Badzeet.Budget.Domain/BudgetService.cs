@@ -1,63 +1,58 @@
-﻿using Badzeet.Budget.Domain.Interfaces;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Badzeet.Budget.Domain.Interfaces;
 
-namespace Badzeet.Budget.Domain
+namespace Badzeet.Budget.Domain;
+
+public class BudgetService
 {
-    public class BudgetService
+    private readonly IAccountRepository accountRepository;
+    private readonly IBudgetRepository budgetRepository;
+    private readonly IPaymentRepository transactionRepository;
+
+    public BudgetService(
+        IPaymentRepository transactionRepository,
+        IAccountRepository bookRepository,
+        IBudgetRepository budgetRepository)
     {
-        private readonly IPaymentRepository transactionRepository;
-        private readonly IAccountRepository accountRepository;
-        private readonly IBudgetRepository budgetRepository;
+        this.transactionRepository = transactionRepository;
+        accountRepository = bookRepository;
+        this.budgetRepository = budgetRepository;
+    }
 
-        public BudgetService(
-            IPaymentRepository transactionRepository,
-            IAccountRepository bookRepository,
-            IBudgetRepository budgetRepository)
+    public async Task<int> GetLatestBudgetId(long accountId)
+    {
+        var account = await accountRepository.GetAccount(accountId);
+        var lastTransaction = await transactionRepository.GetLastPayment(accountId);
+        var last = GetBudgetInterval(account.FirstDayOfTheBudget, lastTransaction.Date);
+
+        var pivot = new DateTime(2000, 1, account.FirstDayOfTheBudget);
+        short id = 0;
+        while (pivot < last.From)
         {
-            this.transactionRepository = transactionRepository;
-            this.accountRepository = bookRepository;
-            this.budgetRepository = budgetRepository;
+            id += 1;
+            pivot = pivot.AddMonths(1);
         }
 
-        public async Task<int> GetLatestBudgetId(long accountId)
-        {
-            var account = await accountRepository.GetAccount(accountId);
-            var lastTransaction = await transactionRepository.GetLastPayment(accountId);
-            var last = GetBudgetInterval(account.FirstDayOfTheBudget, lastTransaction.Date);
+        return id;
+    }
 
-            var pivot = new DateTime(2000, 1, account.FirstDayOfTheBudget);
-            short id = 0;
-            while (pivot < last.From)
-            {
-                id += 1;
-                pivot = pivot.AddMonths(1);
-            }
+    public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, long accountId) //TODO remove
+    {
+        var budget = await budgetRepository.Get(budgetId, accountId);
+        return budget.Interval;
+    }
 
-            return id;
-        }
+    public DateInterval GetBudgetInterval(byte firstDay, DateTime date)
+    {
+        DateTime startDate;
+        if (date.Day >= firstDay)
+            startDate = new DateTime(date.Year, date.Month, firstDay);
+        else
+            startDate = new DateTime(date.AddMonths(-1).Year, date.AddMonths(-1).Month, firstDay);
 
-        public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, long accountId) //TODO remove
-        {
-            var budget = await budgetRepository.Get(budgetId, accountId);
-            return budget.Interval;
-        }
+        var endDate = startDate.AddMonths(1).AddDays(-1);
 
-        public DateInterval GetBudgetInterval(byte firstDay, DateTime date)
-        {
-            DateTime startDate;
-            if (date.Day >= firstDay)
-            {
-                startDate = new DateTime(date.Year, date.Month, firstDay);
-            }
-            else
-            {
-                startDate = new DateTime(date.AddMonths(-1).Year, date.AddMonths(-1).Month, firstDay);
-            }
-
-            var endDate = startDate.AddMonths(1).AddDays(-1);
-
-            return new DateInterval(startDate, endDate);
-        }
+        return new DateInterval(startDate, endDate);
     }
 }

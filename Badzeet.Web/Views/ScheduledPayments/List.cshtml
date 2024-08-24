@@ -2,13 +2,13 @@
 @{
     ViewData["Title"] = "Scheduled Payments";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
+    var categories = Model.Categories.ToDictionary(k => k.Id, v => v.Name);
 }
 
 <h1>Scheduled Payments</h1>
 
 <table class="table table-sm">
-    @foreach (var p in Model.Payments.OrderByDescending(x=>x.ScheduledAt))
+    @foreach (var p in Model.Payments.OrderByDescending(x => x.ScheduledAt))
     {
         <tr>
             <td>@p.ScheduledAt.ToString("yyyy-MM-dd")</td>

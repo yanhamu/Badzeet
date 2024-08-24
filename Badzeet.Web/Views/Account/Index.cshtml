@@ -1,10 +1,9 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
     <h1>Account</h1>
-    <p>@Context.User.Identity.Name</p>
+    <p>@Context.User.Identity?.Name</p>
 </div>

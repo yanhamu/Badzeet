@@ -11,7 +11,7 @@
                 <th class="text-right">Planned</th>
                 <th class="d-sm-none d-md-block text-right">Variance</th>
             </tr>
-            @foreach (var category in Model.Categories.Where(x => (x.Budget != 0 || x.Total != 0)))
+            @foreach (var category in Model.Categories.Where(x => x.Budget != 0 || x.Total != 0))
             {
                 <tr data-toggle="collapse" data-target="#@category.Name">
                     <th colspan="2">

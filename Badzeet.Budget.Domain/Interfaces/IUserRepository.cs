@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Badzeet.Budget.Domain.Interfaces
+namespace Badzeet.Budget.Domain.Interfaces;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        public Task Create(Guid id, string username);
-    }
+    public Task Create(Guid id, string username);
 }

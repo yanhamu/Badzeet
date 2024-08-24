@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Payments";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var categories = @Model.Categories.ToDictionary(k => k.Id, v => v.Name);
+    var categories = Model.Categories.ToDictionary(k => k.Id, v => v.Name);
     var date = string.Empty;
 }
 
@@ -12,9 +12,9 @@
         <div class="text-center">
             <h2>
                 <span>
-                    <a asp-action="List" 
-                        asp-route-from="@(Model.DateInterval.From.AddMonths(-1).ToString("yyyy-MM-dd"))" 
-                        asp-route-to="@(Model.DateInterval.To.AddMonths(-1).ToString("yyyy-MM-dd"))">
+                    <a asp-action="List"
+                       asp-route-from="@(Model.DateInterval.From.AddMonths(-1).ToString("yyyy-MM-dd"))"
+                       asp-route-to="@(Model.DateInterval.To.AddMonths(-1).ToString("yyyy-MM-dd"))">
                         <i class="fas fa-angle-left"></i>
                     </a>
                 </span>
@@ -22,9 +22,9 @@
                 @Model.DateInterval.From.ToString("dd MMM") - @Model.DateInterval.To.ToString("dd MMM")
 
                 <span>
-                    <a asp-action="List" 
-                        asp-route-from="@(Model.DateInterval.From.AddMonths(1).ToString("yyyy-MM-dd"))" 
-                        asp-route-to="@(Model.DateInterval.To.AddMonths(1).ToString("yyyy-MM-dd"))">
+                    <a asp-action="List"
+                       asp-route-from="@(Model.DateInterval.From.AddMonths(1).ToString("yyyy-MM-dd"))"
+                       asp-route-to="@(Model.DateInterval.To.AddMonths(1).ToString("yyyy-MM-dd"))">
                         <i class="fas fa-angle-right"></i>
                     </a>
                 </span>
@@ -67,6 +67,7 @@
                 <th colspan="6">@tDate</th>
             </tr>
         }
+
         <tr>
             <td></td>
             <td>@t.Description</td>

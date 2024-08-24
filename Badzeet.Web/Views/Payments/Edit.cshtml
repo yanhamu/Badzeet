@@ -1,4 +1,5 @@
-﻿@model Badzeet.Web.Features.Payments.PaymentsController.PaymentViewModel
+﻿@using Badzeet.Budget.Domain.Model
+@model Badzeet.Web.Features.Payments.PaymentsController.PaymentViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,23 +12,23 @@
     <div class="form-group row">
         <label asp-for="Payment.Date" class="col-sm-2 col-form-label">Date</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Payment.Date" type="date" />
+            <input class="form-control" asp-for="Payment.Date" type="date"/>
         </div>
     </div>
 
-    <input id="id" asp-for="Payment.Id" type="hidden" />
+    <input id="id" asp-for="Payment.Id" type="hidden"/>
 
     <div class="form-group row">
         <label asp-for="Payment.Description" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Payment.Description" type="text" />
+            <input class="form-control" asp-for="Payment.Description" type="text"/>
         </div>
     </div>
 
     <div class="form-group row">
         <label asp-for="Payment.Amount" class="col-sm-2 col-form-label">Amount</label>
         <div class="col-sm-10">
-            <input class="form-control" asp-for="Payment.Amount" step="0.01" type="number" />
+            <input class="form-control" asp-for="Payment.Amount" step="0.01" type="number"/>
         </div>
     </div>
 
@@ -36,7 +37,7 @@
         <div class="col-sm-10">
             <select class="custom-select"
                     asp-for="Payment.CategoryId"
-                    asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                    asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
                 <option>Please select one</option>
             </select>
         </div>
@@ -47,7 +48,7 @@
         <div class="col-sm-10">
             <select class="custom-select"
                     asp-for="Payment.UserId"
-                    asp-items="@(new SelectList(Model.Users,"UserId","User.Nickname"))">
+                    asp-items="@(new SelectList(Model.Users, "UserId", "User.Nickname"))">
             </select>
         </div>
     </div>
@@ -55,10 +56,10 @@
     <div class="form-group row">
         <label asp-for="Payment.Type" class="col-sm-2 col-form-label">Type</label>
         <div class="btn-group btn-group-toggle col-sm-4" data-toggle="buttons">
-            <label class="btn btn-secondary @(Model.Payment.Type == Badzeet.Budget.Domain.Model.PaymentType.Normal ? "active" : "")">
+            <label class="btn btn-secondary @(Model.Payment.Type == PaymentType.Normal ? "active" : "")">
                 <input type="radio" asp-for="Payment.Type" autocomplete="off" value="Normal"> Normal
             </label>
-            <label class="btn btn-secondary @(Model.Payment.Type == Badzeet.Budget.Domain.Model.PaymentType.Pending ? "active" : "")">
+            <label class="btn btn-secondary @(Model.Payment.Type == PaymentType.Pending ? "active" : "")">
                 <input type="radio" asp-for="Payment.Type" autocomplete="off" value="Pending"> Pending
             </label>
         </div>
@@ -80,12 +81,11 @@
 <form method="post" asp-action="Remove">
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-10">
-            <input asp-for="Payment.Id" type="hidden" />
+            <input asp-for="Payment.Id" type="hidden"/>
             <button type="submit" class="btn btn-danger form-control" id="removeBtn">Remove</button>
         </div>
     </div>
 </form>
-
 
 
 @section Scripts{

@@ -1,71 +1,66 @@
-﻿using Badzeet.Budget.Domain;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Badzeet.Budget.Domain;
 using Badzeet.User.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace Badzeet.Web.Features.Account
+namespace Badzeet.Web.Features.Account;
+
+public class Service
 {
-    public class Service
+    private readonly IHttpContextAccessor contextAccessor;
+    private readonly RegistrationService registrationService;
+    private readonly IUserService userService;
+
+    public Service(
+        IHttpContextAccessor contextAccessor,
+        IUserService userService,
+        RegistrationService registrationService)
     {
-        private readonly IHttpContextAccessor contextAccessor;
-        private readonly IUserService userService;
-        private readonly RegistrationService registrationService;
+        this.contextAccessor = contextAccessor;
+        this.userService = userService;
+        this.registrationService = registrationService;
+    }
 
-        public Service(
-            IHttpContextAccessor contextAccessor,
-            IUserService userService,
-            RegistrationService registrationService)
+    public async Task<bool> Login(UserCredentialsModel credentials, string returnUrl)
+    {
+        var userResponse = await userService.Check(credentials.Username, credentials.Password);
+        if (userResponse.IsSuccessful == false) return false;
+
+        var claims = new List<Claim>
         {
-            this.contextAccessor = contextAccessor;
-            this.userService = userService;
-            this.registrationService = registrationService;
-        }
+            new(ClaimTypes.Name, credentials.Username),
+            new("sub", userResponse.UserId.ToString())
+        };
 
-        public async Task<bool> Login(UserCredentialsModel credentials, string returnUrl)
-        {
-            var userResponse = await userService.Check(credentials.Username, credentials.Password);
-            if (userResponse.IsSuccessful == false)
-            {
-                return false;
-            }
+        var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, credentials.Username),
-                new Claim("sub", userResponse.UserId.ToString()),
-            };
+        await contextAccessor.HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            claimsPrincipal);
 
-            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
+        return true;
+    }
 
-            await contextAccessor.HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                claimsPrincipal);
+    public async Task<bool> Register(UserCredentialsModel credentials)
+    {
+        if (await userService.CheckAvailability(credentials.Username) == false)
+            return false;
 
-            return true;
-        }
+        var userId = await userService.RegisterUser(credentials.Username, credentials.Password);
 
-        public async Task<bool> Register(UserCredentialsModel credentials)
-        {
-            if (await userService.CheckAvailability(credentials.Username) == false)
-                return false;
+        await registrationService.Register(userId, credentials.Username);
+        return true;
+    }
 
-            var userId = await userService.RegisterUser(credentials.Username, credentials.Password);
+    public async Task Logout()
+    {
+        contextAccessor.HttpContext.Response.Cookies.Delete("budgetId");
+        contextAccessor.HttpContext.Response.Cookies.Delete("da");
 
-            await registrationService.Register(userId, credentials.Username);
-            return true;
-        }
-
-        public async Task Logout()
-        {
-            contextAccessor.HttpContext.Response.Cookies.Delete("budgetId");
-            contextAccessor.HttpContext.Response.Cookies.Delete("da");
-
-            await contextAccessor.HttpContext.SignOutAsync();
-        }
+        await contextAccessor.HttpContext.SignOutAsync();
     }
 }

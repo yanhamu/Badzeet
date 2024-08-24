@@ -1,17 +1,16 @@
 ﻿using Badzeet.Web.Configuration.Filters;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace Badzeet.Web.Configuration.Conventions
+namespace Badzeet.Web.Configuration.Conventions;
+
+public class WebControllerConventions : IControllerModelConvention
 {
-    public class WebControllerConventions : IControllerModelConvention
+    public void Apply(ControllerModel controller)
     {
-        public void Apply(ControllerModel controller)
+        if (controller.ControllerType.Namespace.Contains("Api") == false)
         {
-            if (controller.ControllerType.Namespace.Contains("Api") == false)
-            {
-                controller.Filters.Add(new AccountIdFilter());
-                controller.Filters.Add(new UserIdFilter());
-            }
+            controller.Filters.Add(new AccountIdFilter());
+            controller.Filters.Add(new UserIdFilter());
         }
     }
 }

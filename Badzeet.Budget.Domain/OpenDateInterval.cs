@@ -1,16 +1,9 @@
 ﻿using System;
 
-namespace Badzeet.Budget.Domain
-{
-    public class OpenDateInterval
-    {
-        public OpenDateInterval(DateTime? from, DateTime? to)
-        {
-            From = from;
-            To = to;
-        }
+namespace Badzeet.Budget.Domain;
 
-        public DateTime? From { get; set; }
-        public DateTime? To { get; set; }
-    }
+public class OpenDateInterval(DateTime? from, DateTime? to)
+{
+    public DateTime? From { get; set; } = from;
+    public DateTime? To { get; set; } = to;
 }

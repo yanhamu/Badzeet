@@ -1,16 +1,14 @@
 using System;
 using Xunit;
 
-namespace Badzeet.Budget.Domain.Tests
+namespace Badzeet.Budget.Domain.Tests;
+
+public class BudgetServiceTests
 {
-    public class BudgetServiceTests
+    public DateTime BudgetZero { get; set; }
+
+    [Fact]
+    public void Test1()
     {
-        public DateTime BudgetZero { get; set; }
-
-        [Fact]
-        public void Test1()
-        {
-
-        }
     }
 }
