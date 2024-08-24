@@ -6,40 +6,16 @@ namespace Badzeet.Budget.Domain;
 
 public class BudgetService
 {
-    private readonly IAccountRepository accountRepository;
     private readonly IBudgetRepository budgetRepository;
-    private readonly IPaymentRepository transactionRepository;
 
-    public BudgetService(
-        IPaymentRepository transactionRepository,
-        IAccountRepository bookRepository,
-        IBudgetRepository budgetRepository)
+    public BudgetService(IBudgetRepository budgetRepository)
     {
-        this.transactionRepository = transactionRepository;
-        accountRepository = bookRepository;
         this.budgetRepository = budgetRepository;
-    }
-
-    public async Task<int> GetLatestBudgetId(long accountId)
-    {
-        var account = await accountRepository.GetAccount(accountId);
-        var lastTransaction = await transactionRepository.GetLastPayment(accountId);
-        var last = GetBudgetInterval(account.FirstDayOfTheBudget, lastTransaction.Date);
-
-        var pivot = new DateTime(2000, 1, account.FirstDayOfTheBudget);
-        short id = 0;
-        while (pivot < last.From)
-        {
-            id += 1;
-            pivot = pivot.AddMonths(1);
-        }
-
-        return id;
     }
 
     public async Task<DateInterval> GetMonthlyBudgetById(int budgetId, long accountId) //TODO remove
     {
-        var budget = await budgetRepository.Get(budgetId, accountId);
+        var budget = (await budgetRepository.Get(budgetId, accountId))!;
         return budget.Interval;
     }
 

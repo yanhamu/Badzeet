@@ -42,7 +42,7 @@ public class UserAccountController : Controller
 
     public class UserAccountViewModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         public Guid UserId { get; set; }
         public decimal? Balance { get; set; }
     }

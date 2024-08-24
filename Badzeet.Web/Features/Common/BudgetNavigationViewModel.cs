@@ -4,9 +4,9 @@ namespace Badzeet.Web.Features.Common;
 
 public class BudgetNavigationViewModel
 {
-    public BudgetNavigationItemViewModel Previous { get; set; }
-    public BudgetNavigationItemViewModel Current { get; set; }
-    public BudgetNavigationItemViewModel Next { get; set; }
+    public BudgetNavigationItemViewModel Previous { get; set; } = default!;
+    public BudgetNavigationItemViewModel Current { get; set; } = default!;
+    public BudgetNavigationItemViewModel Next { get; set; } = default!;
     public bool HasBudget { get; set; }
 }
 

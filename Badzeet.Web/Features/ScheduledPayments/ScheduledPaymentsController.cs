@@ -45,7 +45,7 @@ public class ScheduledPaymentsController : Controller
     {
         var categories = (await categoryRepository.GetCategories(accountId)).Select(c => new CategoryViewModel(c.Id, c.Name));
         var users = (await userAccountRepository.GetUsers(accountId)).Select(u => new UserViewModel(u.UserId, u.User.Nickname));
-        var payment = await paymentRepository.Get(id);
+        var payment = (await paymentRepository.Get(id))!;
         var metadata = MonthlyPaymentProcessor.MonthlySettings.Parse(payment.Metadata);
 
         return View(new MonthlyPaymentViewModel { Users = users, Categories = categories, Payment = payment, Day = metadata.Day, LastDay = metadata.LastDay, When = metadata.When });
@@ -113,7 +113,7 @@ public class ScheduledPaymentsController : Controller
     {
         return model.LastDay
             ? MonthlyPaymentProcessor.MonthlySettings.CreateLastDayOfTheMonth(model.When)
-            : MonthlyPaymentProcessor.MonthlySettings.CreateFixedDay(model.Day.Value, model.When);
+            : MonthlyPaymentProcessor.MonthlySettings.CreateFixedDay(model.Day!.Value, model.When);
     }
 
     private DateTime CalculateFirstScheduledDate(MonthlyPaymentProcessor.MonthlySettings metadata)
@@ -128,7 +128,7 @@ public class ScheduledPaymentsController : Controller
             return new DateTime(scheduledDate.Year, scheduledDate.Month, scheduledDate.Day).Add(metadata.When);
         }
 
-        while (scheduledDate.Day != metadata.Day.Value)
+        while (scheduledDate.Day != metadata.Day!.Value)
             scheduledDate = scheduledDate.AddDays(1);
         return new DateTime(scheduledDate.Year, scheduledDate.Month, scheduledDate.Day).Add(metadata.When);
     }
@@ -138,9 +138,9 @@ public class ScheduledPaymentsController : Controller
         public bool LastDay { get; set; }
         public int? Day { get; set; }
         public TimeSpan When { get; set; }
-        public Payment Payment { get; set; }
-        public IEnumerable<UserViewModel> Users { get; set; }
-        public IEnumerable<CategoryViewModel> Categories { get; set; }
+        public Payment Payment { get; set; } = default!;
+        public IEnumerable<UserViewModel> Users { get; set; } = default!;
+        public IEnumerable<CategoryViewModel> Categories { get; set; } = default!;
     }
 
     public class PaymentsListViewModel
@@ -177,7 +177,7 @@ public class ScheduledPaymentsController : Controller
             Nickname = nickname;
         }
 
-        public Guid Id { get; set; }
-        public string Nickname { get; set; }
+        public Guid Id { get; }
+        public string Nickname { get; }
     }
 }

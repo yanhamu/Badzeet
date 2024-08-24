@@ -29,7 +29,7 @@ public class PaymentsController : ControllerBase
     [HttpGet("payments/{paymentId:long}")]
     public async Task<IActionResult> Get(long accountId, long paymentId)
     {
-        var payment = await paymentRepository.Get(paymentId);
+        var payment = (await paymentRepository.Get(paymentId))!;
         return Ok(new PaymentDto(payment));
     }
 

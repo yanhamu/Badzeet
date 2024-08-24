@@ -37,7 +37,7 @@ public class CategoryController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(long accountId, CategoryViewModel model)
     {
-        var category = await categoryRepository.Get(model.Id);
+        var category = (await categoryRepository.Get(model.Id))!;
         category.Name = model.Name;
         category.Order = model.Order;
         category.DisplayInSummary = model.InSummary;

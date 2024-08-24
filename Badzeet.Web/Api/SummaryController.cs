@@ -27,7 +27,7 @@ public class SummaryController : ControllerBase
     [HttpGet("summary")]
     public async Task<IActionResult> Get(long accountId, int budgetId)
     {
-        var budget = await budgetRepository.Get(budgetId, accountId);
+        var budget = (await budgetRepository.Get(budgetId, accountId))!;
         var interval = budget.Interval;
 
         var normalPayments = await paymentRepository.GetPayments(new PaymentsFilter(

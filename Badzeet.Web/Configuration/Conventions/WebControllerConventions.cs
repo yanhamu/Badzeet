@@ -7,10 +7,10 @@ public class WebControllerConventions : IControllerModelConvention
 {
     public void Apply(ControllerModel controller)
     {
-        if (controller.ControllerType.Namespace.Contains("Api") == false)
-        {
-            controller.Filters.Add(new AccountIdFilter());
-            controller.Filters.Add(new UserIdFilter());
-        }
+        if (controller.ControllerType.Namespace?.Contains("Api") != false) 
+            return;
+        
+        controller.Filters.Add(new AccountIdFilter());
+        controller.Filters.Add(new UserIdFilter());
     }
 }

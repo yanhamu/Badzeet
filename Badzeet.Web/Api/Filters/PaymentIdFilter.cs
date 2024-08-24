@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Badzeet.Budget.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Badzeet.Web.Api.Filters;
 
@@ -11,9 +12,9 @@ public class PaymentIdFilter : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var paymentId = (long)context.ActionArguments["paymentId"];
-        var userAccountRepository = (IUserAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IUserAccountRepository));
-        var paymentRepository = (IPaymentRepository)context.HttpContext.RequestServices.GetService(typeof(IPaymentRepository));
+        var paymentId = (long)context.ActionArguments["paymentId"]!;
+        var userAccountRepository = context.HttpContext.RequestServices.GetRequiredService<IUserAccountRepository>();
+        var paymentRepository = context.HttpContext.RequestServices.GetRequiredService<IPaymentRepository>();
 
         var userId = new Guid(context.HttpContext.User.Claims.Single(x => x.Type == "sub").Value);
         var accounts = await userAccountRepository.GetUserAccounts(userId);

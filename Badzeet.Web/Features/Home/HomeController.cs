@@ -21,10 +21,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.Identity.IsAuthenticated == false)
+        if (User.Identity!.IsAuthenticated == false)
             return View();
 
-        var accountId = httpContextAccessor.HttpContext.GetAccountId();
+        var accountId = httpContextAccessor.HttpContext!.GetAccountId();
         var nav = await budgetNavigationService.Get(accountId);
 
         return RedirectToAction("Index", "Budget", new { budgetId = nav.Current.BudgetId });

@@ -58,7 +58,7 @@ public class BudgetNavigationService
         var account = await accountRepository.GetAccount(accountId);
         var now = DateTime.UtcNow;
 
-        var date = new DateTime(now.Year, now.Month, account.FirstDayOfTheBudget);
+        var date = new DateTime(now.Year, now.Month, account!.FirstDayOfTheBudget);
         var budgetId = int.Parse(date.ToString("yyyyMM"));
         if (now >= date)
             return await Get(accountId, budgetId);
