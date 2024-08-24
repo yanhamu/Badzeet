@@ -1,12 +1,11 @@
-﻿using Badzeet.Scheduler.Domain.Model;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Badzeet.Scheduler.Domain.Model;
 
-namespace Badzeet.Scheduler.Domain.Processors
+namespace Badzeet.Scheduler.Domain.Processors;
+
+public interface IProcessor
 {
-    public interface IProcessor
-    {
-        SchedulingType Id { get; }
-        Task Process(Payment payment, DateTime now);
-    }
+    SchedulingType Id { get; }
+    Task Process(Payment payment, DateTime now);
 }

@@ -1,12 +1,10 @@
-﻿using Badzeet.Budget.Domain.Model;
-using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Badzeet.Budget.Domain.Model;
 
-namespace Badzeet.Budget.Domain.Interfaces
+namespace Badzeet.Budget.Domain.Interfaces;
+
+public interface IAccountRepository
 {
-    public interface IAccountRepository
-    {
-        Task<Account?> GetAccount(long accountId);
-        Task<Account> CreateAccount(byte firstDayOfBudget);
-    }
+    Task<Account?> GetAccount(long accountId);
+    Task<Account> CreateAccount(byte firstDayOfBudget);
 }

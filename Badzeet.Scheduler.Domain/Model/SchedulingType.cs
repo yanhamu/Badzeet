@@ -1,7 +1,6 @@
-﻿namespace Badzeet.Scheduler.Domain.Model
+﻿namespace Badzeet.Scheduler.Domain.Model;
+
+public enum SchedulingType : byte
 {
-    public enum SchedulingType : byte
-    {
-        Monthly = 1
-    }
+    Monthly = 1
 }

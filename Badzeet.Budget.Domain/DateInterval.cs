@@ -1,19 +1,18 @@
 ﻿using System;
 
-namespace Badzeet.Budget.Domain
+namespace Badzeet.Budget.Domain;
+
+public struct DateInterval
 {
-    public struct DateInterval
+    public DateTime From { get; }
+    public DateTime To { get; }
+
+    public DateInterval(DateTime from, DateTime to)
     {
-        public DateTime From { get; }
-        public DateTime To { get; }
+        if (from > to)
+            throw new ArgumentException("from cannot be higher than to");
 
-        public DateInterval(DateTime from, DateTime to)
-        {
-            if (from > to)
-                throw new ArgumentException("from cannot be higher than to");
-
-            From = from;
-            To = to;
-        }
+        From = from;
+        To = to;
     }
 }

@@ -1,23 +1,21 @@
-﻿using Badzeet.Scheduler.Domain.Interfaces;
-using Badzeet.Scheduler.Domain.Model;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Badzeet.Scheduler.Domain.Interfaces;
+using Badzeet.Scheduler.Domain.Model;
 
-namespace Badzeet.Web.Features.ScheduledPayments
+namespace Badzeet.Web.Features.ScheduledPayments;
+
+public class Service
 {
-    public class Service
+    private readonly IPaymentRepository repository;
+
+    public Service(IPaymentRepository repository)
     {
-        private readonly IPaymentRepository repository;
+        this.repository = repository;
+    }
 
-        public Service(IPaymentRepository repository)
-        {
-            this.repository = repository;
-        }
-
-        public async Task<IEnumerable<Payment>> List(long accountId)
-        {
-            return await repository.GetPayments(accountId);
-        }
+    public async Task<IEnumerable<Payment>> List(long accountId)
+    {
+        return await repository.GetPayments(accountId);
     }
 }

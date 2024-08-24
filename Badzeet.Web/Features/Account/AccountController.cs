@@ -1,65 +1,63 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
-namespace Badzeet.Web.Features.Account
+namespace Badzeet.Web.Features.Account;
+
+public class AccountController : Controller
 {
-    public class AccountController : Controller
+    private readonly Service service;
+
+    public AccountController(Service service)
     {
-        private readonly Service service;
+        this.service = service;
+    }
 
-        public AccountController(Service service)
-        {
-            this.service = service;
-        }
+    [Authorize]
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        [Authorize]
-        public IActionResult Index()
-        {
-            return View();
-        }
+    [HttpGet]
+    public IActionResult Register(string invitationId)
+    {
+        ViewData["invitationId"] = invitationId;
+        return View();
+    }
 
-        [HttpGet]
-        public IActionResult Register(string invitationId)
-        {
-            ViewData["invitationId"] = invitationId;
-            return View();
-        }
+    [HttpPost]
+    public async Task<IActionResult> Register(UserCredentialsModel credentials)
+    {
+        var registrationResult = await service.Register(credentials);
+        return LocalRedirect("/");
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(UserCredentialsModel credentials)
-        {
-            var registrationResult = await service.Register(credentials);
-            return LocalRedirect("/");
-        }
+    [HttpGet]
+    public IActionResult Login(string returnUrl)
+    {
+        ViewData["returnUrl"] = returnUrl;
+        return View();
+    }
 
-        [HttpGet]
-        public IActionResult Login(string returnUrl)
-        {
-            ViewData["returnUrl"] = returnUrl;
-            return View();
-        }
+    [HttpPost]
+    public async Task<IActionResult> Login(UserCredentialsModel credentials, string returnUrl)
+    {
+        var loginResult = await service.Login(credentials, returnUrl);
 
-        [HttpPost]
-        public async Task<IActionResult> Login(UserCredentialsModel credentials, string returnUrl)
-        {
-            var loginResult = await service.Login(credentials, returnUrl);
+        if (Url.IsLocalUrl(returnUrl))
+            return Redirect(returnUrl);
 
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
+        return Redirect("/");
+    }
 
-            return Redirect("/");
-        }
+    [HttpPost]
+    public async Task<IActionResult> Logout(string returnUrl)
+    {
+        await service.Logout();
+        if (Url.IsLocalUrl(returnUrl))
+            return Redirect(returnUrl);
 
-        [HttpPost]
-        public async Task<IActionResult> Logout(string returnUrl)
-        {
-            await service.Logout();
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-
-            return Redirect("/");
-        }
+        return Redirect("/");
     }
 }

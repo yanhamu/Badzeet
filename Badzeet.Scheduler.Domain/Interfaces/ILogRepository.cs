@@ -1,9 +1,8 @@
 ﻿using Badzeet.Scheduler.Domain.Model;
 
-namespace Badzeet.Scheduler.Domain.Interfaces
+namespace Badzeet.Scheduler.Domain.Interfaces;
+
+public interface ILogRepository
 {
-    public interface ILogRepository
-    {
-        void Add(Log log);
-    }
+    void Add(Log log);
 }

@@ -1,4 +1,6 @@
-﻿@model Badzeet.Web.Features.Budget.BudgetController.BudgetViewModel
+﻿@using Badzeet.Web.Features.Budget
+@using Badzeet.Web.Features.Payments
+@model Badzeet.Web.Features.Budget.BudgetController.BudgetViewModel
 @{
     ViewData["Title"] = "Budget";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,6 +24,6 @@
     </h2>
 </div>
 
-@(await Component.InvokeAsync<Badzeet.Web.Features.Budget.SummaryViewComponent>(new { accountId = this.Context.Items["da"], budgetId = Model.BudgetId  }))
-@(await Component.InvokeAsync<Badzeet.Web.Features.Payments.PendingPaymentsViewComponent>(new { UserId = this.Context.Items["ui"], accountId = this.Context.Items["da"] }))
-@(await Component.InvokeAsync<Badzeet.Web.Features.Budget.BudgetViewComponent>(new { accountId = this.Context.Items["da"], budgetId = Model.BudgetId  }))
+@await Component.InvokeAsync<SummaryViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId })
+@await Component.InvokeAsync<PendingPaymentsViewComponent>(new { UserId = Context.Items["ui"], accountId = Context.Items["da"] })
+@await Component.InvokeAsync<BudgetViewComponent>(new { accountId = Context.Items["da"], budgetId = Model.BudgetId })

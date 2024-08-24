@@ -1,14 +1,13 @@
 ﻿using Badzeet.User.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Badzeet.Web.Configuration.ServiceCollectionExtensions
+namespace Badzeet.Web.Configuration.ServiceCollectionExtensions;
+
+public static class UserServiceCollectionExtensions
 {
-    public static class UserServiceCollectionExtensions
+    public static void RegisterUserDependencies(this IServiceCollection services)
     {
-        public static void RegisterUserDependencies(this IServiceCollection services)
-        {
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<UserRepository>();
-        }
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<UserRepository>();
     }
 }
