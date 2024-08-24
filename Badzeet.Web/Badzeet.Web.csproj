@@ -16,12 +16,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="DateOnlyTimeOnly.AspNet" Version="2.1.1"/>
-        <PackageReference Include="MediatR" Version="12.2.0"/>
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3"/>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2"/>
-        <PackageReference Include="Telegram.Bot" Version="19.0.0"/>
+        <PackageReference Include="MediatR" Version="12.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
     </ItemGroup>
 
     <ItemGroup>

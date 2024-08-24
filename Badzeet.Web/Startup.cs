@@ -43,7 +43,6 @@ public class Startup
             x.Conventions.Add(new ApiActionMethodConvention());
         });
 
-        services.AddDateOnlyTimeOnlyStringConverters();
         services.AddControllers();
     }
 

@@ -8,6 +8,6 @@ public static class IntegrationHandlersServiceCollectionExtensions
 {
     public static void RegisterIntegrationHandlers(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(PaymentsService));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<PaymentsService>());
     }
 }
