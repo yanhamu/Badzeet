@@ -18,20 +18,17 @@ public class BudgetController : Controller
     private readonly IBudgetCategoryRepository budgetCategoryRepository;
     private readonly BudgetNavigationService budgetNavigation;
     private readonly IBudgetRepository budgetRepository;
-    private readonly BudgetService budgetService;
     private readonly ICategoryRepository categoryRepository;
 
     public BudgetController(
         ICategoryRepository categoryRepository,
         IBudgetCategoryRepository budgetCategoryRepository,
-        BudgetService budgetService,
         IBudgetRepository budgetRepository,
         IAccountRepository accountRepository,
         BudgetNavigationService budgetNavigation)
     {
         this.categoryRepository = categoryRepository;
         this.budgetCategoryRepository = budgetCategoryRepository;
-        this.budgetService = budgetService;
         this.budgetRepository = budgetRepository;
         this.accountRepository = accountRepository;
         this.budgetNavigation = budgetNavigation;
@@ -67,6 +64,51 @@ public class BudgetController : Controller
         return View(new EditBudgetViewModel { Budgets = categoryBudgetModels, BudgetId = budgetId });
     }
 
+    [HttpGet]
+    public async Task<IActionResult> NewBudget(long accountId, int budgetId)
+    {
+        var budgetIdDateInt = budgetId * 100 + 1;
+        var date = DateOnly.ParseExact(budgetIdDateInt.ToString(), "yyyyMMdd");
+        var previousBudget = int.Parse(date.AddMonths(-1).ToString("yyyyMM"));
+
+        var categories = await categoryRepository.GetCategories(accountId);
+        var budgets = await budgetCategoryRepository.GetBudgetCategories(previousBudget, accountId);
+
+        var categoryBudgetModels = new List<ComparisonCategoryBudgetViewModel>();
+        foreach (var category in categories)
+        {
+            var v = new ComparisonCategoryBudgetViewModel { Amount = 0, CategoryId = category.Id, CategoryName = category.Name };
+            var budget = budgets.SingleOrDefault(x => x.CategoryId == category.Id);
+
+            if (budget != default)
+            {
+                v.Amount = budget.Amount;
+                v.OldAmount = budget.Amount;
+            }
+
+            categoryBudgetModels.Add(v);
+        }
+
+        var model = new NewBudgetViewModel(categoryBudgetModels, budgetId);
+        return View(model);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> NewBudget(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
+    {
+        var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
+
+        foreach (var t in tracked)
+            t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
+
+        foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
+            budgetCategoryRepository.AddBudget(new BudgetCategory { Id = Guid.NewGuid(), BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId });
+
+        await budgetCategoryRepository.Save();
+
+        return RedirectToAction(nameof(Index), new { budgetId });
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(long accountId, DateTime from)
     {
@@ -75,7 +117,7 @@ public class BudgetController : Controller
         var budgetId = int.Parse(from.ToString("yyyyMM"));
         var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget { Id = Guid.NewGuid(), AccountId = account.Id, BudgetId = budgetId, Date = firstDayOgBudget });
         await budgetRepository.Save();
-        return RedirectToAction(nameof(Edit), new { budgetId = budget.BudgetId });
+        return RedirectToAction(nameof(NewBudget), new { budgetId = budget.BudgetId });
     }
 
     [HttpPost]

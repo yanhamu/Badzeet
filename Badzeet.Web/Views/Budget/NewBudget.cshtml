@@ -1,0 +1,86 @@
+@model Badzeet.Web.Features.Budget.NewBudgetViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New Budget</h1>
+
+<form method="post">
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Previous Amount</th>
+                <th scope="col">New Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (var i = 0; i < Model.Budgets.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input hidden asp-for="@Model.Budgets[i].CategoryId">
+                        @Model.Budgets[i].CategoryName
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="@Model.Budgets[i].OldAmount" disabled>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" asp-for="@Model.Budgets[i].Amount">
+                    </td>
+                </tr>
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>TOTAL</th>
+                <th>
+                    <input class="form-control" disabled value="0" id="oldsum"/>
+                </th>
+                <th>
+                    <input class="form-control" disabled value="0" id="sum"/>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+</form>
+
+@section Scripts{
+    <script type="text/javascript">
+    function registerEvent() {
+        recalculate("OldAmount", "oldsum");
+        recalculateAmount();
+        for (let inputElement of getInputsElements(".Amount")) {
+            inputElement.addEventListener('input', recalculateAmount);
+        }
+    }
+
+    function recalculateAmount() {
+        recalculate(".Amount", "sum");
+    }
+
+    function recalculate(nameEnding, sumId) {
+        let sum = 0;
+        for (let inputElement of getInputsElements(nameEnding)) {
+            sum += Number(inputElement.value);
+        }
+        let sumElement = document.getElementById(sumId);
+        sumElement.value = sum;
+    }
+
+    function* getInputsElements(nameEnding) {
+        let inputs = document.getElementsByTagName("input");
+        for (let inputElement of inputs) {
+            if (inputElement.type == "number" && inputElement.name.endsWith(nameEnding)) {
+                yield inputElement;
+            }
+        }
+    }
+
+    window.onload = registerEvent();
+</script>
+}
