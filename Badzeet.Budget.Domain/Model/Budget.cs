@@ -8,6 +8,7 @@ public class Budget
     public int BudgetId { get; set; }
     public long AccountId { get; set; }
     public Account Account { get; set; } = default!;
-    public DateTime Date { get; set; }
-    public DateInterval Interval => new(Date, Date.AddMonths(1).AddTicks(-1));
+    public DateTime DateFrom { get; set; }
+    public DateTime DateTo { get; set; }
+    public DateInterval Interval => new(DateFrom, DateTo);
 }

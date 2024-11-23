@@ -33,10 +33,10 @@ public class BudgetRepository : IBudgetRepository
         query = query.Where(x => x.AccountId == accountId);
 
         if (filter.From != null)
-            query = query.Where(x => x.Date >= filter.From.Value);
+            query = query.Where(x => x.DateTo >= filter.From.Value);
 
         if (filter.To != null)
-            query = query.Where(x => x.Date <= filter.To.Value);
+            query = query.Where(x => x.DateFrom <= filter.To.Value);
 
         return await query.ToListAsync();
     }

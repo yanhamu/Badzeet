@@ -92,7 +92,7 @@ public class BudgetController : Controller
         var model = new NewBudgetViewModel(categoryBudgetModels, budgetId);
         return View(model);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> NewBudget(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
     {
@@ -113,9 +113,12 @@ public class BudgetController : Controller
     public async Task<IActionResult> Create(long accountId, DateTime from)
     {
         var account = await accountRepository.GetAccount(accountId);
-        var firstDayOgBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
+        var firstDayOfBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
         var budgetId = int.Parse(from.ToString("yyyyMM"));
-        var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget { Id = Guid.NewGuid(), AccountId = account.Id, BudgetId = budgetId, Date = firstDayOgBudget });
+        var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
+        {
+            Id = Guid.NewGuid(), AccountId = account.Id, BudgetId = budgetId, DateFrom = firstDayOfBudget, DateTo = firstDayOfBudget.AddMonths(1).AddTicks(-1)
+        });
         await budgetRepository.Save();
         return RedirectToAction(nameof(NewBudget), new { budgetId = budget.BudgetId });
     }
