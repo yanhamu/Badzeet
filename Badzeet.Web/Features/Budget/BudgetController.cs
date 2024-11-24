@@ -117,7 +117,11 @@ public class BudgetController : Controller
         var budgetId = int.Parse(from.ToString("yyyyMM"));
         var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
         {
-            Id = Guid.NewGuid(), AccountId = account.Id, BudgetId = budgetId, DateFrom = firstDayOfBudget, DateTo = firstDayOfBudget.AddMonths(1).AddTicks(-1)
+            Id = Guid.NewGuid(),
+            AccountId = account.Id,
+            BudgetId = budgetId,
+            DateFrom = firstDayOfBudget,
+            DateTo = firstDayOfBudget.AddMonths(1)
         });
         await budgetRepository.Save();
         return RedirectToAction(nameof(NewBudget), new { budgetId = budget.BudgetId });
