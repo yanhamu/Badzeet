@@ -4,15 +4,8 @@ using Badzeet.Budget.Domain.Model;
 
 namespace Badzeet.Budget.DataAccess;
 
-public class AccountRepository : IAccountRepository
+public class AccountRepository(BudgetDbContext dbContext) : IAccountRepository
 {
-    private readonly BudgetDbContext dbContext;
-
-    public AccountRepository(BudgetDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<Account> CreateAccount(byte firstDayOfBudget)
     {
         var book = new Account { FirstDayOfTheBudget = firstDayOfBudget };

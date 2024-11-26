@@ -7,6 +7,23 @@
 <h1>New Budget</h1>
 
 <form method="post">
+
+    <input hidden asp-for="@Model.New">
+
+    <div class="form-group row">
+        <label asp-for="@Model.From" class="col-sm-2 col-form-label">From</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.From" type="date" value="@Model.From.ToString("yyyy-MM-dd")"/>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="@Model.To" class="col-sm-2 col-form-label">To</label>
+        <div class="col-sm-10">
+            <input class="form-control" asp-for="@Model.To" type="date" value="@Model.To.ToString("yyyy-MM-dd")"/>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-sm table-striped table-bordered">
             <thead class="thead-dark">
@@ -51,36 +68,36 @@
 
 @section Scripts{
     <script type="text/javascript">
-    function registerEvent() {
-        recalculate("OldAmount", "oldsum");
-        recalculateAmount();
-        for (let inputElement of getInputsElements(".Amount")) {
-            inputElement.addEventListener('input', recalculateAmount);
-        }
-    }
-
-    function recalculateAmount() {
-        recalculate(".Amount", "sum");
-    }
-
-    function recalculate(nameEnding, sumId) {
-        let sum = 0;
-        for (let inputElement of getInputsElements(nameEnding)) {
-            sum += Number(inputElement.value);
-        }
-        let sumElement = document.getElementById(sumId);
-        sumElement.value = sum;
-    }
-
-    function* getInputsElements(nameEnding) {
-        let inputs = document.getElementsByTagName("input");
-        for (let inputElement of inputs) {
-            if (inputElement.type == "number" && inputElement.name.endsWith(nameEnding)) {
-                yield inputElement;
+        function registerEvent() {
+            recalculate("OldAmount", "oldsum");
+            recalculateAmount();
+            for (let inputElement of getInputsElements(".Amount")) {
+                inputElement.addEventListener('input', recalculateAmount);
             }
         }
-    }
 
-    window.onload = registerEvent();
-</script>
+        function recalculateAmount() {
+            recalculate(".Amount", "sum");
+        }
+
+        function recalculate(nameEnding, sumId) {
+            let sum = 0;
+            for (let inputElement of getInputsElements(nameEnding)) {
+                sum += Number(inputElement.value);
+            }
+            let sumElement = document.getElementById(sumId);
+            sumElement.value = sum;
+        }
+
+        function* getInputsElements(nameEnding) {
+            let inputs = document.getElementsByTagName("input");
+            for (let inputElement of inputs) {
+                if (inputElement.type == "number" && inputElement.name.endsWith(nameEnding)) {
+                    yield inputElement;
+                }
+            }
+        }
+
+        window.onload = registerEvent();
+    </script>
 }

@@ -65,8 +65,10 @@ public class BudgetController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> NewBudget(long accountId, int budgetId)
+    public async Task<IActionResult> New(long accountId, DateTime from)
     {
+        var budgetId = int.Parse(from.ToString("yyyyMM"));
+
         var budgetIdDateInt = budgetId * 100 + 1;
         var date = DateOnly.ParseExact(budgetIdDateInt.ToString(), "yyyyMMdd");
         var previousBudget = int.Parse(date.AddMonths(-1).ToString("yyyyMM"));
@@ -89,33 +91,17 @@ public class BudgetController : Controller
             categoryBudgetModels.Add(v);
         }
 
-        var model = new NewBudgetViewModel(categoryBudgetModels, budgetId);
+        var model = new NewBudgetViewModel(categoryBudgetModels, budgetId, from, from.AddMonths(1));
         return View(model);
     }
 
     [HttpPost]
-    public async Task<IActionResult> NewBudget(long accountId, int budgetId, List<CategoryBudgetViewModel> budgets)
-    {
-        var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
-
-        foreach (var t in tracked)
-            t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
-
-        foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
-            budgetCategoryRepository.AddBudget(new BudgetCategory { Id = Guid.NewGuid(), BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId });
-
-        await budgetCategoryRepository.Save();
-
-        return RedirectToAction(nameof(Index), new { budgetId });
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(long accountId, DateTime from)
+    public async Task<IActionResult> New(long accountId, NewBudgetViewModel model)
     {
         var account = await accountRepository.GetAccount(accountId);
-        var firstDayOfBudget = new DateTime(from.Year, from.Month, account.FirstDayOfTheBudget);
-        var budgetId = int.Parse(from.ToString("yyyyMM"));
-        var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
+        var firstDayOfBudget = new DateTime(model.From.Year, model.From.Month, account!.FirstDayOfTheBudget);
+        var budgetId = model.New;
+        _ = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
         {
             Id = Guid.NewGuid(),
             AccountId = account.Id,
@@ -124,7 +110,23 @@ public class BudgetController : Controller
             DateTo = firstDayOfBudget.AddMonths(1)
         });
         await budgetRepository.Save();
-        return RedirectToAction(nameof(NewBudget), new { budgetId = budget.BudgetId });
+
+        var budgets = model.Budgets;
+
+        var tracked = await budgetCategoryRepository.GetBudgetCategories(budgetId, accountId);
+
+        foreach (var t in tracked)
+            t.Amount = budgets.Single(b => b.CategoryId == t.CategoryId).Amount;
+
+        foreach (var b in budgets.Where(b => false == tracked.Any(t => t.CategoryId == b.CategoryId)))
+            budgetCategoryRepository.AddBudget(new BudgetCategory
+            {
+                Id = Guid.NewGuid(), BudgetId = budgetId, AccountId = accountId, Amount = b.Amount, CategoryId = b.CategoryId
+            });
+
+        await budgetCategoryRepository.Save();
+
+        return RedirectToAction(nameof(Index), new { budgetId });
     }
 
     [HttpPost]
