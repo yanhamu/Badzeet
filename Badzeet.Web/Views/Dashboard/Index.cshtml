@@ -81,7 +81,7 @@ else
     </tr>
 </table>
 
-<form method="post" asp-controller="Budget" asp-action="Create">
+<form method="get" asp-controller="Budget" asp-action="New">
     <input id="from" name="from" asp-for="Interval.From" type="hidden"/>
     <input class="form-control btn btn-primary" value="Create budget" type="submit"/>
 </form>
