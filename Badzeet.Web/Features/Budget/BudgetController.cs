@@ -101,7 +101,7 @@ public class BudgetController : Controller
         var account = await accountRepository.GetAccount(accountId);
         var firstDayOfBudget = new DateTime(model.From.Year, model.From.Month, account!.FirstDayOfTheBudget);
         var budgetId = model.New;
-        var budget = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
+        _ = budgetRepository.Create(new Badzeet.Budget.Domain.Model.Budget
         {
             Id = Guid.NewGuid(),
             AccountId = account.Id,
