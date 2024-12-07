@@ -13,7 +13,6 @@ public static class SchedulerServiceCollectionExtensions
 {
     public static void RegisterSchedulerDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHostedService<PaymentsSchedulerHostedService>();
         services.AddTransient<PaymentScheduler>();
         services.AddDbContext<SchedulerDbContext>(options => { options.UseSqlite(configuration.GetConnectionString("badzeetDb")); });
 

@@ -29,7 +29,10 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(UserCredentialsModel credentials)
     {
-        var registrationResult = await service.Register(credentials);
+        if (!ModelState.IsValid)
+            return View();
+
+        await service.Register(credentials);
         return LocalRedirect("/");
     }
 
